@@ -1,0 +1,12 @@
+import { images } from './images.js';
+export const caseStudies=[
+{slug:'entrepot-pilotage',title:'Pilotage d’un entrepôt multi-zone',sector:'Logistique',tags:['Logistique','GTB','Éclairage'],work:'GTB · éclairage · déstratification',location:'Exemple de projet — données de démonstration',image:images.warehouse,indexable:false},
+{slug:'site-froid',title:'Optimisation d’une installation frigorifique',sector:'Froid',tags:['Froid','Récupération'],work:'Régulation · haute pression flottante · récupération',location:'Exemple de projet — données de démonstration',image:images.refrigerationPlant,indexable:false},
+{slug:'batiment-tertiaire',title:'Rénovation énergétique d’un bâtiment tertiaire',sector:'Tertiaire',tags:['Tertiaire','CVC','GTB'],work:'CVC · GTB · pilotage',location:'Exemple de projet — données de démonstration',image:images.office,indexable:false},
+{slug:'reseau-air-comprime',title:'Optimisation d’un réseau d’air comprimé',sector:'Industrie',tags:['Industrie','Air comprimé'],work:'Compresseurs · pression · pilotage',location:'Exemple de projet — données de démonstration',image:images.industrialPipes,indexable:false},
+{slug:'moteurs-pompes',title:'Optimisation de moteurs et pompes',sector:'Industrie',tags:['Industrie','Moteurs'],work:'Moteurs · variateurs · régulation',location:'Exemple de projet — données de démonstration',image:images.controlPanel,indexable:false},
+{slug:'agro-recuperation',title:'Récupération de chaleur sur production frigorifique',sector:'Agroalimentaire',tags:['Agroalimentaire','Froid','Récupération'],work:'Froid · échangeurs · valorisation thermique',location:'Exemple de projet — données de démonstration',image:images.refrigerationPlant,indexable:false},
+{slug:'reseau-calorifuge',title:'Réduction des pertes thermiques d’un réseau',sector:'Isolation',tags:['Isolation','Industrie'],work:'Calorifugeage · points singuliers',location:'Exemple de projet — données de démonstration',image:images.mechanicalRoom,indexable:false},
+{slug:'destratification-logistique',title:'Déstratification d’un bâtiment grande hauteur',sector:'Logistique',tags:['Logistique','GTB'],work:'Déstratification · chauffage · pilotage',location:'Exemple de projet — données de démonstration',image:images.warehouse,indexable:false},
+{slug:'commerce-froid-eclairage',title:'Optimisation du froid et de l’éclairage d’un site commercial',sector:'Commerce',tags:['Commerce','Froid','Éclairage'],work:'Froid · éclairage · pilotage',location:'Exemple de projet — données de démonstration',image:images.retail,indexable:false},
+];

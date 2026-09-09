@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Le script de build ajoute cette URL lorsque SITE_URL est renseignée.

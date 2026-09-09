@@ -1,0 +1,38 @@
+import type { LeadSubmission } from "./validation.ts";
+
+export function rpcParameters(input: LeadSubmission, userAgent: string | null) {
+  return {
+    p_submission_id: input.submissionId,
+    p_tracking_id: input.trackingId,
+    p_source_form: input.sourceForm,
+    p_first_name: input.contact.firstName,
+    p_last_name: input.contact.lastName,
+    p_email: input.contact.email,
+    p_phone: input.contact.phone,
+    p_company_name: input.contact.companyName,
+    p_sector: input.need.sector,
+    p_building_type: input.need.buildingType,
+    p_site_size: input.need.siteSize,
+    p_project_type: input.need.projectType,
+    p_solution_slug: input.need.solutionSlug,
+    p_equipment: input.need.equipment,
+    p_project_timeline: input.need.projectTimeline,
+    p_message: input.need.message,
+    p_qualification_score: input.need.qualificationScore,
+    p_landing_page: input.acquisition.landingPage,
+    p_referrer: input.acquisition.referrer,
+    p_cta_source: input.acquisition.ctaSource,
+    p_utm_source: input.acquisition.utmSource,
+    p_utm_medium: input.acquisition.utmMedium,
+    p_utm_campaign: input.acquisition.utmCampaign,
+    p_utm_term: input.acquisition.utmTerm,
+    p_utm_content: input.acquisition.utmContent,
+    p_gclid: input.acquisition.gclid,
+    p_gbraid: input.acquisition.gbraid,
+    p_wbraid: input.acquisition.wbraid,
+    p_fbclid: input.acquisition.fbclid,
+    p_consent_type: "privacy",
+    p_policy_version: input.consent.policyVersion,
+    p_user_agent: userAgent,
+  };
+}

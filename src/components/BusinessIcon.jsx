@@ -1,0 +1,3 @@
+import { MonitorCog, Thermometer, Fan, Pipette, Layers, Network, ArrowDownUp, Repeat2, Flame, Gauge, Snowflake, Cog, Lightbulb, Wind, ChartNoAxesCombined, Factory, Building2, Warehouse, Store, Wheat, Hospital } from 'lucide-react';
+const icons = { MonitorCog, Thermometer, Fan, Pipette, Layers, Network, ArrowDownUp, Repeat2, Flame, Gauge, Snowflake, Cog, Lightbulb, Wind, ChartNoAxesCombined, Factory, Building2, Warehouse, Store, Wheat, Hospital };
+export function BusinessIcon({name,size=30}) { const Icon=icons[name]; return Icon?<Icon className="business-icon" size={size} strokeWidth={1.6} color="currentColor" aria-hidden="true" focusable="false"/>:null; }

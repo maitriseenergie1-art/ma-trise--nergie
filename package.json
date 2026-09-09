@@ -1,0 +1,24 @@
+{
+  "name": "maitrise-energie",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "node scripts/generate-sitemap.mjs --production",
+    "build": "vite build",
+    "preview": "vite preview",
+    "supabase:types": "mkdir -p supabase/types && supabase gen types typescript --local > supabase/types/database.types.ts"
+  },
+  "dependencies": {
+    "lucide-react": "1.42.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-router-dom": "7.18.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.1",
+    "supabase": "^2.117.0",
+    "vite": "8.2.2"
+  }
+}

@@ -1,0 +1,2 @@
+import { Button, Container } from '../components/ui'; import { Seo } from '../components/Seo';
+export default function NotFound(){return <main className="not-found"><Seo title="Page introuvable" description="Cette page n’existe pas." noindex/><Container><span>404</span><h1>Cette page n’existe pas ou a été déplacée.</h1><div className="button-row"><Button to="/">Retour à l’accueil</Button><Button to="/solutions" variant="secondary">Voir nos solutions</Button></div></Container></main>}

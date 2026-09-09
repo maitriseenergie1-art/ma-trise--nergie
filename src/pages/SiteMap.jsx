@@ -1,0 +1,6 @@
+import { Link } from 'react-router-dom';
+import { solutions } from '../data/solutions';
+import { sectors } from '../data/sectors';
+import { Container, Eyebrow, Section } from '../components/ui';
+import { Seo } from '../components/Seo';
+export default function SiteMap(){const pages=[['Financement & CEE','/financement-cee'],['Vérifier mon éligibilité','/eligibilite'],['Réalisations','/realisations'],['Ressources','/ressources'],['FAQ','/faq'],['À propos','/a-propos'],['Contact','/contact'],['Mentions légales','/mentions-legales'],['Politique de confidentialité','/politique-de-confidentialite'],['Gestion des cookies','/gestion-des-cookies']];return <><Seo title="Plan du site" description="Plan du site Maîtrise Énergie."/><Section><Container><Eyebrow>Plan du site</Eyebrow><h1>Trouvez rapidement la bonne information.</h1><div className="site-map sitemap-page"><div><h2>Solutions</h2>{solutions.map(item=><Link key={item.slug} to={`/solutions/${item.slug}`}>{item.title}</Link>)}</div><div><h2>Secteurs</h2>{sectors.map(item=><Link key={item.slug} to={`/secteurs/${item.slug}`}>{item.title}</Link>)}</div><div><h2>Pages</h2>{pages.map(([label,to])=><Link key={to} to={to}>{label}</Link>)}</div></div></Container></Section></>}
