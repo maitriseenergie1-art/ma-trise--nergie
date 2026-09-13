@@ -1,7 +1,9 @@
 export const siteConfig = {
   name: 'MAÎTRISE ÉNERGIE',
-  description: 'Performance énergétique des bâtiments et installations professionnelles.',
-  siteUrl: '', // À renseigner lors de la mise en production.
+  description: 'Étude et amélioration de la performance énergétique des bâtiments tertiaires, sites industriels et installations professionnelles.',
+  // Renseigné via VITE_SITE_URL ; fallback sur l'origine courante au runtime.
+  siteUrl: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) || '',
+  defaultShareImage: '/og-social.png',
   privacyPolicyVersion: 'site-demo-v1', // À versionner avec toute évolution de la politique publiée.
   contact: {
     // DEMO PLACEHOLDER — à remplacer avant production.

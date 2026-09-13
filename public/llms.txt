@@ -1,0 +1,26 @@
+# Maîtrise Énergie
+
+> Informations et accompagnement pour la performance énergétique des bâtiments tertiaires, sites industriels et installations professionnelles en France.
+
+## Parcours principaux
+
+- [Solutions de performance énergétique](/solutions)
+- [Secteurs professionnels accompagnés](/secteurs)
+- [Financement et Certificats d’Économies d’Énergie](/financement-cee)
+- [Ressources techniques](/ressources)
+- [Questions fréquentes](/faq)
+- [À propos de notre méthode](/a-propos)
+- [Contact](/contact)
+
+## Expertises
+
+- Gestion technique du bâtiment et pilotage énergétique
+- Chauffage, ventilation, climatisation et pompes à chaleur
+- Froid industriel et commercial
+- Récupération de chaleur et chaleur fatale
+- Air comprimé, moteurs et variateurs de vitesse
+- Isolation thermique et calorifugeage
+
+## Périmètre éditorial
+
+Les contenus expliquent les méthodes, équipements et points de vigilance utiles à un projet professionnel. Ils ne remplacent ni une étude technique du site, ni la vérification réglementaire d’un financement. Les pages concernées renvoient vers les sources publiques françaises de référence.

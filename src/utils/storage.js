@@ -1,6 +1,6 @@
 export function readSession(key, fallback = null) {
   try { const value = sessionStorage.getItem(key); return value ? JSON.parse(value) : fallback; }
-  catch { sessionStorage.removeItem(key); return fallback; }
+  catch { return fallback; }
 }
 
 export function writeSession(key, value) {

@@ -1,0 +1,11 @@
+{
+  "name": "Maîtrise Énergie",
+  "short_name": "Maîtrise Énergie",
+  "description": "Performance énergétique des bâtiments et installations professionnelles.",
+  "lang": "fr-FR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f5ef",
+  "theme_color": "#102d31",
+  "icons": [{ "src": "/brand-mark.png", "sizes": "512x512", "type": "image/png" }]
+}

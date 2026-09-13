@@ -2,16 +2,20 @@ import { MidContact } from '../components/MidContact';
 import { heroImages } from '../data/heroImages';
 import { CardCarousel } from '../components/CardCarousel';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, HandHeart, Layers3, LockKeyhole, ScanSearch } from 'lucide-react';
 import { images } from '../data/images';
 import { solutions } from '../data/solutions';
 import { sectors } from '../data/sectors';
-import { caseStudies } from '../data/caseStudies';
 import { resources } from '../data/resources';
+import { trackEvent } from '../services/analyticsService';
+import { usePageData } from '../hooks/usePageData';
+import { contentKeys, loadBlogPosts, loadCaseStudies } from '../services/contentService';
 import { siteConfig } from '../config/siteConfig';
 import { Button, Container, Eyebrow, Section } from '../components/ui';
 import { Seo } from '../components/Seo';
-import { CaseCard, ResourceCard, SectorCard, SolutionCard } from '../components/cards';
+import { ArticleCard, CaseCard, ResourceCard, SectorCard, SolutionCard } from '../components/cards';
+import { faqSchema, organizationSchema, websiteSchema } from '../lib/structuredData';
 import { Faq, FinalCta, ProcessBar } from '../components/sections';
 import { ContactForm } from '../features/contact/ContactForm';
 
@@ -79,9 +83,22 @@ function ContactProject() {
   </div><div className="contact-form"><ContactForm/></div></div></Container></Section>;
 }
 
+function HomeCaseStudies() {
+  const { status, data } = usePageData(contentKeys.caseStudyList, loadCaseStudies);
+  if (status !== 'success' || !data?.length) return null;
+  return <Section tone="muted"><Container><div className="section-intro"><Eyebrow>Cas d’usage</Eyebrow><h2>Des exemples d’intervention à adapter à votre site.</h2><p className="lead small">Ces scénarios illustrent des approches possibles. Ils ne constituent pas des références clients ni des résultats garantis.</p></div><p className="demo-note">Exemples de présentation</p><CardCarousel label="Nos cas d’usage">{data.map((item) => <CaseCard item={item} key={item.slug}/>)}</CardCarousel></Container></Section>;
+}
+
+function HomeBlog() {
+  const { status, data } = usePageData(contentKeys.blogList, loadBlogPosts);
+  if (status !== 'success' || !data?.length) return null;
+  return <Section><Container><div className="section-intro"><Eyebrow>Blog</Eyebrow><h2>Comprendre les leviers avant de lancer un projet.</h2><p className="lead small">Des repères pratiques pour préparer une réflexion sur le pilotage, les flux thermiques et les financements.</p></div><CardCarousel label="Nos articles">{data.slice(0, 6).map((item) => <ArticleCard item={item} key={item.slug}/>)}</CardCarousel><p style={{ marginTop: '1.5rem' }}><Button to="/blog" variant="secondary" sourceCta="home_blog">Tous les articles</Button></p></Container></Section>;
+}
+
 export default function Home() {
-  return <><Seo title="Performance énergétique des sites professionnels" description="Études, financements, travaux et pilotage énergétique pour les bâtiments et installations professionnels."/>
-    <section className="home-hero immersive-hero"><img className="hero-background" src={heroImages.architecture} alt="" fetchPriority="high"/><Container><div className="hero-copy"><Eyebrow>Ingénierie de la performance</Eyebrow><h1>Réduisez durablement la consommation de votre site.</h1><p>Études, financements, travaux et pilotage pour les bâtiments tertiaires, les sites industriels et leurs équipements techniques.</p><div className="button-row"><Button to="/eligibilite" sourceCta="home_hero_contact">Vérifier mon éligibilité</Button><Button to="/secteurs" variant="secondary" sourceCta="home_hero_sectors">Nos secteurs d’activité</Button></div><div className="hero-note"><span className="pulse"/>Approche globale, du diagnostic au suivi</div></div><ul className="hero-proof"><li>Étude personnalisée</li><li>Accompagnement humain</li><li>Données confidentielles</li><li>Expertise multidomaine</li></ul></Container></section>
+  const homeFaq=[["Quand faut-il lancer une étude énergétique ?", "Dès qu’un équipement arrive en fin de cycle, qu’un usage évolue ou qu’une consommation mérite d’être mieux comprise."], ["Quels sites professionnels peuvent être accompagnés ?", "L’échange initial est adapté à la nature des installations, à l’activité et au projet envisagé."], ["Peut-on parler du financement avant les travaux ?", "Oui. Les dispositifs éventuels peuvent être étudiés à partir des caractéristiques réelles du projet."]];
+  return <><Seo title="Performance énergétique des entreprises" description="Audit, études, travaux et pilotage énergétique pour réduire les consommations des bâtiments tertiaires et installations industrielles en France." canonicalPath="/" schema={[organizationSchema(),websiteSchema(),faqSchema(homeFaq)]}/>
+    <section className="home-hero immersive-hero home-hero-structured"><img className="hero-background" src={heroImages.architecture} alt="" fetchPriority="high"/><Container><div className="home-hero-layout"><div className="hero-copy"><Eyebrow>Performance énergétique des professionnels</Eyebrow><h1>Pilotez la performance énergétique de votre site.</h1><p>Nous vous aidons à comprendre vos consommations, prioriser les actions et préparer un projet adapté à vos bâtiments et installations.</p><div className="button-row"><Button to="/eligibilite" sourceCta="home_hero_contact">Décrire mon projet</Button><Button to="/solutions" variant="secondary" sourceCta="home_hero_solutions">Voir les solutions</Button></div><div className="hero-confidence"><LockKeyhole aria-hidden="true"/><span><strong>Première qualification confidentielle</strong><small>Sans engagement et à partir de votre situation réelle.</small></span></div></div><nav className="hero-paths" aria-label="Choisir un point de départ"><div className="hero-paths-heading"><Eyebrow>Votre point de départ</Eyebrow><h2>Que souhaitez-vous améliorer&nbsp;?</h2><p>Accédez directement au parcours qui correspond à votre besoin.</p></div><Link to="/solutions" onClick={()=>trackEvent('hero_path_clicked',{path:'solutions'})}><span className="hero-path-number">01</span><span><strong>Un équipement ou une installation</strong><small>GTB, CVC, froid, isolation, chaleur et utilités.</small></span><ArrowRight aria-hidden="true"/></Link><Link to="/secteurs" onClick={()=>trackEvent('hero_path_clicked',{path:'sectors'})}><span className="hero-path-number">02</span><span><strong>La performance globale d’un site</strong><small>Industrie, tertiaire, logistique, commerce ou santé.</small></span><ArrowRight aria-hidden="true"/></Link><Link to="/financement-cee" onClick={()=>trackEvent('hero_path_clicked',{path:'financing'})}><span className="hero-path-number">03</span><span><strong>Le financement d’un projet</strong><small>Comprendre les CEE et les critères à vérifier.</small></span><ArrowRight aria-hidden="true"/></Link></nav></div><div className="hero-reassurance" aria-label="Périmètre d’accompagnement"><span><strong>Bâtiments tertiaires</strong><small>Confort, usages et pilotage</small></span><span><strong>Sites industriels</strong><small>Procédés, réseaux et utilités</small></span><span><strong>De l’étude au suivi</strong><small>Une méthode structurée par étapes</small></span></div></Container></section>
     <ProcessBar/>
     <Section tone="dark"><Container><div className="section-intro"><Eyebrow>Expertises</Eyebrow><h2>Des leviers concrets, pensés pour vos installations.</h2><p className="lead small">Études, financements, travaux et pilotage : nous mobilisons les expertises nécessaires selon le contexte de votre projet.</p></div><CardCarousel label="Nos expertises">{solutions.map((solution) => <SolutionCard solution={solution} key={solution.slug}/>)}</CardCarousel></Container></Section>
     <Section><Container><SectorCarousel/></Container></Section>
@@ -89,9 +106,10 @@ export default function Home() {
     <ExpertiseMethod/>
     <MidContact sourceCta="home_mid_contact"/>
     <FundingPreview/>
-    <Section tone="muted"><Container><div className="section-intro"><Eyebrow>Cas d’usage</Eyebrow><h2>Des exemples d’intervention à adapter à votre site.</h2><p className="lead small">Ces scénarios illustrent des approches possibles. Ils ne constituent pas des références clients ni des résultats garantis.</p></div><p className="demo-note">Exemples de présentation</p><CardCarousel label="Nos cas d’usage">{caseStudies.map((item) => <CaseCard item={item} key={item.slug}/>)}</CardCarousel></Container></Section>
-    <Section><Container><div className="section-intro"><Eyebrow>Ressources & conseils</Eyebrow><h2>Comprendre les leviers avant de lancer un projet.</h2><p className="lead small">Des repères pratiques pour préparer une réflexion sur le pilotage, les flux thermiques et les financements.</p></div><CardCarousel label="Nos ressources">{resources.map((item) => <ResourceCard item={item} key={item.slug}/>)}</CardCarousel></Container></Section>
-    <Section><Container><div className="faq-layout"><div><Eyebrow>Questions fréquentes</Eyebrow><h2>Préparer votre projet énergétique.</h2></div><Faq subject="votre site" items={[["Quand faut-il lancer une étude énergétique ?", "Dès qu’un équipement arrive en fin de cycle, qu’un usage évolue ou qu’une consommation mérite d’être mieux comprise."], ["Quels sites professionnels peuvent être accompagnés ?", "L’échange initial est adapté à la nature des installations, à l’activité et au projet envisagé."], ["Peut-on parler du financement avant les travaux ?", "Oui. Les dispositifs éventuels peuvent être étudiés à partir des caractéristiques réelles du projet."]]}/></div></Container></Section>
+    <HomeCaseStudies/>
+    <HomeBlog/>
+    <Section><Container><div className="section-intro"><Eyebrow>Ressources & conseils</Eyebrow><h2>Comprendre les leviers avant de lancer un projet.</h2><p className="lead small">Des guides pratiques sur la GTB, le froid, l’air comprimé, la chaleur et les Certificats d’Économies d’Énergie.</p></div><CardCarousel label="Nos ressources">{resources.map((item) => <ResourceCard item={item} key={item.slug}/>)}</CardCarousel></Container></Section>
+    <Section><Container><div className="faq-layout"><div><Eyebrow>Questions fréquentes</Eyebrow><h2>Préparer votre projet énergétique.</h2></div><Faq subject="votre site" items={homeFaq}/></div></Container></Section>
     <ContactProject/>
     <FinalCta eyebrow="Première consultation offerte" title="Votre projet mérite une étude sérieuse." text="Décrivez votre site en toute confidentialité pour préparer une étude initiale." label="Vérifier mon éligibilité" sourceCta="final_contact"/>
   </>;

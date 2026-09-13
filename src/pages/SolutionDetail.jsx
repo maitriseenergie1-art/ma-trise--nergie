@@ -1,6 +1,5 @@
 import { MidContact } from '../components/MidContact';
 import { StepIcon } from '../components/StepIcon';
-import { heroImages } from '../data/heroImages';
 import { ArrowRight } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { solutions } from '../data/solutions';
@@ -8,6 +7,7 @@ import { siteConfig } from '../config/siteConfig';
 import { Button, Container, Eyebrow, PageHero, Section } from '../components/ui';
 import { Seo } from '../components/Seo';
 import { Faq, FinalCta, RelatedContent } from '../components/sections';
+import { absoluteUrl, breadcrumbSchema, faqSchema } from '../lib/structuredData';
 import NotFound from './NotFound';
 
 function Flow() {
@@ -24,8 +24,10 @@ export default function SolutionDetail() {
     [`Comment interpréter ce signal : ${solution.symptoms[0].replace(/\.$/, '')} ?`, 'Ce constat ne suffit pas à lui seul. Il sert à orienter les premières vérifications techniques et les mesures utiles.'],
     ['Le financement peut-il être étudié ?', 'Selon l’opération, les caractéristiques du site et les conditions applicables, des dispositifs peuvent être examinés avant la décision.'],
   ];
-  return <><Seo title={solution.seo.title} description={solution.seo.description} schema={{'@context':'https://schema.org','@type':'Service',name:solution.title,description:solution.benefit,provider:{'@type':'Organization',name:siteConfig.name}}}/>
-    <PageHero icon={solution.icon} eyebrow="Solution" title={solution.title} text={solution.problem} image={heroImages.industry} imageAlt=""><div className="button-row"><Button to="/contact" variant="secondary" sourceCta={`solution_${slug}_contact`} solutionInterest={slug}>{solution.cta}</Button><Button to="/eligibilite" sourceCta={`solution_${slug}_eligibility`} solutionInterest={slug}>Vérifier mon éligibilité</Button></div></PageHero>
+  const path=`/solutions/${slug}`;
+  const description=`${solution.benefit} Découvrez les contrôles, la méthode d’étude et les financements éventuels pour un site professionnel.`;
+  return <><Seo title={`${solution.title} pour les professionnels`} description={description} canonicalPath={path} image={solution.heroImage} imageAlt={solution.heroAlt} schema={[{'@context':'https://schema.org','@type':'Service',name:solution.title,description,provider:{'@type':'Organization',name:siteConfig.name,url:absoluteUrl('/')},areaServed:'France'},faqSchema(faq),breadcrumbSchema([{name:'Accueil',path:'/'},{name:'Solutions',path:'/solutions'},{name:solution.title,path}])]}/>
+    <PageHero icon={solution.icon} eyebrow="Solution de performance énergétique" title={solution.title} text={solution.problem} image={solution.heroImage} imageAlt={solution.heroAlt}><div className="button-row"><Button to="/contact" variant="secondary" sourceCta={`solution_${slug}_contact`} solutionInterest={slug}>{solution.cta}</Button><Button to="/eligibilite" sourceCta={`solution_${slug}_eligibility`} solutionInterest={slug}>Vérifier mon éligibilité</Button></div></PageHero>
     <Section className="symptoms"><Container><div className="section-intro two"><div><Eyebrow>Point de départ</Eyebrow><h2>Cette situation vous concerne-t-elle&nbsp;?</h2></div><p>{solution.problem}</p></div><div className="symptom-list mobile-card-carousel">{solution.symptoms.map((item,index)=><div key={item}><StepIcon name="diagnostic"/><span>0{index+1}</span><p>{item}</p></div>)}</div></Container></Section>
     <Section tone="muted"><Container className="content-split"><div><Eyebrow>Enjeu & principe</Eyebrow><h2>Réduire les dérives avant d’ajouter de la complexité.</h2><p className="lead small">{solution.benefit} L’analyse vise d’abord à comprendre ce qui se passe sur l’installation, puis à définir une réponse technique proportionnée.</p></div><div className="technical-principle"><StepIcon name="etude"/><span>Objectif</span><strong>{solution.benefit}</strong><p>Les équipements, les flux et les réglages sont examinés dans leur contexte réel d’usage.</p></div></Container></Section>
     <Section><Container><div className="section-intro"><Eyebrow>Méthode</Eyebrow><h2>Une séquence lisible, à adapter au périmètre du projet.</h2><p className="lead small">Analyse, mesure, étude et proposition structurent le projet. Le financement, les travaux et le suivi sont étudiés lorsque leur périmètre est confirmé.</p></div><Flow/></Container></Section>

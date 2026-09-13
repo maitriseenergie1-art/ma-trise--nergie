@@ -19,7 +19,25 @@ export function SolutionCard({solution}) {
   </article>;
 }
 export function SectorCard({sector}) { return <Link className="sector-card" to={`/secteurs/${sector.slug}`}><img src={sector.image} alt={sector.imageAlt} loading="lazy"/><div><BusinessIcon name={sector.icon} size={30}/><h3>{sector.title}</h3><p>{sector.description}</p><ArrowRight/></div></Link>; }
-export function CaseCard({item}) { return <article className="case-card"><Link to={`/realisations/${item.slug}`} onClick={()=>trackEvent('case_study_viewed',{slug:item.slug})}><img src={item.image} alt={`Illustration de démonstration : ${item.title}`} loading="lazy"/><div><span>{item.sector}</span><h3>{item.title}</h3><p>{item.work}</p><small>{item.location}</small><ArrowRight size={19}/></div></Link></article>; }
+export function CaseCard({item}) {
+  const image = item.cover_image_url || item.image;
+  const text = item.summary || item.work;
+  return <article className="case-card"><Link to={`/realisations/${item.slug}`} onClick={()=>trackEvent('case_study_viewed',{slug:item.slug})}><img src={image} alt={item.cover_image_alt || `Illustration de démonstration : ${item.title}`} loading="lazy"/><div><span>{item.sector}</span><h3>{item.title}</h3><p>{text}</p><small>{item.location}</small><ArrowRight size={19}/></div></Link></article>;
+}
+export function ArticleCard({item}) {
+  const categoryLabel = item.category?.name || item.category || 'Article';
+  return <article className="article-card resource-card">
+    <Link to={`/blog/${item.slug}`}>
+      <img src={item.cover_image_url} alt={item.cover_image_alt || `Illustration pour l’article : ${item.title}`} loading="lazy"/>
+      <div>
+        <span className="article-category">{categoryLabel}</span>
+        <h3>{item.title}</h3>
+        <p>{item.excerpt}</p>
+        <span className="resource-card-link">Lire l’article <ArrowRight size={18}/></span>
+      </div>
+    </Link>
+  </article>;
+}
 export function ResourceCard({item}) {
   return <article className="article-card resource-card">
     <Link to={`/ressources/${item.slug}`}>

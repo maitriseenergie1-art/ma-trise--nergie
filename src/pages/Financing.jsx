@@ -1,14 +1,15 @@
 import { MidContact } from '../components/MidContact';
+import { QuickLeadSection } from '../features/quickLead/QuickLeadSection';
 import { BusinessIcon } from '../components/BusinessIcon';
 import { solutionIcons } from '../data/businessIcons';
 import { StepIcon } from '../components/StepIcon';
 import { heroImages } from '../data/heroImages';
 import { ArrowDownRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { images } from '../data/images';
 import { Button, Container, Eyebrow, PageHero, Section } from '../components/ui';
 import { Seo } from '../components/Seo';
-import { Faq } from '../components/sections';
+import { Faq, OfficialSources } from '../components/sections';
+import { breadcrumbSchema, faqSchema } from '../lib/structuredData';
 
 const journey=[
   ['Votre projet','Nous partons du besoin réel : équipement concerné, usage, contraintes du site et objectif recherché.'],
@@ -52,14 +53,20 @@ const financingFaq=[
 
 export default function Financing(){
   return <>
-    <Seo title="Financement & CEE" description="Étudiez les dispositifs de financement envisageables pour vos travaux."/>
-    <PageHero eyebrow="Financement & CEE" title="Réduisez le reste à charge de vos travaux de performance énergétique." text="Selon la nature des travaux, les équipements concernés et les caractéristiques du site, différents mécanismes de financement peuvent être étudiés. Maîtrise Énergie intègre cette analyse dès la qualification du projet." image={heroImages.facade} imageAlt=""/>
+    <Seo title="Financement CEE pour les entreprises" description="Comprendre les Certificats d’Économies d’Énergie, les conditions d’éligibilité et le calendrier à respecter pour financer des travaux professionnels." canonicalPath="/financement-cee" schema={[faqSchema(financingFaq),breadcrumbSchema([{name:'Accueil',path:'/'},{name:'Financement et CEE',path:'/financement-cee'}])]}/>
+    <PageHero eyebrow="Financement & CEE" title="Financer des travaux énergétiques sans perdre de vue le besoin technique." text="Les Certificats d’Économies d’Énergie et d’autres dispositifs peuvent contribuer à certaines opérations. Leur mobilisation dépend du site, des équipements, du calendrier et des critères applicables." image={heroImages.facade} imageAlt="Façade d’un bâtiment tertiaire"/>
 
     <Section className="finance-section"><Container><div className="section-intro finance-intro"><Eyebrow>Point de départ</Eyebrow><h2>Le financement se construit autour du projet technique.</h2><p className="lead small">Une aide ou un dispositif de financement ne se détermine pas uniquement à partir du nom d’un équipement. L’analyse tient compte du site, de l’installation existante, de l’opération envisagée et de ses conditions de mise en œuvre.</p><p>C’est pourquoi nous commençons par comprendre le besoin technique avant d’étudier les mécanismes mobilisables.</p></div><div className="finance-focus-grid mobile-card-carousel">{projectFocus.map(([title,text],index)=><div key={title}><StepIcon name={["site","travaux","financement"][index]}/><span>0{index+1}</span><h3>{title}</h3><p>{text}</p></div>)}</div></Container></Section>
 
     <Section className="finance-section" tone="muted"><Container><div className="section-intro"><Eyebrow>Parcours de financement</Eyebrow><h2>Un dossier étudié dans le bon ordre.</h2><p className="lead small">Le financement s’intègre au projet au fil de sa qualification, sans présumer d’un résultat avant l’étude des éléments utiles.</p></div><div className="funding-flow">{journey.map(([title,text],index)=><span key={title}><div><StepIcon name={["site","etude","financement","travaux"][index]}/><b>{index+1}</b><h3>{title}</h3><p>{text}</p></div>{index<journey.length-1&&<ArrowDownRight/>}</span>)}</div></Container></Section>
 
     <Section className="finance-section"><Container className="content-split finance-cee"><div><Eyebrow>CEE</Eyebrow><h2>Les CEE : un levier à étudier avant d’engager certains travaux.</h2><p>Les Certificats d’Économies d’Énergie peuvent contribuer au financement de certaines opérations de performance énergétique. Leur mobilisation dépend toutefois de critères liés au projet, aux équipements et aux conditions de réalisation.</p><p>L’intérêt est donc d’étudier la question suffisamment tôt, avant de considérer qu’une opération est éligible ou de définir son montage financier.</p></div><aside className="finance-note"><span>Point de vigilance</span><strong>Une première qualification ne constitue pas une validation réglementaire définitive.</strong></aside></Container></Section>
+
+    <Section className="finance-section official-section" tone="muted"><Container><OfficialSources items={[
+      ['Certificats d’Économies d’Énergie','https://www.ecologie.gouv.fr/politiques-publiques/dispositif-certificats-deconomies-denergie','Présentation officielle du dispositif et de son fonctionnement.'],
+      ['Fiches d’opérations standardisées CEE','https://www.ecologie.gouv.fr/politiques-publiques/operations-standardisees-deconomies-denergie','Conditions techniques publiées par le ministère.'],
+      ['Aides aux entreprises — ADEME','https://agirpourlatransition.ademe.fr/entreprises/aides-financieres','Panorama public des dispositifs disponibles.'],
+    ]}/></Container></Section>
 
 <MidContact sourceCta="financing_mid_contact" title="Préparons l’étude de votre financement." label="Étudier le financement de mon projet"/>
     <Section className="finance-section" tone="muted"><Container><div className="section-intro"><Eyebrow>Analyse</Eyebrow><h2>Ce que nous étudions.</h2></div><div className="finance-study-grid mobile-card-carousel">{studyPoints.map(([title,text],index)=><div key={title}><StepIcon name={["travaux","site","etude","financement"][index]}/><h3>{title}</h3><p>{text}</p></div>)}</div></Container></Section>
@@ -73,5 +80,6 @@ export default function Financing(){
     <Section className="finance-section"><Container><div className="faq-layout"><div><Eyebrow>Questions fréquentes</Eyebrow><h2>Préparer l’étude de financement.</h2><p className="lead small">Des réponses utiles avant un premier échange sur votre projet.</p></div><Faq items={financingFaq}/></div></Container></Section>
 
     <Section className="finance-cta"><Container><div><Eyebrow>Première qualification</Eyebrow><h2>Vous avez un projet de performance énergétique ?</h2><p>Décrivez votre site et les travaux envisagés pour réaliser une première qualification.</p></div><div className="button-row"><Button to="/eligibilite" sourceCta="financing_final_eligibility">Vérifier mon éligibilité</Button><Button to="/contact" variant="secondary" sourceCta="financing_final_contact">Parler de mon projet</Button></div></Container></Section>
+    <QuickLeadSection variant="financing" tone="" heading="Estimer le financement de votre projet"/>
   </>;
 }

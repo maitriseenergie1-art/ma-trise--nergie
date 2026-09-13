@@ -1,4 +1,6 @@
-export type SourceForm = 'contact' | 'eligibility';
+export type SourceForm = 'contact' | 'eligibility' | 'landing_page' | 'campaign';
+
+export const SOURCE_FORMS: readonly SourceForm[] = ['contact', 'eligibility', 'landing_page', 'campaign'];
 
 type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
 type RecordValue = Record<string, unknown>;
@@ -137,7 +139,7 @@ export function validateSubmission(payload: unknown): ValidationResult {
   if (!isRecord(payload)) return { ok: false, fields: { payload: 'INVALID_OBJECT' }, honeypotFilled: false };
 
   const sourceForm = payload.sourceForm;
-  if (sourceForm !== 'contact' && sourceForm !== 'eligibility') fields.sourceForm = 'INVALID_SOURCE_FORM';
+  if (typeof sourceForm !== 'string' || !SOURCE_FORMS.includes(sourceForm as SourceForm)) fields.sourceForm = 'INVALID_SOURCE_FORM';
 
   const website = normaliseString(payload.website, 255, 'website', fields);
   const contact = requiredRecord(payload.contact, 'contact', fields);

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 
-# Le script de build ajoute cette URL lorsque SITE_URL est renseignée.
+Sitemap: http://localhost:5173/sitemap.xml

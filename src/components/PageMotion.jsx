@@ -35,5 +35,5 @@ export function PageMotion({children}) {
     start();preference.addEventListener('change',start);
     return ()=>{stop();preference.removeEventListener('change',start);};
   },[pathname]);
-  return <main ref={root} className="page-motion" key={pathname}>{children}</main>;
+  return <main id="main-content" ref={root} className="page-motion" key={pathname}>{children}</main>;
 }

@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-sitemap.mjs --production",
+    "prebuild": "node --env-file-if-exists=.env scripts/generate-sitemap.mjs --production",
     "build": "vite build",
+    "build:ssg": "npm run build && vite build --ssr src/entry-server.jsx --outDir dist/server && node --env-file-if-exists=.env scripts/prerender.mjs",
     "preview": "vite preview",
     "supabase:types": "mkdir -p supabase/types && supabase gen types typescript --local > supabase/types/database.types.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
     "lucide-react": "1.42.0",
+    "marked": "^14.1.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-router-dom": "7.18.3"

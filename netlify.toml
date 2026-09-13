@@ -1,0 +1,47 @@
+# Netlify configuration for Maîtrise Énergie.
+#
+# Required environment variables (Site settings → Environment variables):
+#   Build + runtime (client / prerender / sitemap):
+#     VITE_SUPABASE_URL          https://<ref>.supabase.co
+#     VITE_SUPABASE_ANON_KEY     <anon key>
+#     VITE_SITE_URL              https://<production-domain>
+#     SITE_URL                   https://<production-domain>
+#   Functions only (never prefixed with VITE_):
+#     SUPABASE_URL               https://<ref>.supabase.co
+#     SUPABASE_SERVICE_ROLE_KEY  <service role key>
+#     ADMIN_ACCESS_CODE          <long random code for the /admin back office>
+
+[build]
+  command = "npm run build:ssg"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  node_bundler = "esbuild"
+
+# API routes are handled by Netlify Functions (v2 `path` config) — keep them
+# ahead of the SPA fallback.
+[[redirects]]
+  from = "/api/admin/*"
+  to = "/.netlify/functions/admin-api"
+  status = 200
+
+[[redirects]]
+  from = "/api/track"
+  to = "/.netlify/functions/track"
+  status = 200
+
+[[redirects]]
+  from = "/api/lead"
+  to = "/.netlify/functions/lead"
+  status = 200
+
+# Prerendered pages are static files in dist/ and are served as-is.
+# Everything else falls back to the SPA shell.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
