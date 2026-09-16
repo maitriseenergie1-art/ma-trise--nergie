@@ -2,12 +2,10 @@ import { MidContact } from '../components/MidContact';
 import { heroImages } from '../data/heroImages';
 import { CardCarousel } from '../components/CardCarousel';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, HandHeart, Layers3, LockKeyhole, ScanSearch } from 'lucide-react';
+import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, HandHeart, Layers3, LockKeyhole, ScanSearch, Sun, Building2, ReceiptText, BadgeEuro, ChartNoAxesCombined } from 'lucide-react';
 import { images } from '../data/images';
 import { solutions } from '../data/solutions';
 import { sectors } from '../data/sectors';
-import { trackEvent } from '../services/analyticsService';
 import { usePageData } from '../hooks/usePageData';
 import { contentKeys, loadBlogPosts, loadCaseStudies } from '../services/contentService';
 import { siteConfig } from '../config/siteConfig';
@@ -15,7 +13,7 @@ import { Button, Container, Eyebrow, Section } from '../components/ui';
 import { Seo } from '../components/Seo';
 import { ArticleCard, CaseCard, SectorCard, SolutionCard } from '../components/cards';
 import { faqSchema, organizationSchema, websiteSchema } from '../lib/structuredData';
-import { Faq, ProcessBar } from '../components/sections';
+import { Faq } from '../components/sections';
 import { ContactForm } from '../features/contact/ContactForm';
 
 function SectorCarousel() {
@@ -69,6 +67,19 @@ function FundingPreview() {
   return <Section className="funding-preview"><Container><div><Eyebrow>Financements</Eyebrow><h2>Le financement se prépare avec le projet.</h2><p className="lead small">Nous examinons les dispositifs mobilisables à partir des travaux, du site et de leurs conditions de mise en œuvre.</p><Button to="/financement-cee" variant="secondary" sourceCta="home_financing">Comprendre le financement</Button></div><ol className="funding-preview-flow" aria-label="Étapes d’étude du financement">{steps.map(([Icon, label], index) => <li className={`funding-step${index === 2 ? ' funding-step-active' : ''}`} key={label}><span className="funding-step-icon"><Icon size={22} strokeWidth={1.8} aria-hidden="true"/></span><span className="funding-step-label">{label}</span></li>)}</ol></Container></Section>;
 }
 
+function SolarJourney() {
+  const steps = [
+    [ScanSearch, 'Préqualifier le site', 'Nous vérifions la surface disponible, la facture d’électricité et le profil de consommation de votre entreprise.'],
+    [Sun, 'Dimensionner la centrale', 'L’étude croise toiture ou foncier, contraintes techniques et potentiel de production solaire.'],
+    [BadgeEuro, 'Structurer l’autofinancement', 'Le montage économique est étudié pour faire financer l’installation par les économies générées, selon la faisabilité du projet.'],
+    [ChartNoAxesCombined, 'Produire et suivre', 'La centrale est mise en service puis suivie pour piloter la production et l’autoconsommation.'],
+  ];
+  return <Section className="solar-journey"><Container>
+    <div className="section-intro two"><div><Eyebrow>Votre projet solaire</Eyebrow><h2>De la toiture à une électricité produite sur site.</h2></div><p>Un parcours conçu pour les entreprises disposant de grandes surfaces et d’une consommation électrique régulière.</p></div>
+    <div className="solar-journey-grid">{steps.map(([Icon, title, text], index) => <article key={title}><span><small>0{index + 1}</small><Icon size={23} aria-hidden="true"/></span><h3>{title}</h3><p>{text}</p></article>)}</div>
+  </Container></Section>;
+}
+
 function ContactProject() {
   const { contact } = siteConfig;
   return <Section tone="muted"><Container><div className="contact-home-grid"><div>
@@ -96,11 +107,11 @@ function HomeBlog() {
 }
 
 export default function Home() {
-  const homeFaq=[["Quand faut-il lancer une étude énergétique ?", "Dès qu’un équipement arrive en fin de cycle, qu’un usage évolue ou qu’une consommation mérite d’être mieux comprise."], ["Quels sites professionnels peuvent être accompagnés ?", "L’échange initial est adapté à la nature des installations, à l’activité et au projet envisagé."], ["Peut-on parler du financement avant les travaux ?", "Oui. Les dispositifs éventuels peuvent être étudiés à partir des caractéristiques réelles du projet."]];
-  return <><Seo title="Performance énergétique des entreprises" description="Audit, études, travaux et pilotage énergétique pour réduire les consommations des bâtiments tertiaires et installations industrielles en France." canonicalPath="/" schema={[organizationSchema(),websiteSchema(),faqSchema(homeFaq)]}/>
-    <section className="home-hero immersive-hero home-hero-structured"><img className="hero-background" src={heroImages.architecture} alt="" fetchPriority="high"/><Container><div className="home-hero-layout"><div className="hero-copy"><Eyebrow>Performance énergétique des professionnels</Eyebrow><h1>Pilotez la performance énergétique de votre site.</h1><p>Nous vous aidons à comprendre vos consommations, prioriser les actions et préparer un projet adapté à vos bâtiments et installations.</p><div className="button-row"><Button to="/eligibilite" sourceCta="home_hero_contact">Décrire mon projet</Button><Button to="/solutions" variant="secondary" sourceCta="home_hero_solutions">Voir les solutions</Button></div><div className="hero-confidence"><LockKeyhole aria-hidden="true"/><span><strong>Première qualification confidentielle</strong><small>Sans engagement et à partir de votre situation réelle.</small></span></div></div><nav className="hero-paths" aria-label="Choisir un point de départ"><div className="hero-paths-heading"><Eyebrow>Votre point de départ</Eyebrow><h2>Que souhaitez-vous améliorer&nbsp;?</h2><p>Accédez directement au parcours qui correspond à votre besoin.</p></div><Link to="/solutions" onClick={()=>trackEvent('hero_path_clicked',{path:'solutions'})}><span className="hero-path-number">01</span><span><strong>Un équipement ou une installation</strong><small>GTB, CVC, froid, isolation, chaleur et utilités.</small></span><ArrowRight aria-hidden="true"/></Link><Link to="/secteurs" onClick={()=>trackEvent('hero_path_clicked',{path:'sectors'})}><span className="hero-path-number">02</span><span><strong>La performance globale d’un site</strong><small>Industrie, tertiaire, logistique, commerce ou santé.</small></span><ArrowRight aria-hidden="true"/></Link><Link to="/financement-cee" onClick={()=>trackEvent('hero_path_clicked',{path:'financing'})}><span className="hero-path-number">03</span><span><strong>Le financement d’un projet</strong><small>Comprendre les CEE et les critères à vérifier.</small></span><ArrowRight aria-hidden="true"/></Link></nav></div><div className="hero-reassurance" aria-label="Périmètre d’accompagnement"><span><strong>Bâtiments tertiaires</strong><small>Confort, usages et pilotage</small></span><span><strong>Sites industriels</strong><small>Procédés, réseaux et utilités</small></span><span><strong>De l’étude au suivi</strong><small>Une méthode structurée par étapes</small></span></div></Container></section>
-    <ProcessBar contact/>
-    <Section tone="dark" className="home-expertise"><Container><div className="section-intro"><Eyebrow>Expertises</Eyebrow><h2>Des leviers concrets, pensés pour vos installations.</h2><p className="lead small">Études, financements, travaux et pilotage : nous mobilisons les expertises nécessaires selon le contexte de votre projet.</p></div><CardCarousel label="Nos expertises">{solutions.map((solution) => <SolutionCard solution={solution} key={solution.slug}/>)}</CardCarousel></Container></Section>
+  const homeFaq=[["À qui s’adresse l’offre photovoltaïque ?", "En priorité aux entreprises disposant d’au moins 2 000 m² de toiture ou de surface d’exploitation et payant au moins 1 000 € d’électricité par mois."], ["L’installation réduit-elle toujours la facture de 40 % ?", "40 % est l’objectif de réduction visé. Le résultat dépend du profil de consommation, de la surface exploitable, de l’ensoleillement et du dimensionnement confirmé par l’étude."], ["Comment fonctionne l’autofinancement ?", "Le montage est étudié pour que les économies générées contribuent au financement de l’installation. Sa faisabilité et ses conditions sont validées au cas par cas."]];
+  return <><Seo title="Photovoltaïque professionnel en autofinancement" description="Centrale solaire pour professionnels : visez au moins 40 % de réduction sur votre facture d’électricité grâce à une installation étudiée en autofinancement." canonicalPath="/" schema={[organizationSchema(),websiteSchema(),faqSchema(homeFaq)]}/>
+    <section className="home-hero immersive-hero home-hero-structured solar-hero"><img className="hero-background" src={heroImages.solarProfessional} alt="Centrale photovoltaïque installée sur la toiture d’un site professionnel" fetchPriority="high"/><Container><div className="home-hero-layout"><div className="hero-copy"><Eyebrow>Photovoltaïque pour les professionnels</Eyebrow><h1>Réduisez d’au moins 40&nbsp;% votre facture d’électricité grâce au solaire.</h1><p>Transformez votre toiture ou votre surface d’exploitation en centrale solaire, avec une installation étudiée en autofinancement et dimensionnée pour votre consommation.</p><div className="button-row"><Button to="/eligibilite" sourceCta="home_hero_solar_eligibility">Vérifier mon éligibilité</Button><Button to="/contact" variant="secondary" sourceCta="home_hero_solar_advisor">Parler à un conseiller</Button></div><div className="hero-confidence"><LockKeyhole aria-hidden="true"/><span><strong>Préqualification confidentielle en 2 minutes</strong><small>Objectif de réduction et autofinancement à confirmer par l’étude de votre site.</small></span></div></div><aside className="solar-offer-card" aria-label="Principaux critères de préqualification"><Eyebrow>Votre site est-il éligible&nbsp;?</Eyebrow><h2>Deux critères pour commencer.</h2><div className="solar-criterion"><Building2 aria-hidden="true"/><span><small>Surface disponible</small><strong>2 000 m² minimum</strong></span></div><div className="solar-criterion"><ReceiptText aria-hidden="true"/><span><small>Facture d’électricité</small><strong>1 000 € / mois minimum</strong></span></div><p>Toiture, parking, foncier ou surface d’exploitation : une étude valide ensuite le potentiel réel du site.</p><Button to="/eligibilite" sourceCta="home_criteria_eligibility">Tester mon projet</Button></aside></div><div className="hero-reassurance" aria-label="Bénéfices de l’offre photovoltaïque"><span><strong>≥ 40 % visés</strong><small>sur la facture d’électricité</small></span><span><strong>Autofinancement étudié</strong><small>à partir des économies générées</small></span><span><strong>Projet clé en main</strong><small>étude, installation et suivi</small></span></div></Container></section>
+    <SolarJourney/>
+    <Section tone="dark" className="home-expertise"><Container><div className="section-intro"><Eyebrow>Solutions complémentaires</Eyebrow><h2>Les autres leviers de performance énergétique.</h2><p className="lead small">Après le photovoltaïque, nous pouvons étudier les autres postes de consommation de vos bâtiments et installations : CVC, froid, isolation, chaleur, éclairage et pilotage.</p></div><CardCarousel label="Nos solutions complémentaires">{solutions.map((solution) => <SolutionCard solution={solution} key={solution.slug}/>)}</CardCarousel></Container></Section>
     <Section className="home-sectors"><Container><SectorCarousel/></Container></Section>
     <WhyUs/>
     <ExpertiseMethod/>

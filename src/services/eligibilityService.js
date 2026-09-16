@@ -4,6 +4,12 @@ import { submitLead } from './leadService';
 
 const emptyToNull = (value) => typeof value === 'string' && value.trim() ? value.trim() : null;
 
+const qualificationScore = (answers) => {
+  const surfaceOk = ['2 000 à 5 000 m²', 'Plus de 5 000 m²'].includes(answers.size);
+  const billOk = ['1 000 à 2 500 €', '2 500 à 5 000 €', 'Plus de 5 000 €'].includes(answers.monthlyBill);
+  return (surfaceOk ? 50 : 0) + (billOk ? 50 : 0);
+};
+
 export function buildEligibilityLeadPayload(answers, submissionId) {
   const acquisition = getAcquisitionContext();
   const siteType = emptyToNull(answers.building);
@@ -24,12 +30,12 @@ export function buildEligibilityLeadPayload(answers, submissionId) {
       sector: siteType,
       buildingType: siteType,
       siteSize: emptyToNull(answers.size),
-      projectType: emptyToNull(answers.project),
+      projectType: 'Installation photovoltaïque professionnelle en autofinancement',
       solutionSlug: null,
-      equipment: answers.equipment ? [answers.equipment] : [],
-      projectTimeline: emptyToNull(answers.timeline),
-      message: null,
-      qualificationScore: null,
+      equipment: ['Panneaux photovoltaïques / centrale solaire'],
+      projectTimeline: null,
+      message: answers.monthlyBill ? `Facture d’électricité mensuelle : ${answers.monthlyBill}` : null,
+      qualificationScore: qualificationScore(answers),
     },
     acquisition: {
       landingPage: emptyToNull(acquisition.landingPage),

@@ -3,4 +3,5 @@ export const heroImages = {
   architecture: '/images/heroes/architecture.jpg',
   industry: '/images/heroes/industrie.jpg',
   facade: '/images/heroes/facade.jpg',
+  solarProfessional: '/images/heroes/photovoltaique-professionnel.jpg',
 };

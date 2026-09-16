@@ -7,7 +7,7 @@ import { trackEvent } from '../../services/analyticsService';
 import { eligibilityService } from '../../services/eligibilityService';
 import { isValidEmail, isValidPhone } from '../../utils/validators';
 
-const DRAFT_KEY = 'me-eligibility-draft-v2';
+const DRAFT_KEY = 'me-eligibility-draft-v3';
 const initial = () => readSession(DRAFT_KEY, { step: 0, values: {}, done: false });
 
 const backendFieldMessages = {
@@ -19,9 +19,7 @@ const backendFieldMessages = {
   sector: ['building', 'Choisissez un type de site valide.'],
   buildingType: ['building', 'Choisissez un type de site valide.'],
   siteSize: ['size', 'Choisissez une taille de site valide.'],
-  projectType: ['project', 'Choisissez un besoin valide.'],
-  equipment: ['equipment', 'Choisissez un équipement concerné.'],
-  projectTimeline: ['timeline', 'Choisissez un calendrier valide.'],
+  message: ['monthlyBill', 'Choisissez une tranche de facture valide.'],
   consent: ['privacy', 'Votre accord est nécessaire pour transmettre la demande.'],
 };
 
@@ -113,8 +111,8 @@ export function useEligibility() {
     trackEvent('eligibility_submit_attempt', {
       sourceForm: 'eligibility',
       siteType: values.building,
-      equipment: values.equipment,
-      projectType: values.project,
+      monthlyBill: values.monthlyBill,
+      projectType: 'photovoltaïque_autofinancement',
     });
 
     submissionIdRef.current = attemptRef.current.getId();
@@ -130,8 +128,8 @@ export function useEligibility() {
       trackEvent('eligibility_submit_success', {
         sourceForm: 'eligibility',
         siteType: values.building,
-        equipment: values.equipment,
-        projectType: values.project,
+        monthlyBill: values.monthlyBill,
+        projectType: 'photovoltaïque_autofinancement',
       });
       trackEvent('eligibility_completed', {});
       setDone(true);
