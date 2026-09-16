@@ -15,7 +15,7 @@ import { Button, Container, Eyebrow, Section } from '../components/ui';
 import { Seo } from '../components/Seo';
 import { ArticleCard, CaseCard, SectorCard, SolutionCard } from '../components/cards';
 import { faqSchema, organizationSchema, websiteSchema } from '../lib/structuredData';
-import { Faq, FinalCta, ProcessBar } from '../components/sections';
+import { Faq, ProcessBar } from '../components/sections';
 import { ContactForm } from '../features/contact/ContactForm';
 
 function SectorCarousel() {
@@ -110,6 +110,5 @@ export default function Home() {
     <HomeBlog/>
     <Section><Container><div className="faq-layout"><div><Eyebrow>Questions fréquentes</Eyebrow><h2>Préparer votre projet énergétique.</h2></div><Faq subject="votre site" items={homeFaq}/></div></Container></Section>
     <ContactProject/>
-    <FinalCta eyebrow="Première consultation offerte" title="Votre projet mérite une étude sérieuse." text="Décrivez votre site en toute confidentialité pour préparer une étude initiale." label="Vérifier mon éligibilité" sourceCta="final_contact"/>
   </>;
 }
