@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PageMotion } from '../components/PageMotion';
 import { Header, Footer, ScrollToTop } from '../components/Layout';
+import { MobileEligibilityCta } from '../components/sections';
 import { Seo } from '../components/Seo';
 import { captureInitialAcquisition } from '../services/acquisition';
 import { initTrafficTracking, trackPageView } from '../services/trafficTracking';
@@ -57,6 +58,7 @@ export function AppShell() {
         <PageMotion>
           <AppRoutes />
         </PageMotion>
+        <MobileEligibilityCta />
         <Footer />
       </div>
     </div>

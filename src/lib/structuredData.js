@@ -13,16 +13,30 @@ export function absoluteUrl(path = '') {
 }
 
 export function organizationSchema() {
+  const { contact } = siteConfig;
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': 'ProfessionalService',
     name: siteConfig.name,
     url: base() || undefined,
     description: siteConfig.description,
+    image: absoluteUrl(siteConfig.defaultShareImage),
     logo: absoluteUrl('/brand-mark.png'),
-    email: siteConfig.contact?.email,
-    telephone: siteConfig.contact?.phone,
-    areaServed: siteConfig.contact?.serviceArea,
+    email: contact?.email,
+    telephone: contact?.phone,
+    areaServed: contact?.serviceArea,
+    address: contact?.address ? {
+      '@type': 'PostalAddress',
+      streetAddress: contact.address.split(',')[0]?.trim(),
+      postalCode: contact.address.match(/\b\d{5}\b/)?.[0],
+      addressLocality: 'Paris',
+      addressCountry: 'FR',
+    } : undefined,
+    geo: contact?.geo ? {
+      '@type': 'GeoCoordinates',
+      latitude: contact.geo.latitude,
+      longitude: contact.geo.longitude,
+    } : undefined,
   };
 }
 

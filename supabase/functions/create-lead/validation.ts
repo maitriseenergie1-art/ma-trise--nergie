@@ -49,6 +49,7 @@ export type ValidationResult =
   | { ok: false; fields: Record<string, string>; honeypotFilled: false };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^(?:0[1-9]\d{8}|\+33[1-9]\d{8})$/;
 const STRING_LIMITS = {
   trackingId: 128,
   firstName: 100,
@@ -117,6 +118,29 @@ function requiredEmail(value: unknown, fields: Record<string, string>): string |
   return lower;
 }
 
+function requiredPhone(value: unknown, fields: Record<string, string>): string | null {
+  const phone = normaliseString(value, STRING_LIMITS.phone, 'phone', fields, true);
+  if (!phone) {
+    fields.phone ||= 'REQUIRED';
+    return null;
+  }
+  const digits = phone.replace(/[\s.\-()]/g, '');
+  if (!PHONE_PATTERN.test(digits)) {
+    fields.phone = 'INVALID_PHONE';
+    return null;
+  }
+  return phone;
+}
+
+function requiredString(value: unknown, maxLength: number, field: string, fields: Record<string, string>): string | null {
+  const result = normaliseString(value, maxLength, field, fields);
+  if (!result) {
+    fields[field] ||= 'REQUIRED';
+    return null;
+  }
+  return result;
+}
+
 function optionalJson(value: unknown, fields: Record<string, string>): JsonValue {
   if (value === undefined || value === null) return [];
   if (!isJsonValue(value)) {
@@ -159,8 +183,8 @@ export function validateSubmission(payload: unknown): ValidationResult {
 
   const trackingId = normaliseString(payload.trackingId, STRING_LIMITS.trackingId, 'trackingId', fields) || `lead_${crypto.randomUUID()}`;
   const firstName = normaliseString(contact.firstName, STRING_LIMITS.firstName, 'firstName', fields);
-  const lastName = normaliseString(contact.lastName, STRING_LIMITS.lastName, 'lastName', fields);
-  const phone = normaliseString(contact.phone, STRING_LIMITS.phone, 'phone', fields, true);
+  const lastName = requiredString(contact.lastName, STRING_LIMITS.lastName, 'lastName', fields);
+  const phone = requiredPhone(contact.phone, fields);
   const companyName = normaliseString(contact.companyName, STRING_LIMITS.companyName, 'companyName', fields);
   const equipment = optionalJson(need.equipment, fields);
 

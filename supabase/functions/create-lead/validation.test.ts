@@ -79,3 +79,28 @@ Deno.test('honeypot sans submissionId reste silencieux', () => {
   assertEquals(result.ok, true);
   if (result.ok) assertEquals(result.honeypotFilled, true);
 });
+
+Deno.test('rejette un téléphone manquant', () => {
+  const result = validateSubmission({ ...contactPayload, contact: { ...contactPayload.contact, phone: '' } });
+  assertEquals(result.ok, false);
+  if (!result.ok) assertEquals(result.fields.phone, 'REQUIRED');
+});
+
+Deno.test('rejette un téléphone au mauvais format', () => {
+  for (const phone of ['123', '01234567890123', '06 00 00 00', 'abcdefghij']) {
+    const result = validateSubmission({ ...contactPayload, contact: { ...contactPayload.contact, phone } });
+    assertEquals(result.ok, false);
+    if (!result.ok) assertEquals(result.fields.phone, 'INVALID_PHONE');
+  }
+});
+
+Deno.test('accepte un téléphone français à 10 chiffres avec espaces', () => {
+  const result = validateSubmission({ ...contactPayload, contact: { ...contactPayload.contact, phone: '06 12 34 56 78' } });
+  assertEquals(result.ok, true);
+});
+
+Deno.test('rejette un nom de famille manquant', () => {
+  const result = validateSubmission({ ...contactPayload, contact: { ...contactPayload.contact, lastName: '' } });
+  assertEquals(result.ok, false);
+  if (!result.ok) assertEquals(result.fields.lastName, 'REQUIRED');
+});

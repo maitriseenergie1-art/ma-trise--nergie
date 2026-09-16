@@ -27,26 +27,13 @@ export function CaseCard({item}) {
 export function ArticleCard({item}) {
   const categoryLabel = item.category?.name || item.category || 'Article';
   return <article className="article-card resource-card">
-    <Link to={`/blog/${item.slug}`}>
+    <Link to={`/ressources/${item.slug}`}>
       <img src={item.cover_image_url} alt={item.cover_image_alt || `Illustration pour l’article : ${item.title}`} loading="lazy"/>
       <div>
         <span className="article-category">{categoryLabel}</span>
         <h3>{item.title}</h3>
         <p>{item.excerpt}</p>
         <span className="resource-card-link">Lire l’article <ArrowRight size={18}/></span>
-      </div>
-    </Link>
-  </article>;
-}
-export function ResourceCard({item}) {
-  return <article className="article-card resource-card">
-    <Link to={`/ressources/${item.slug}`}>
-      <img src={item.image} alt={`Illustration pour la ressource : ${item.title}`} loading="lazy"/>
-      <div>
-        <span className="article-category">{item.category}</span>
-        <h3>{item.title}</h3>
-        <p>{item.excerpt}</p>
-        <span className="resource-card-link">Lire la ressource <ArrowRight size={18}/></span>
       </div>
     </Link>
   </article>;

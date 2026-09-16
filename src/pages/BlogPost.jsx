@@ -43,7 +43,7 @@ export default function BlogPost() {
   }
   if (!post) return <NotFound />;
 
-  const path = `/blog/${post.slug}`;
+  const path = `/ressources/${post.slug}`;
   const minutes = post.reading_minutes || estimateReadingMinutes(post.body_markdown);
   const publishedLabel = post.published_at ? dateFormatter.format(new Date(post.published_at)) : null;
 
@@ -66,14 +66,14 @@ export default function BlogPost() {
         schema={[
           breadcrumbSchema([
             { name: 'Accueil', path: '/' },
-            { name: 'Blog', path: '/blog' },
+            { name: 'Ressources', path: '/ressources' },
             { name: post.title, path },
           ]),
           articleSchema(post, path),
         ]}
       />
       <PageHero
-        breadcrumb="Blog"
+        breadcrumb="Ressources"
         eyebrow={post.category?.name || 'Article'}
         title={post.title}
         text={post.excerpt}
@@ -97,7 +97,7 @@ export default function BlogPost() {
             </p>
           )}
           <p className="article-back">
-            <Link to="/blog">← Tous les articles</Link>
+            <Link to="/ressources">← Toutes les ressources</Link>
           </p>
         </Container>
       </Section>

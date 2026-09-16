@@ -7,14 +7,13 @@ import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, Ha
 import { images } from '../data/images';
 import { solutions } from '../data/solutions';
 import { sectors } from '../data/sectors';
-import { resources } from '../data/resources';
 import { trackEvent } from '../services/analyticsService';
 import { usePageData } from '../hooks/usePageData';
 import { contentKeys, loadBlogPosts, loadCaseStudies } from '../services/contentService';
 import { siteConfig } from '../config/siteConfig';
 import { Button, Container, Eyebrow, Section } from '../components/ui';
 import { Seo } from '../components/Seo';
-import { ArticleCard, CaseCard, ResourceCard, SectorCard, SolutionCard } from '../components/cards';
+import { ArticleCard, CaseCard, SectorCard, SolutionCard } from '../components/cards';
 import { faqSchema, organizationSchema, websiteSchema } from '../lib/structuredData';
 import { Faq, FinalCta, ProcessBar } from '../components/sections';
 import { ContactForm } from '../features/contact/ContactForm';
@@ -66,7 +65,8 @@ function WhyUs() {
 }
 
 function FundingPreview() {
-  return <Section className="funding-preview"><Container><div><Eyebrow>Financements</Eyebrow><h2>Le financement se prépare avec le projet.</h2><p className="lead small">Nous examinons les dispositifs mobilisables à partir des travaux, du site et de leurs conditions de mise en œuvre.</p><Button to="/financement-cee" variant="secondary" sourceCta="home_financing">Comprendre le financement</Button></div><div className="funding-preview-flow" aria-label="Étapes d’étude du financement"><span><ClipboardCheck/>Projet</span><i/><span><ScanSearch/>Étude</span><i/><span><Landmark/>Financement</span><i/><span><Wrench/>Travaux</span></div></Container></Section>;
+  const steps = [[ClipboardCheck, 'Projet'], [ScanSearch, 'Étude'], [Landmark, 'Financement'], [Wrench, 'Travaux']];
+  return <Section className="funding-preview"><Container><div><Eyebrow>Financements</Eyebrow><h2>Le financement se prépare avec le projet.</h2><p className="lead small">Nous examinons les dispositifs mobilisables à partir des travaux, du site et de leurs conditions de mise en œuvre.</p><Button to="/financement-cee" variant="secondary" sourceCta="home_financing">Comprendre le financement</Button></div><ol className="funding-preview-flow" aria-label="Étapes d’étude du financement">{steps.map(([Icon, label], index) => <li className={`funding-step${index === 2 ? ' funding-step-active' : ''}`} key={label}><span className="funding-step-icon"><Icon size={22} strokeWidth={1.8} aria-hidden="true"/></span><span className="funding-step-label">{label}</span></li>)}</ol></Container></Section>;
 }
 
 function ContactProject() {
@@ -92,23 +92,22 @@ function HomeCaseStudies() {
 function HomeBlog() {
   const { status, data } = usePageData(contentKeys.blogList, loadBlogPosts);
   if (status !== 'success' || !data?.length) return null;
-  return <Section><Container><div className="section-intro"><Eyebrow>Blog</Eyebrow><h2>Comprendre les leviers avant de lancer un projet.</h2><p className="lead small">Des repères pratiques pour préparer une réflexion sur le pilotage, les flux thermiques et les financements.</p></div><CardCarousel label="Nos articles">{data.slice(0, 6).map((item) => <ArticleCard item={item} key={item.slug}/>)}</CardCarousel><p style={{ marginTop: '1.5rem' }}><Button to="/blog" variant="secondary" sourceCta="home_blog">Tous les articles</Button></p></Container></Section>;
+  return <Section><Container><div className="section-intro"><Eyebrow>Ressources</Eyebrow><h2>Comprendre les leviers avant de lancer un projet.</h2><p className="lead small">Des repères pratiques pour préparer une réflexion sur le pilotage, les flux thermiques et les financements.</p></div><CardCarousel label="Nos articles">{data.slice(0, 6).map((item) => <ArticleCard item={item} key={item.slug}/>)}</CardCarousel><p style={{ marginTop: '1.5rem' }}><Button to="/ressources" variant="secondary" sourceCta="home_resources">Toutes les ressources</Button></p></Container></Section>;
 }
 
 export default function Home() {
   const homeFaq=[["Quand faut-il lancer une étude énergétique ?", "Dès qu’un équipement arrive en fin de cycle, qu’un usage évolue ou qu’une consommation mérite d’être mieux comprise."], ["Quels sites professionnels peuvent être accompagnés ?", "L’échange initial est adapté à la nature des installations, à l’activité et au projet envisagé."], ["Peut-on parler du financement avant les travaux ?", "Oui. Les dispositifs éventuels peuvent être étudiés à partir des caractéristiques réelles du projet."]];
   return <><Seo title="Performance énergétique des entreprises" description="Audit, études, travaux et pilotage énergétique pour réduire les consommations des bâtiments tertiaires et installations industrielles en France." canonicalPath="/" schema={[organizationSchema(),websiteSchema(),faqSchema(homeFaq)]}/>
     <section className="home-hero immersive-hero home-hero-structured"><img className="hero-background" src={heroImages.architecture} alt="" fetchPriority="high"/><Container><div className="home-hero-layout"><div className="hero-copy"><Eyebrow>Performance énergétique des professionnels</Eyebrow><h1>Pilotez la performance énergétique de votre site.</h1><p>Nous vous aidons à comprendre vos consommations, prioriser les actions et préparer un projet adapté à vos bâtiments et installations.</p><div className="button-row"><Button to="/eligibilite" sourceCta="home_hero_contact">Décrire mon projet</Button><Button to="/solutions" variant="secondary" sourceCta="home_hero_solutions">Voir les solutions</Button></div><div className="hero-confidence"><LockKeyhole aria-hidden="true"/><span><strong>Première qualification confidentielle</strong><small>Sans engagement et à partir de votre situation réelle.</small></span></div></div><nav className="hero-paths" aria-label="Choisir un point de départ"><div className="hero-paths-heading"><Eyebrow>Votre point de départ</Eyebrow><h2>Que souhaitez-vous améliorer&nbsp;?</h2><p>Accédez directement au parcours qui correspond à votre besoin.</p></div><Link to="/solutions" onClick={()=>trackEvent('hero_path_clicked',{path:'solutions'})}><span className="hero-path-number">01</span><span><strong>Un équipement ou une installation</strong><small>GTB, CVC, froid, isolation, chaleur et utilités.</small></span><ArrowRight aria-hidden="true"/></Link><Link to="/secteurs" onClick={()=>trackEvent('hero_path_clicked',{path:'sectors'})}><span className="hero-path-number">02</span><span><strong>La performance globale d’un site</strong><small>Industrie, tertiaire, logistique, commerce ou santé.</small></span><ArrowRight aria-hidden="true"/></Link><Link to="/financement-cee" onClick={()=>trackEvent('hero_path_clicked',{path:'financing'})}><span className="hero-path-number">03</span><span><strong>Le financement d’un projet</strong><small>Comprendre les CEE et les critères à vérifier.</small></span><ArrowRight aria-hidden="true"/></Link></nav></div><div className="hero-reassurance" aria-label="Périmètre d’accompagnement"><span><strong>Bâtiments tertiaires</strong><small>Confort, usages et pilotage</small></span><span><strong>Sites industriels</strong><small>Procédés, réseaux et utilités</small></span><span><strong>De l’étude au suivi</strong><small>Une méthode structurée par étapes</small></span></div></Container></section>
-    <ProcessBar/>
-    <Section tone="dark"><Container><div className="section-intro"><Eyebrow>Expertises</Eyebrow><h2>Des leviers concrets, pensés pour vos installations.</h2><p className="lead small">Études, financements, travaux et pilotage : nous mobilisons les expertises nécessaires selon le contexte de votre projet.</p></div><CardCarousel label="Nos expertises">{solutions.map((solution) => <SolutionCard solution={solution} key={solution.slug}/>)}</CardCarousel></Container></Section>
-    <Section><Container><SectorCarousel/></Container></Section>
+    <ProcessBar contact/>
+    <Section tone="dark" className="home-expertise"><Container><div className="section-intro"><Eyebrow>Expertises</Eyebrow><h2>Des leviers concrets, pensés pour vos installations.</h2><p className="lead small">Études, financements, travaux et pilotage : nous mobilisons les expertises nécessaires selon le contexte de votre projet.</p></div><CardCarousel label="Nos expertises">{solutions.map((solution) => <SolutionCard solution={solution} key={solution.slug}/>)}</CardCarousel></Container></Section>
+    <Section className="home-sectors"><Container><SectorCarousel/></Container></Section>
     <WhyUs/>
     <ExpertiseMethod/>
     <MidContact sourceCta="home_mid_contact"/>
     <FundingPreview/>
     <HomeCaseStudies/>
     <HomeBlog/>
-    <Section><Container><div className="section-intro"><Eyebrow>Ressources & conseils</Eyebrow><h2>Comprendre les leviers avant de lancer un projet.</h2><p className="lead small">Des guides pratiques sur la GTB, le froid, l’air comprimé, la chaleur et les Certificats d’Économies d’Énergie.</p></div><CardCarousel label="Nos ressources">{resources.map((item) => <ResourceCard item={item} key={item.slug}/>)}</CardCarousel></Container></Section>
     <Section><Container><div className="faq-layout"><div><Eyebrow>Questions fréquentes</Eyebrow><h2>Préparer votre projet énergétique.</h2></div><Faq subject="votre site" items={homeFaq}/></div></Container></Section>
     <ContactProject/>
     <FinalCta eyebrow="Première consultation offerte" title="Votre projet mérite une étude sérieuse." text="Décrivez votre site en toute confidentialité pour préparer une étude initiale." label="Vérifier mon éligibilité" sourceCta="final_contact"/>

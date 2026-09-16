@@ -5,10 +5,10 @@ import { readSession, writeSession } from '../../utils/storage';
 import { updateAcquisitionContext } from '../../services/acquisition';
 import { trackEvent } from '../../services/analyticsService';
 import { eligibilityService } from '../../services/eligibilityService';
+import { isValidEmail, isValidPhone } from '../../utils/validators';
 
 const DRAFT_KEY = 'me-eligibility-draft-v2';
 const initial = () => readSession(DRAFT_KEY, { step: 0, values: {}, done: false });
-const emailPattern = /^\S+@\S+\.\S+$/;
 
 const backendFieldMessages = {
   firstName: ['firstName', 'Renseignez un prénom valide.'],
@@ -80,9 +80,9 @@ export function useEligibility() {
 
     if (!firstName || firstName.length > 100) errors.firstName = 'Renseignez un prénom de moins de 100 caractères.';
     if (!lastName || lastName.length > 100) errors.lastName = 'Renseignez un nom de moins de 100 caractères.';
-    if (!email || email.length > 254 || !emailPattern.test(email)) errors.email = 'Renseignez un email valide.';
-    if (company.length > 180) errors.company = 'Le nom de l’entreprise est trop long.';
-    if (phone.length > 64) errors.phone = 'Le numéro de téléphone est trop long.';
+    if (!email || !isValidEmail(email)) errors.email = 'Renseignez une adresse email valide (avec @).';
+    if (!company || company.length > 180) errors.company = 'Renseignez le nom de votre entreprise.';
+    if (!phone || !isValidPhone(phone)) errors.phone = 'Renseignez un numéro de téléphone valide à 10 chiffres.';
     if (!values.privacy) errors.privacy = 'Votre accord est nécessaire pour transmettre la demande.';
     return errors;
   };

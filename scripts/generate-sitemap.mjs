@@ -1,7 +1,6 @@
 import { writeFile } from 'node:fs/promises';
 import { solutions } from '../src/data/solutions.js';
 import { sectors } from '../src/data/sectors.js';
-import { resources } from '../src/data/resources.js';
 import { fetchPublishedBlogPosts, fetchPublishedCaseStudies } from './lib/supabaseContent.mjs';
 
 const baseUrl = (process.env.SITE_URL || process.env.VITE_SITE_URL)?.replace(/\/$/, '');
@@ -19,16 +18,15 @@ const [caseStudies, blogPosts] = await Promise.all([
 
 const staticPaths = [
   '/', '/solutions', '/secteurs', '/financement-cee',
-  '/blog', '/ressources', '/a-propos', '/contact', '/faq', '/plan-du-site',
+  '/ressources', '/a-propos', '/contact', '/faq', '/plan-du-site',
 ];
 
 const contentPaths = [
   ...solutions.map(({ slug }) => ({ path: `/solutions/${slug}` })),
   ...sectors.map(({ slug }) => ({ path: `/secteurs/${slug}` })),
-  ...resources.filter(({ indexable }) => indexable).map(({ slug, updatedAt }) => ({ path: `/ressources/${slug}`, lastmod: updatedAt })),
   ...blogPosts
     .filter((item) => item.indexable !== false)
-    .map((item) => ({ path: `/blog/${item.slug}`, lastmod: item.updated_at || item.published_at })),
+    .map((item) => ({ path: `/ressources/${item.slug}`, lastmod: item.updated_at || item.published_at })),
 ];
 
 const entries = [

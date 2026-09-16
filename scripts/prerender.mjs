@@ -8,7 +8,6 @@ import {
 } from './lib/supabaseContent.mjs';
 import { solutions } from '../src/data/solutions.js';
 import { sectors } from '../src/data/sectors.js';
-import { resources } from '../src/data/resources.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = path.join(root, 'dist');
@@ -39,17 +38,15 @@ const routes = [
   { url: '/a-propos', preload: {} },
   { url: '/contact', preload: {} },
   { url: '/faq', preload: {} },
-  { url: '/ressources', preload: {} },
   { url: '/plan-du-site', preload: {} },
   ...solutions.map((item) => ({ url: `/solutions/${item.slug}`, preload: {} })),
   ...sectors.map((item) => ({ url: `/secteurs/${item.slug}`, preload: {} })),
-  ...resources.filter((item) => item.indexable).map((item) => ({ url: `/ressources/${item.slug}`, preload: {} })),
   {
     url: '/realisations',
     preload: { [keys.caseStudyList]: caseStudies },
   },
   {
-    url: '/blog',
+    url: '/ressources',
     preload: { [keys.blogList]: blogPosts, [keys.blogCategories]: blogCategories },
   },
   ...caseStudies.map((item) => ({
@@ -57,7 +54,7 @@ const routes = [
     preload: { [keys.caseStudy(item.slug)]: item },
   })),
   ...blogPosts.map((post) => ({
-    url: `/blog/${post.slug}`,
+    url: `/ressources/${post.slug}`,
     preload: { [keys.blogPost(post.slug)]: post },
   })),
 ];

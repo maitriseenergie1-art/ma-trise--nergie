@@ -1,6 +1,5 @@
 import { MidContact } from '../components/MidContact';
 import { StepIcon } from '../components/StepIcon';
-import { ArrowRight } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { solutions } from '../data/solutions';
 import { siteConfig } from '../config/siteConfig';
@@ -12,7 +11,12 @@ import NotFound from './NotFound';
 
 function Flow() {
   const labels = ['Analyse', 'Mesure', 'Étude', 'Proposition', 'Réglage', 'Suivi'];
-  return <div className="flow-diagram solution-flow">{labels.map((label, index) => <span key={label}><div><StepIcon name={['diagnostic','conception','etude','financement','pilotage','suivi'][index]}/><small>{String(index + 1).padStart(2, '0')}</small><b>{label}</b></div>{index < labels.length - 1 && <ArrowRight/>}</span>)}</div>;
+  const icons = ['diagnostic', 'conception', 'etude', 'financement', 'pilotage', 'suivi'];
+  return <ol className="method-flow">{labels.map((label, index) => <li key={label}>
+    <span className="method-flow-icon"><StepIcon name={icons[index]}/></span>
+    <span className="method-flow-index">{String(index + 1).padStart(2, '0')}</span>
+    <span className="method-flow-label">{label}</span>
+  </li>)}</ol>;
 }
 
 export default function SolutionDetail() {

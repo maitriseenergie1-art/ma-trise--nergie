@@ -43,6 +43,12 @@ export const QUICK_LEAD_VARIANTS = {
     text: 'Nous vous aidons à transformer ces repères en plan d’action.',
     cta: 'Être recontacté',
   },
+  eligibility: {
+    projectType: 'Étude énergétique',
+    heading: 'Vérifier mon éligibilité',
+    text: 'Laissez vos coordonnées : nous vérifions rapidement les dispositifs et leviers mobilisables pour votre projet.',
+    cta: 'Vérifier mon éligibilité',
+  },
 };
 
 export const resolveVariant = (name) => QUICK_LEAD_VARIANTS[name] || QUICK_LEAD_VARIANTS.generic;

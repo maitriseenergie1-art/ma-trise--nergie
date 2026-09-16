@@ -6,8 +6,7 @@ import { trackEvent } from '../../services/analyticsService';
 import { trackFormEvent } from '../../services/trafficTracking';
 import { resolveVariant } from './quickLeadConfig';
 import { submitQuickLead } from './quickLeadService';
-
-const EMAIL = /^\S+@\S+\.\S+$/;
+import { isValidEmail, isValidPhone } from '../../utils/validators';
 
 /**
  * Compact contextual conversion form.
@@ -42,8 +41,10 @@ export function QuickLeadForm({ variant = 'generic', context = {}, heading, text
       website: String(data.get('website') || ''),
     };
     const next = {};
-    if (!values.email || !EMAIL.test(values.email)) next.email = 'Renseignez un e-mail valide.';
-    if (!values.phone && !values.lastName) next.lastName = 'Indiquez au moins un nom ou un téléphone.';
+    if (!values.lastName) next.lastName = 'Renseignez votre nom.';
+    if (!values.phone || !isValidPhone(values.phone)) next.phone = 'Renseignez un numéro de téléphone valide à 10 chiffres.';
+    if (!values.email || !isValidEmail(values.email)) next.email = 'Renseignez une adresse email valide (avec @).';
+    if (!values.message) next.message = 'Décrivez brièvement votre besoin.';
     if (!values.privacy) next.privacy = 'Votre accord est nécessaire.';
     if (Object.keys(next).length) {
       setErrors(next);
@@ -103,25 +104,29 @@ export function QuickLeadForm({ variant = 'generic', context = {}, heading, text
       <div className="form-grid">
         <label htmlFor={`ql-name-${variant}`}>
           Nom
-          <input id={`ql-name-${variant}`} name="lastName" maxLength="100" autoComplete="family-name"
+          <input id={`ql-name-${variant}`} name="lastName" maxLength="100" autoComplete="family-name" required
             aria-invalid={Boolean(errors.lastName)} aria-describedby={describedBy('lastName')} />
+          {errors.lastName && <small id={`ql-lastName-error`} className="field-error">{errors.lastName}</small>}
         </label>
         <label htmlFor={`ql-phone-${variant}`}>
           Téléphone
-          <input id={`ql-phone-${variant}`} name="phone" type="tel" maxLength="64" autoComplete="tel" />
+          <input id={`ql-phone-${variant}`} name="phone" type="tel" inputMode="tel" maxLength="64" autoComplete="tel" placeholder="06 12 34 56 78" required
+            aria-invalid={Boolean(errors.phone)} aria-describedby={describedBy('phone')} />
+          {errors.phone && <small id={`ql-phone-error`} className="field-error">{errors.phone}</small>}
         </label>
         <label className="full" htmlFor={`ql-email-${variant}`}>
           E-mail
-          <input id={`ql-email-${variant}`} name="email" type="email" maxLength="254" autoComplete="email"
+          <input id={`ql-email-${variant}`} name="email" type="email" maxLength="254" autoComplete="email" required
             aria-invalid={Boolean(errors.email)} aria-describedby={describedBy('email')} />
           {errors.email && <small id={`ql-email-error`} className="field-error">{errors.email}</small>}
         </label>
         <label className="full" htmlFor={`ql-message-${variant}`}>
-          Votre besoin en une phrase (optionnel)
-          <textarea id={`ql-message-${variant}`} name="message" rows="2" maxLength="4000" />
+          Votre besoin en une phrase
+          <textarea id={`ql-message-${variant}`} name="message" rows="2" maxLength="4000" required
+            aria-invalid={Boolean(errors.message)} aria-describedby={describedBy('message')} />
+          {errors.message && <small id={`ql-message-error`} className="field-error">{errors.message}</small>}
         </label>
       </div>
-      {errors.lastName && <small className="field-error">{errors.lastName}</small>}
       <div className="contact-trap" aria-hidden="true">
         <label htmlFor={`ql-website-${variant}`}>Votre site web
           <input id={`ql-website-${variant}`} name="website" type="url" tabIndex="-1" autoComplete="off" />

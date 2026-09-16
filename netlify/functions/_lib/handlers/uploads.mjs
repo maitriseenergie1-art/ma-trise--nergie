@@ -5,6 +5,16 @@ const ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/s
 const MAX_BYTES = 5 * 1024 * 1024;
 const EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/avif': 'avif', 'image/svg+xml': 'svg' };
 
+function slugify(value) {
+  return (value || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '')
+    .slice(0, 80);
+}
+
 export async function uploadImage(req) {
   const form = await req.formData().catch(() => null);
   const file = form?.get('file');
@@ -12,8 +22,12 @@ export async function uploadImage(req) {
   if (!ALLOWED.includes(file.type)) return json({ error: 'unsupported_type', allowed: ALLOWED }, 415);
   if (file.size > MAX_BYTES) return json({ error: 'too_large', maxBytes: MAX_BYTES }, 413);
 
+  const nameHint = form.get('name');
   const ext = EXT[file.type] || 'bin';
-  const path = `uploads/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const slug = slugify(typeof nameHint === 'string' ? nameHint : '');
+  const unique = Math.random().toString(36).slice(2, 8);
+  const filename = slug ? `${slug}-${unique}.${ext}` : `${Date.now()}-${unique}.${ext}`;
+  const path = `uploads/${filename}`;
   const bytes = new Uint8Array(await file.arrayBuffer());
 
   const { error } = await admin.storage.from('content-images').upload(path, bytes, {

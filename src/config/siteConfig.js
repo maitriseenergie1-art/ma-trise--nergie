@@ -6,13 +6,13 @@ export const siteConfig = {
   defaultShareImage: '/og-social.png',
   privacyPolicyVersion: 'site-demo-v1', // À versionner avec toute évolution de la politique publiée.
   contact: {
-    // DEMO PLACEHOLDER — à remplacer avant production.
-    phone: '+33 1 84 80 00 00',
+    phone: '+33 7 68 49 59 45',
     email: 'contact@maitrise-energie.fr',
-    address: '24 rue de l’Innovation, 69007 Lyon',
+    address: '37 Avenue Trudaine, 75009 Paris',
+    geo: { latitude: 48.8809441, longitude: 2.3423369 },
     hours: 'Lundi au vendredi · 9h00–18h00',
     serviceArea: 'France métropolitaine · selon la nature du projet',
-    mapEmbedUrl: '',
+    mapEmbedUrl: 'https://maps.google.com/maps?q=37+Avenue+Trudaine%2C+75009+Paris&z=15&output=embed',
     bookingUrl: '',
   },
   legal: { companyIdentity: '', address: '', registration: '', hostingProvider: '' },

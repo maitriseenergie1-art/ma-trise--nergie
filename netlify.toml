@@ -39,6 +39,17 @@
   to = "/.netlify/functions/lead"
   status = 200
 
+# "Blog" was merged into "Ressources" — preserve any existing links/indexing.
+[[redirects]]
+  from = "/blog"
+  to = "/ressources"
+  status = 301
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/ressources/:splat"
+  status = 301
+
 # Prerendered pages are static files in dist/ and are served as-is.
 # Everything else falls back to the SPA shell.
 [[redirects]]

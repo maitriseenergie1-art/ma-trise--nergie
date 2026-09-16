@@ -52,7 +52,7 @@ export default function BlogAdmin() {
       <div className="admin-topbar">
         <div>
           <h2>Contenus</h2>
-          <p className="hint">Rédigez, organisez et publiez les articles du blog.</p>
+          <p className="hint">Rédigez, organisez et publiez les articles de la rubrique Ressources.</p>
         </div>
         <span className="admin-toolbar">
           <button className="admin-btn ghost" onClick={() => setView('categories')}>Catégories</button>
@@ -67,7 +67,7 @@ export default function BlogAdmin() {
             <li key={post.id}>
               <span>
                 <strong>{post.title}</strong>
-                <span className="muted"> · {post.category?.name || 'Sans catégorie'} · /blog/{post.slug}</span>
+                <span className="muted"> · {post.category?.name || 'Sans catégorie'} · /ressources/{post.slug}</span>
               </span>
               <span className="admin-item-actions">
                 <span className={`admin-badge ${post.status === 'published' ? 'published' : ''}`}>
@@ -152,7 +152,7 @@ function Editor({ id, categories, onDone, onCancel }) {
       <div className="admin-card">
         <TextField label="Titre" value={form.title} onChange={(v) => set({ title: v, slug: form.slug || slugify(v) })} />
         <div className="admin-row">
-          <TextField label="Slug" hint="URL : /blog/…" value={form.slug} onChange={(v) => set({ slug: slugify(v) })} />
+          <TextField label="Slug" hint="URL : /ressources/…" value={form.slug} onChange={(v) => set({ slug: slugify(v) })} />
           <SelectField
             label="Catégorie"
             value={form.category_id}
@@ -187,6 +187,7 @@ function Editor({ id, categories, onDone, onCancel }) {
         altValue={form.cover_image_alt}
         onChange={(v) => set({ cover_image_url: v })}
         onAltChange={(v) => set({ cover_image_alt: v })}
+        nameHint={form.slug || slugify(form.title)}
       />
 
       <div className="admin-card">
@@ -250,7 +251,7 @@ function Categories({ categories, onDone }) {
   return (
     <>
       <div className="admin-topbar">
-        <h2>Catégories du blog</h2>
+        <h2>Catégories des ressources</h2>
         <button className="admin-btn ghost" onClick={onDone}>← Retour</button>
       </div>
       <ErrorBox error={error} />

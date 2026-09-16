@@ -159,6 +159,7 @@ function Editor({ id, onDone, onCancel }) {
         altValue={form.cover_image_alt}
         onChange={(v) => set({ cover_image_url: v })}
         onAltChange={(v) => set({ cover_image_alt: v })}
+        nameHint={form.slug || slugify(form.title)}
       />
 
       <div className="admin-card">

@@ -21,22 +21,22 @@ export default function Blog() {
     ? [
         breadcrumbSchema([
           { name: 'Accueil', path: '/' },
-          { name: 'Blog', path: '/blog' },
+          { name: 'Ressources', path: '/ressources' },
         ]),
-        itemListSchema(posts.map((p) => ({ name: p.title, path: `/blog/${p.slug}` }))),
+        itemListSchema(posts.map((p) => ({ name: p.title, path: `/ressources/${p.slug}` }))),
       ]
     : undefined;
 
   return (
     <>
       <Seo
-        title="Blog"
+        title="Ressources"
         description="Analyses et repères sur la performance énergétique des bâtiments et installations professionnelles : méthode, financement CEE, froid, CVC et GTB."
-        canonicalPath="/blog"
+        canonicalPath="/ressources"
         schema={schema}
       />
       <PageHero
-        eyebrow="Blog"
+        eyebrow="Ressources"
         title="Comprendre pour mieux décider."
         text="Des repères techniques et méthodologiques pour préparer les projets énergétiques professionnels."
         image={heroImages.architecture}
@@ -76,7 +76,7 @@ export default function Blog() {
                     </Eyebrow>
                     <h2>{featured.title}</h2>
                     <p>{featured.excerpt}</p>
-                    <Button to={`/blog/${featured.slug}`}>Lire l’article</Button>
+                    <Button to={`/ressources/${featured.slug}`}>Lire l’article</Button>
                   </div>
                 </div>
               )}

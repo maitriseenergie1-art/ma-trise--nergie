@@ -1,5 +1,6 @@
 import { cloneElement, useId, useState } from 'react';
 import { uploadImage } from './adminService';
+import { toWebp } from './imageUtils';
 
 export function slugify(value) {
   return (value || '')
@@ -70,30 +71,50 @@ export function TagsField({ label, hint = 'Séparez les valeurs par une virgule.
   );
 }
 
-export function ImageField({ label, value, altValue, onChange, onAltChange }) {
+export function ImageField({ label, value, altValue, onChange, onAltChange, nameHint }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
-  const handleFile = async (event) => {
-    const file = event.target.files?.[0];
+  const [dragOver, setDragOver] = useState(false);
+
+  const handleFile = async (file) => {
     if (!file) return;
     setBusy(true);
     setError(null);
     try {
-      const url = await uploadImage(file);
+      const webp = await toWebp(file);
+      const url = await uploadImage(webp, nameHint);
       onChange(url);
     } catch (err) {
       setError(err.message);
     } finally {
       setBusy(false);
-      event.target.value = '';
     }
   };
+
+  const onInputChange = (event) => {
+    handleFile(event.target.files?.[0]);
+    event.target.value = '';
+  };
+
+  const onDrop = (event) => {
+    event.preventDefault();
+    setDragOver(false);
+    handleFile(event.dataTransfer.files?.[0]);
+  };
+
   return (
     <div className="admin-card">
-      <Field label={label} hint="Formats acceptés : JPG, PNG, WebP, AVIF, SVG (max 5 Mo).">
-        <input type="file" accept="image/*" onChange={handleFile} disabled={busy} />
+      <Field label={label} hint="Glissez-déposez une image (JPG, PNG, WebP, AVIF, SVG — max 5 Mo). Elle est automatiquement convertie en WebP et renommée pour le SEO.">
+        <label
+          className={`admin-dropzone${dragOver ? ' is-dragover' : ''}${busy ? ' is-busy' : ''}`}
+          onDragOver={(event) => { event.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={onDrop}
+        >
+          <input type="file" accept="image/*" onChange={onInputChange} disabled={busy} />
+          <span>{busy ? 'Conversion et téléversement…' : 'Glissez une image ici ou cliquez pour la choisir'}</span>
+        </label>
       </Field>
-      {busy && <p className="hint">Téléversement…</p>}
       {error && <p className="admin-error">{error}</p>}
       <TextField
         label="URL de l’image"

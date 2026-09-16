@@ -37,9 +37,10 @@ export const updateCategory = (id, payload) =>
 export const deleteCategory = (id) => api(`/blog-categories/${id}`, { method: 'DELETE' });
 
 // --- Uploads -----------------------------------------------------
-export async function uploadImage(file) {
+export async function uploadImage(file, nameHint) {
   const form = new FormData();
   form.append('file', file);
+  if (nameHint) form.append('name', nameHint);
   const res = await api('/uploads', { method: 'POST', form });
   return res.url;
 }
