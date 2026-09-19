@@ -2,7 +2,9 @@ import { readSession, removeSession, writeSession } from '../utils/storage';
 
 const STORAGE_KEY = 'me-acquisition-context';
 const SESSION_KEY = 'me-lead-tracking-id';
-const acquisitionParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
+// `oppref` is added by ChatGPT Ads. It is retained with the visit so it can be
+// forwarded to the OpenAI Pixel / Conversions API once the Ads account exists.
+const acquisitionParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'oppref', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
 
 const makeId = () => {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) return `lead_${crypto.randomUUID()}`;

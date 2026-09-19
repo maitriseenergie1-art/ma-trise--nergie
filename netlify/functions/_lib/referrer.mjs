@@ -64,12 +64,14 @@ export function classifyTraffic({ referrer, landingUrl, utmSource, utmMedium } =
 
 function decorate(source, label, medium) {
   let group = 'other';
-  if (AI_SOURCES.has(source)) group = 'ai';
+  // A declared paid medium takes precedence over the referring product. This
+  // keeps ChatGPT Ads separate from organic ChatGPT referrals in the back office.
+  if (medium && /cpc|paid|ppc|ads?/.test(medium)) group = 'paid';
+  else if (AI_SOURCES.has(source)) group = 'ai';
   else if (SEARCH_SOURCES.has(source)) group = 'search';
   else if (SOCIAL_SOURCES.has(source)) group = 'social';
   else if (source === 'direct') group = 'direct';
   else if (source === 'referral') group = 'referral';
-  else if (medium && /cpc|paid|ppc|ads?/.test(medium)) group = 'paid';
   return { source, label, group, medium: medium || null };
 }
 
