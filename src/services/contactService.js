@@ -4,7 +4,7 @@ import { submitContactLead } from './leadService';
 
 const emptyToNull = (value) => typeof value === 'string' && value.trim() ? value.trim() : null;
 
-export function buildContactLeadPayload({ submissionId, identity, need, consent, website = '' }) {
+export function buildContactLeadPayload({ submissionId, identity, need, consent, website = '', captchaToken = '' }) {
   const acquisition = getAcquisitionContext();
   return {
     submissionId,
@@ -46,6 +46,7 @@ export function buildContactLeadPayload({ submissionId, identity, need, consent,
       policyVersion: siteConfig.privacyPolicyVersion,
     },
     website,
+    turnstileToken: emptyToNull(captchaToken),
   };
 }
 

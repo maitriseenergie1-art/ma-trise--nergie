@@ -5,6 +5,8 @@ import { collectHead } from '../lib/headCollector';
 
 const isBrowser = typeof document !== 'undefined';
 
+const limit = (value = '', max) => value.length <= max ? value : `${value.slice(0, max - 1).replace(/\s+\S*$/, '').trim()}…`;
+
 function absoluteUrl(path) {
   const base = (siteConfig.siteUrl || (isBrowser ? window.location.origin : '')).replace(/\/$/, '');
   if (!path) return base || undefined;
@@ -54,15 +56,16 @@ export function Seo({
   const location = useLocation();
   const path = canonicalPath || location.pathname;
   const pageTitle = title
-    ? (title.length > 46 ? title : `${title} — ${siteConfig.name}`)
+    ? limit(title.length <= 38 ? `${title} — ${siteConfig.name}` : title, 60)
     : siteConfig.name;
+  const metaDescription = limit(description, 160);
   const shouldNoindex = noindex || path === '/eligibilite';
   const canonical = absoluteUrl(path);
-  const ogImage = absoluteUrl(image || siteConfig.defaultShareImage || '/images/heroes/industrie.jpg');
+  const ogImage = absoluteUrl(image || siteConfig.defaultShareImage || '/og-social.jpg');
 
   const descriptor = {
     title: pageTitle,
-    description,
+    description: metaDescription,
     canonical,
     noindex: shouldNoindex,
     image: ogImage,
@@ -80,11 +83,11 @@ export function Seo({
   useEffect(() => {
     if (!isBrowser) return;
     document.title = pageTitle;
-    upsertMeta('name', 'description', description);
+    upsertMeta('name', 'description', metaDescription);
     upsertLink('canonical', canonical);
 
     upsertMeta('property', 'og:title', pageTitle);
-    upsertMeta('property', 'og:description', description);
+    upsertMeta('property', 'og:description', metaDescription);
     upsertMeta('property', 'og:type', type);
     upsertMeta('property', 'og:url', canonical);
     upsertMeta('property', 'og:site_name', siteConfig.name);
@@ -93,7 +96,7 @@ export function Seo({
     upsertMeta('property', 'og:image:alt', imageAlt || 'Maîtrise Énergie — performance énergétique des sites professionnels');
     upsertMeta('name', 'twitter:card', 'summary_large_image');
     upsertMeta('name', 'twitter:title', pageTitle);
-    upsertMeta('name', 'twitter:description', description);
+    upsertMeta('name', 'twitter:description', metaDescription);
     upsertMeta('name', 'twitter:image', ogImage);
     upsertMeta('name', 'twitter:image:alt', imageAlt || 'Maîtrise Énergie — performance énergétique des sites professionnels');
     upsertMeta('name', 'author', siteConfig.name);
@@ -143,7 +146,7 @@ export function Seo({
     } else {
       json?.remove();
     }
-  }, [pageTitle, description, canonical, shouldNoindex, schema, ogImage, imageAlt, type, article]);
+  }, [pageTitle, metaDescription, canonical, shouldNoindex, schema, ogImage, imageAlt, type, article]);
 
   return null;
 }

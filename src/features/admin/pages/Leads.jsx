@@ -124,14 +124,17 @@ export default function Leads() {
                     if (event.key === 'Enter' || event.key === ' ') setSelected(lead.id);
                   }}
                   tabIndex={0}
+                  aria-label={`Ouvrir la fiche de ${lead.company || lead.name || 'ce lead'}`}
                 >
                   <td style={{ whiteSpace: 'nowrap' }}>{fmt(lead.createdAt)}</td>
-                  <td>{lead.company || '—'}</td>
+                  <td>
+                    <strong className="admin-lead-company">{lead.company || 'Entreprise non renseignée'}</strong>
+                  </td>
                   <td className="admin-contact-cell">
                     {lead.name || '—'}
                     <div className="muted">{lead.email || lead.phone || ''}</div>
                   </td>
-                  <td>{lead.sector || '—'}</td>
+                  <td>{lead.sector || 'Non renseigné'}</td>
                   <td>{lead.score ?? '—'}</td>
                   <td>
                     <span className="admin-badge">{STATUS_LABELS[lead.status] || lead.status}</span>
@@ -141,7 +144,7 @@ export default function Leads() {
               {rows.length === 0 && (
                 <tr>
                   <td colSpan={6} className="muted admin-empty-cell">
-                    Aucun lead.
+                    Aucun lead pour le moment. Les demandes envoyées depuis le site apparaîtront ici.
                   </td>
                 </tr>
               )}
@@ -214,8 +217,11 @@ function LeadDrawer({ id, onClose, onChanged }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="admin-topbar">
-          <h2 className="admin-drawer-title" id="lead-drawer-title">Fiche lead</h2>
-          <button className="admin-btn ghost" onClick={onClose}>Fermer</button>
+          <div>
+            <p className="admin-kicker">Opportunité commerciale</p>
+            <h2 className="admin-drawer-title" id="lead-drawer-title">Fiche du lead</h2>
+          </div>
+          <button type="button" className="admin-btn ghost" onClick={onClose}>Fermer</button>
         </div>
 
         {state.status === 'loading' && <Loading />}
@@ -223,68 +229,81 @@ function LeadDrawer({ id, onClose, onChanged }) {
         {state.status === 'ready' && (
           <>
             {err && <ErrorBox error={err} />}
-            <div className="admin-card">
-              <strong className="admin-lead-name">{lead.company_name || `${lead.first_name || ''} ${lead.last_name || ''}`.trim() || '—'}</strong>
-              <p className="muted admin-lead-meta">
-                {[lead.first_name, lead.last_name].filter(Boolean).join(' ')}
-              </p>
-              <p className="admin-lead-contact">{lead.email || '—'} · {lead.phone || '—'}</p>
-              <p className="muted admin-lead-meta">
-                Formulaire : {lead.source_form} · reçu le {fmt(lead.created_at)}
-              </p>
-              <p className="admin-lead-status">
-                Statut : <span className="admin-badge">{STATUS_LABELS[lead.status] || lead.status}</span>
-              </p>
-              <div className="admin-actions">
-                {Object.entries(STATUS_LABELS)
-                  .filter(([key]) => key !== lead.status)
-                  .map(([key, label]) => (
-                    <button key={key} className="admin-btn ghost" disabled={busy} onClick={() => changeStatus(key)}>
-                      → {label}
-                    </button>
-                  ))}
+            <section className="admin-lead-overview">
+              <div>
+                <p className="admin-kicker">{lead.source_form || 'Formulaire du site'}</p>
+                <strong className="admin-lead-name">{lead.company_name || 'Entreprise non renseignée'}</strong>
+                <p className="muted admin-lead-meta">Reçu le {fmt(lead.created_at)}</p>
               </div>
-              {lostReason && (
-                <div className="admin-lost-reason">
-                  <label htmlFor="lost-reason">Motif de perte</label>
-                  <select id="lost-reason" value={lostReason} onChange={(event) => setLostReason(event.target.value)}>
-                    {Object.entries(LOST_REASONS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-                  </select>
-                  <div className="admin-actions">
-                    <button className="admin-btn danger" disabled={busy} onClick={() => changeStatus('lost', lostReason)}>Confirmer la perte</button>
-                    <button className="admin-btn ghost" disabled={busy} onClick={() => setLostReason('')}>Annuler</button>
-                  </div>
-                </div>
-              )}
-            </div>
+              <label className="admin-lead-status-control">
+                <span>Statut</span>
+                <select
+                  value={lead.status || 'new'}
+                  disabled={busy}
+                  onChange={(event) => changeStatus(event.target.value)}
+                >
+                  {Object.entries(STATUS_LABELS).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+                </select>
+              </label>
+            </section>
 
-            {need && (
-              <div className="admin-card">
-                <h3>Besoin</h3>
-                <Row k="Secteur" v={need.sector} />
-                <Row k="Type de bâtiment" v={need.building_type} />
-                <Row k="Taille du site" v={need.site_size} />
-                <Row k="Type de projet" v={need.project_type} />
-                <Row k="Solution" v={need.solution_slug} />
-                <Row k="Échéance" v={need.project_timeline} />
-                <Row k="Score" v={need.qualification_score} />
-                <Row k="Message" v={need.message} />
-                {Array.isArray(need.equipment) && need.equipment.length > 0 && (
-                  <Row k="Équipements" v={need.equipment.join(', ')} />
-                )}
+            <section className="admin-card admin-lead-section">
+              <h3>Coordonnées</h3>
+              <div className="admin-lead-detail-grid">
+                <Detail k="Prénom" v={lead.first_name} />
+                <Detail k="Nom" v={lead.last_name} />
+                <Detail k="Entreprise" v={lead.company_name} />
+                <Detail k="Téléphone" v={lead.phone} href={lead.phone ? `tel:${lead.phone.replace(/\s/g, '')}` : undefined} />
+                <Detail k="E-mail" v={lead.email} href={lead.email ? `mailto:${lead.email}` : undefined} />
+              </div>
+              <div className="admin-lead-contact-actions">
+                {lead.phone && <a className="admin-btn" href={`tel:${lead.phone.replace(/\s/g, '')}`}>Appeler</a>}
+                {lead.email && <a className="admin-btn ghost" href={`mailto:${lead.email}`}>Écrire un e-mail</a>}
+              </div>
+            </section>
+
+            {lostReason && (
+              <div className="admin-lost-reason">
+                <label htmlFor="lost-reason">Motif de perte</label>
+                <select id="lost-reason" value={lostReason} onChange={(event) => setLostReason(event.target.value)}>
+                  {Object.entries(LOST_REASONS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                </select>
+                <div className="admin-actions">
+                  <button type="button" className="admin-btn danger" disabled={busy} onClick={() => changeStatus('lost', lostReason)}>Confirmer la perte</button>
+                  <button type="button" className="admin-btn ghost" disabled={busy} onClick={() => setLostReason('')}>Annuler</button>
+                </div>
               </div>
             )}
 
+            {need && (
+              <section className="admin-card admin-lead-section">
+                <h3>Besoin</h3>
+                <div className="admin-lead-detail-grid">
+                  <Detail k="Secteur" v={need.sector} />
+                  <Detail k="Type de bâtiment" v={need.building_type} />
+                  <Detail k="Surface du site" v={need.site_size} />
+                  <Detail k="Type de projet" v={need.project_type} />
+                  <Detail k="Solution" v={need.solution_slug} />
+                  <Detail k="Calendrier" v={need.project_timeline} />
+                  <Detail k="Score de qualification" v={need.qualification_score} />
+                  <Detail k="Équipements" v={Array.isArray(need.equipment) ? need.equipment.join(', ') : need.equipment} />
+                </div>
+                <Detail k="Message" v={need.message} className="admin-lead-message" />
+              </section>
+            )}
+
             {acq && (
-              <div className="admin-card">
+              <section className="admin-card admin-lead-section admin-lead-context">
                 <h3>Acquisition</h3>
-                <Row k="Landing page" v={acq.landing_page} />
-                <Row k="Référent" v={acq.referrer} />
-                <Row k="CTA" v={acq.cta_source} />
-                <Row k="UTM source / medium" v={[acq.utm_source, acq.utm_medium].filter(Boolean).join(' / ')} />
-                <Row k="Campagne" v={acq.utm_campaign} />
-                <Row k="gclid" v={acq.gclid} />
-              </div>
+                <div className="admin-lead-detail-grid">
+                  <Detail k="Page d’arrivée" v={acq.landing_page} />
+                  <Detail k="Référent" v={acq.referrer} />
+                  <Detail k="CTA cliqué" v={acq.cta_source} />
+                  <Detail k="Source / medium" v={[acq.utm_source, acq.utm_medium].filter(Boolean).join(' / ')} />
+                  <Detail k="Campagne" v={acq.utm_campaign} />
+                  <Detail k="gclid" v={acq.gclid} />
+                </div>
+              </section>
             )}
 
             <div className="admin-card">
@@ -320,12 +339,17 @@ function LeadDrawer({ id, onClose, onChanged }) {
   );
 }
 
-function Row({ k, v }) {
-  if (v == null || v === '') return null;
+function Detail({ k, v, href, className = '' }) {
+  const value = v == null || v === '' ? 'Non renseigné' : String(v);
   return (
-    <div className="admin-detail-row">
-      <span className="muted">{k}</span>
-      <span>{String(v)}</span>
+    <div className={`admin-lead-detail ${className}`}>
+      <span>{k}</span>
+      {href ? <a href={href}>{value}</a> : <strong>{value}</strong>}
     </div>
   );
+}
+
+function Row({ k, v }) {
+  if (v == null || v === '') return null;
+  return <Detail k={k} v={v} />;
 }

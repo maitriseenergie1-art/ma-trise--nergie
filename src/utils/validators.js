@@ -1,5 +1,6 @@
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const PHONE_PATTERN = /^(?:0[1-9]\d{8}|\+33[1-9]\d{8})$/;
+// Only French mobile numbers: 06, 07, +336 or +337 (separators are removed below).
+export const PHONE_PATTERN = /^(?:0[67]\d{8}|\+33[67]\d{8})$/;
 
 export function isValidEmail(value) {
   if (typeof value !== 'string') return false;

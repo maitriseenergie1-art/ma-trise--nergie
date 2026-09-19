@@ -30,7 +30,7 @@ export function buildEligibilityLeadPayload(answers, submissionId) {
       sector: siteType,
       buildingType: siteType,
       siteSize: emptyToNull(answers.size),
-      projectType: 'Installation photovoltaïque professionnelle en autofinancement',
+      projectType: 'Photovoltaïque professionnel en autofinancement',
       solutionSlug: null,
       equipment: ['Panneaux photovoltaïques / centrale solaire'],
       projectTimeline: null,
@@ -56,6 +56,7 @@ export function buildEligibilityLeadPayload(answers, submissionId) {
       policyVersion: siteConfig.privacyPolicyVersion,
     },
     website: answers.website || '',
+    turnstileToken: emptyToNull(answers.turnstileToken),
   };
 }
 

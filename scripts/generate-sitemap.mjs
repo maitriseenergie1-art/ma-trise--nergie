@@ -27,6 +27,9 @@ const contentPaths = [
   ...blogPosts
     .filter((item) => item.indexable !== false)
     .map((item) => ({ path: `/ressources/${item.slug}`, lastmod: item.updated_at || item.published_at })),
+  ...caseStudies
+    .filter((item) => item.indexable !== false)
+    .map((item) => ({ path: `/realisations/${item.slug}`, lastmod: item.updated_at || item.published_at })),
 ];
 
 const entries = [
@@ -46,7 +49,7 @@ const urls = baseUrl
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 await writeFile(new URL('../public/sitemap.xml', import.meta.url), xml);
 
-const robots = `User-agent: *\nAllow: /\nDisallow: /admin\n${baseUrl ? `\nSitemap: ${baseUrl}/sitemap.xml\n` : ''}`;
+const robots = `User-agent: *\nAllow: /\nDisallow: /admin\n\nUser-agent: GPTBot\nAllow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\nUser-agent: ClaudeBot\nAllow: /\n\nUser-agent: PerplexityBot\nAllow: /\n${baseUrl ? `\nSitemap: ${baseUrl}/sitemap.xml\n` : ''}`;
 await writeFile(new URL('../public/robots.txt', import.meta.url), robots);
 
 console.log(`[sitemap] ${entries.length} URLs écrites (${caseStudies.length} réalisations, ${blogPosts.length} articles).`);

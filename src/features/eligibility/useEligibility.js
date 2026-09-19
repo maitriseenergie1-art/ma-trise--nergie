@@ -80,7 +80,8 @@ export function useEligibility() {
     if (!lastName || lastName.length > 100) errors.lastName = 'Renseignez un nom de moins de 100 caractères.';
     if (!email || !isValidEmail(email)) errors.email = 'Renseignez une adresse email valide (avec @).';
     if (!company || company.length > 180) errors.company = 'Renseignez le nom de votre entreprise.';
-    if (!phone || !isValidPhone(phone)) errors.phone = 'Renseignez un numéro de téléphone valide à 10 chiffres.';
+    if (!phone || !isValidPhone(phone)) errors.phone = 'Indiquez un mobile français : 06, 07, +336 ou +337.';
+    if (!values.turnstileToken) errors.captcha = 'Validez la vérification anti-robot.';
     if (!values.privacy) errors.privacy = 'Votre accord est nécessaire pour transmettre la demande.';
     return errors;
   };

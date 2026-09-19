@@ -44,10 +44,10 @@ export const QUICK_LEAD_VARIANTS = {
     cta: 'Être recontacté',
   },
   eligibility: {
-    projectType: 'Étude énergétique',
-    heading: 'Vérifier mon éligibilité',
-    text: 'Laissez vos coordonnées : nous vérifions rapidement les dispositifs et leviers mobilisables pour votre projet.',
-    cta: 'Vérifier mon éligibilité',
+    projectType: 'Photovoltaïque professionnel en autofinancement',
+    heading: 'Tester mon projet photovoltaïque',
+    text: 'Surface disponible et facture électrique permettent de vérifier rapidement les premiers critères.',
+    cta: 'Tester mon éligibilité',
   },
 };
 

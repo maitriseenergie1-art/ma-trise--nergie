@@ -7,7 +7,7 @@ const clean = (value) => (typeof value === 'string' && value.trim() ? value.trim
 // Builds and submits a quick-form lead. sourceForm is "landing_page" so these
 // contextual conversions are distinguishable from the main /contact form in the
 // back office; ctaSource records which page/variant produced the lead.
-export function submitQuickLead({ submissionId, variant, context = {}, identity, message, consent, website = '' }) {
+export function submitQuickLead({ submissionId, variant, context = {}, identity, message, consent, website = '', captchaToken = '' }) {
   const acq = getAcquisitionContext();
   const key = context.key ? `_${context.key}` : '';
   return submitLead({
@@ -47,5 +47,6 @@ export function submitQuickLead({ submissionId, variant, context = {}, identity,
     },
     consent: { accepted: consent === true, policyVersion: siteConfig.privacyPolicyVersion },
     website,
+    turnstileToken: clean(captchaToken),
   });
 }

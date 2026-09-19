@@ -1,13 +1,20 @@
-const image = (id, width = 1600) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
+import { siteMedia } from './media.js';
+
+const image = (id, width = 1600) => siteMedia(
+  `images/external/${id}.webp`,
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`,
+);
 
 // References remain centralised here so a component never selects an image by itself.
 export const images = {
-  hero: '/images/mechanical-room.png',
+  hero: siteMedia('images/mechanical-room.webp', '/images/mechanical-room.webp'),
+  solarProfessional: siteMedia('images/heroes/equipe-photovoltaique-professionnelle-hero.webp', '/images/heroes/equipe-photovoltaique-professionnelle-hero.webp'),
+  teamOnSite: siteMedia('images/team/visite-technique-photovoltaique.webp', '/images/team/visite-technique-photovoltaique.webp'),
   technicalAudit: image('photo-1581094288338-2314dddb7ece'),
-  mechanicalRoom: '/images/mechanical-room.png',
-  refrigerationPlant: '/images/refrigeration-plant.png',
-  airCompressor: '/images/air-compressor-room.png',
-  industrialMotor: '/images/industrial-motor-vfd.png',
+  mechanicalRoom: siteMedia('images/mechanical-room.webp', '/images/mechanical-room.webp'),
+  refrigerationPlant: siteMedia('images/refrigeration-plant.webp', '/images/refrigeration-plant.webp'),
+  airCompressor: siteMedia('images/air-compressor-room.webp', '/images/air-compressor-room.webp'),
+  industrialMotor: siteMedia('images/industrial-motor-vfd.webp', '/images/industrial-motor-vfd.webp'),
   industrialPipes: image('photo-1620203853151-496c7228306c'),
   industrialPlant: image('photo-1769695832195-dfe7e9f36980'),
   ductwork: image('photo-1558358235-a0a93f68a52c'),

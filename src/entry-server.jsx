@@ -1,6 +1,7 @@
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import { AppShell } from './app/AppShell';
+import { ServerRoutes } from './app/ServerRoutes';
 import { seedContent } from './lib/contentStore';
 import { ssrHead } from './lib/headCollector';
 
@@ -15,7 +16,7 @@ export function render(url, preloaded) {
   ssrHead.current = null;
   const html = renderToString(
     <StaticRouter location={url}>
-      <AppShell />
+      <AppShell RoutesComponent={ServerRoutes} />
     </StaticRouter>,
   );
   return { html, head: ssrHead.current };

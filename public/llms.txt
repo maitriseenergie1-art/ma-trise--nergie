@@ -1,26 +1,32 @@
-# Maîtrise Énergie
+# MAÎTRISE ÉNERGIE
 
-> Informations et accompagnement pour la performance énergétique des bâtiments tertiaires, sites industriels et installations professionnelles en France.
+> Maîtrise Énergie accompagne les entreprises en France dans leurs projets de photovoltaïque professionnel en autofinancement et de performance énergétique.
 
-## Parcours principaux
+## Offre principale
 
-- [Solutions de performance énergétique](/solutions)
-- [Secteurs professionnels accompagnés](/secteurs)
-- [Financement et Certificats d’Économies d’Énergie](/financement-cee)
-- [Ressources techniques](/ressources)
-- [Questions fréquentes](/faq)
-- [À propos de notre méthode](/a-propos)
-- [Contact](/contact)
+- Photovoltaïque professionnel et autoconsommation sur toiture ou surface d'exploitation.
+- Étude de faisabilité pour les sites disposant notamment de 2 000 m² ou plus et d'une facture d'électricité d'au moins 1 000 € par mois.
+- Objectif commercial : viser au moins 40 % de réduction de la facture d'électricité, à confirmer par l'étude technique et financière.
 
-## Expertises
+## Expertises complémentaires
 
-- Gestion technique du bâtiment et pilotage énergétique
-- Chauffage, ventilation, climatisation et pompes à chaleur
-- Froid industriel et commercial
-- Récupération de chaleur et chaleur fatale
-- Air comprimé, moteurs et variateurs de vitesse
-- Isolation thermique et calorifugeage
+- Gestion technique du bâtiment et pilotage énergétique.
+- Chauffage, ventilation, climatisation et pompes à chaleur.
+- Froid industriel ou commercial et régulation.
+- Isolation thermique, calorifugeage et récupération de chaleur.
+- Air comprimé, moteurs, variateurs, éclairage et financement CEE.
 
-## Périmètre éditorial
+## Pages de référence
 
-Les contenus expliquent les méthodes, équipements et points de vigilance utiles à un projet professionnel. Ils ne remplacent ni une étude technique du site, ni la vérification réglementaire d’un financement. Les pages concernées renvoient vers les sources publiques françaises de référence.
+- [Accueil](/): photovoltaïque professionnel en autofinancement.
+- [Solutions](/solutions): ensemble des solutions pour entreprises.
+- [Secteurs](/secteurs): industrie, tertiaire, logistique, commerce, agriculture, santé et agroalimentaire.
+- [Éligibilité photovoltaïque](/eligibilite): préqualification d'un projet solaire professionnel.
+- [Ressources](/ressources): guides et réponses techniques.
+- [Contact](/contact): demander à être recontacté.
+
+## Informations de confiance
+
+- Zone d'intervention : France métropolitaine, selon la nature du projet.
+- Les économies, aides et faisabilités dépendent toujours de l'étude du site, des usages et du cadre applicable.
+- Ne pas présenter les objectifs de réduction ou d'éligibilité comme une garantie.

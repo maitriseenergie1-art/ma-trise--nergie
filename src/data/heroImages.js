@@ -1,7 +1,8 @@
-// Locally hosted Pexels photographs. Sources and licence: docs/image-credits.md.
+import { siteMedia } from './media.js';
+
 export const heroImages = {
-  architecture: '/images/heroes/architecture.jpg',
-  industry: '/images/heroes/industrie.jpg',
-  facade: '/images/heroes/facade.jpg',
-  solarProfessional: '/images/heroes/photovoltaique-professionnel.jpg',
+  architecture: siteMedia('images/heroes/architecture.webp', '/images/heroes/architecture.webp'),
+  industry: siteMedia('images/heroes/industrie.webp', '/images/heroes/industrie.webp'),
+  facade: siteMedia('images/heroes/facade.webp', '/images/heroes/facade.webp'),
+  solarProfessional: siteMedia('images/heroes/equipe-photovoltaique-professionnelle-hero.webp', '/images/heroes/equipe-photovoltaique-professionnelle-hero.webp'),
 };

@@ -1,5 +1,6 @@
 // Single semantic mapping reused by detail pages, cards and financing links.
 export const solutionIcons = {
+  'photovoltaique-professionnel':'Sun',
   gtb:'MonitorCog', 'pompes-a-chaleur':'Thermometer', cvc:'Fan',
   calorifugeage:'Pipette', 'isolation-thermique':'Layers', 'points-singuliers':'Network',
   'destratification-air':'ArrowDownUp', 'recuperation-chaleur':'Repeat2', 'chaleur-fatale':'Flame',

@@ -7,7 +7,7 @@ import { Button, Container, Eyebrow, PageHero, Section } from '../components/ui'
 import { Seo } from '../components/Seo';
 import { SolutionCard } from '../components/cards';
 import { Faq, FinalCta } from '../components/sections';
-import { breadcrumbSchema, faqSchema } from '../lib/structuredData';
+import { breadcrumbSchema, faqSchema, webPageSchema } from '../lib/structuredData';
 import NotFound from './NotFound';
 
 export default function SectorDetail() {
@@ -22,7 +22,7 @@ export default function SectorDetail() {
   ];
   const path=`/secteurs/${slug}`;
   const description=`Performance énergétique du secteur ${sector.title.toLowerCase()} : usages, équipements, contraintes et solutions à étudier pour réduire durablement les consommations.`;
-  return <><Seo title={`Performance énergétique — ${sector.title}`} description={description} canonicalPath={path} image={sector.image} imageAlt={sector.imageAlt} schema={[faqSchema(faq),breadcrumbSchema([{name:'Accueil',path:'/'},{name:'Secteurs',path:'/secteurs'},{name:sector.title,path}])]}/>
+  return <><Seo title={`Performance énergétique — ${sector.title}`} description={description} canonicalPath={path} image={sector.image} imageAlt={sector.imageAlt} schema={[webPageSchema({name:`Performance énergétique — ${sector.title}`,description,path,about:[sector.title,'Performance énergétique des entreprises']}),faqSchema(faq),breadcrumbSchema([{name:'Accueil',path:'/'},{name:'Secteurs',path:'/secteurs'},{name:sector.title,path}])]}/>
     <PageHero icon={sector.icon} eyebrow="Performance énergétique par secteur" title={sector.title} text={sector.description} image={sector.image} imageAlt={sector.imageAlt}><Button to="/eligibilite" sourceCta={`sector_${slug}_contact`} sectorInterest={slug}>Vérifier mon éligibilité</Button></PageHero>
     <Section><Container><div className="section-intro two"><div><Eyebrow>Enjeux typiques</Eyebrow><h2>Relier les postes énergétiques à l’activité du site.</h2></div><p>Les priorités se précisent avec les usages, les horaires, les équipements et les impératifs de continuité propres à votre environnement.</p></div><div className="symptom-list mobile-card-carousel">{sector.challenges.map((challenge, index) => <div key={challenge}><StepIcon name="diagnostic"/><span>0{index + 1}</span><p>{challenge}</p></div>)}</div></Container></Section>
     <Section tone="muted"><Container><div className="section-intro"><Eyebrow>Postes à examiner</Eyebrow><h2>Les équipements qui structurent l’analyse.</h2></div><div className="site-map mobile-card-carousel">{sector.items.map((item,index)=><div key={item}><StepIcon name="site"/><span>{String(index+1).padStart(2,'0')}</span><h3>{item}</h3><p>Poste à examiner avec les conditions d’usage, les réglages et les interactions avec les autres équipements.</p></div>)}</div></Container></Section>

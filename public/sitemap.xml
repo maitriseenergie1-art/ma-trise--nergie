@@ -4,12 +4,12 @@
   <url><loc>http://localhost:5173/solutions</loc></url>
   <url><loc>http://localhost:5173/secteurs</loc></url>
   <url><loc>http://localhost:5173/financement-cee</loc></url>
-  <url><loc>http://localhost:5173/blog</loc></url>
   <url><loc>http://localhost:5173/ressources</loc></url>
   <url><loc>http://localhost:5173/a-propos</loc></url>
   <url><loc>http://localhost:5173/contact</loc></url>
   <url><loc>http://localhost:5173/faq</loc></url>
   <url><loc>http://localhost:5173/plan-du-site</loc></url>
+  <url><loc>http://localhost:5173/solutions/photovoltaique-professionnel</loc></url>
   <url><loc>http://localhost:5173/solutions/gtb</loc></url>
   <url><loc>http://localhost:5173/solutions/pompes-a-chaleur</loc></url>
   <url><loc>http://localhost:5173/solutions/cvc</loc></url>
@@ -31,13 +31,7 @@
   <url><loc>http://localhost:5173/secteurs/commerce</loc></url>
   <url><loc>http://localhost:5173/secteurs/agroalimentaire</loc></url>
   <url><loc>http://localhost:5173/secteurs/sante</loc></url>
-  <url><loc>http://localhost:5173/ressources/cee-projet-energie</loc><lastmod>2026-09-10</lastmod></url>
-  <url><loc>http://localhost:5173/ressources/air-comprime-pertes</loc><lastmod>2026-09-10</lastmod></url>
-  <url><loc>http://localhost:5173/ressources/comprendre-la-gtb</loc><lastmod>2026-09-10</lastmod></url>
-  <url><loc>http://localhost:5173/ressources/valoriser-la-chaleur</loc><lastmod>2026-09-10</lastmod></url>
-  <url><loc>http://localhost:5173/ressources/destratification-entrepot</loc><lastmod>2026-09-10</lastmod></url>
-  <url><loc>http://localhost:5173/ressources/regulation-froid</loc><lastmod>2026-09-10</lastmod></url>
-  <url><loc>http://localhost:5173/blog/haute-pression-flottante-froid</loc><lastmod>2026-09-09</lastmod></url>
-  <url><loc>http://localhost:5173/blog/audit-energetique-par-ou-commencer</loc><lastmod>2026-09-09</lastmod></url>
-  <url><loc>http://localhost:5173/blog/comprendre-les-cee</loc><lastmod>2026-09-09</lastmod></url>
+  <url><loc>http://localhost:5173/ressources/haute-pression-flottante-froid</loc><lastmod>2026-09-19</lastmod></url>
+  <url><loc>http://localhost:5173/ressources/audit-energetique-par-ou-commencer</loc><lastmod>2026-09-19</lastmod></url>
+  <url><loc>http://localhost:5173/ressources/comprendre-les-cee</loc><lastmod>2026-09-19</lastmod></url>
 </urlset>

@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: 'MAÎTRISE ÉNERGIE',
-  description: 'Étude et amélioration de la performance énergétique des bâtiments tertiaires, sites industriels et installations professionnelles.',
+  description: 'Photovoltaïque professionnel en autofinancement et solutions de performance énergétique pour les entreprises en France.',
   // Renseigné via VITE_SITE_URL ; fallback sur l'origine courante au runtime.
   siteUrl: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) || '',
-  defaultShareImage: '/og-social.png',
+  defaultShareImage: '/og-social.jpg',
   privacyPolicyVersion: 'site-demo-v1', // À versionner avec toute évolution de la politique publiée.
   contact: {
     phone: '+33 7 68 49 59 45',

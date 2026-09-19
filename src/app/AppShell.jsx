@@ -2,11 +2,9 @@ import { Suspense, lazy, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PageMotion } from '../components/PageMotion';
 import { Header, Footer, ScrollToTop } from '../components/Layout';
-import { MobileEligibilityCta } from '../components/sections';
 import { Seo } from '../components/Seo';
 import { captureInitialAcquisition } from '../services/acquisition';
 import { initTrafficTracking, trackPageView } from '../services/trafficTracking';
-import { AppRoutes } from './router';
 
 const AdminApp = lazy(() => import('../features/admin/AdminApp'));
 
@@ -32,7 +30,7 @@ function RouteAnalytics() {
 
 // Router-agnostic application tree. Wrapped in BrowserRouter for the browser
 // (App) and StaticRouter for the build-time prerender (entry-server).
-export function AppShell() {
+export function AppShell({ RoutesComponent }) {
   const { pathname } = useLocation();
 
   // The back office is a standalone app: no public header, footer or motion.
@@ -56,9 +54,8 @@ export function AppShell() {
       <Header />
       <div className="public-stage">
         <PageMotion>
-          <AppRoutes />
+          <RoutesComponent />
         </PageMotion>
-        <MobileEligibilityCta />
         <Footer />
       </div>
     </div>

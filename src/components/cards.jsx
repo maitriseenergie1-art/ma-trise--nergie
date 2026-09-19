@@ -18,6 +18,18 @@ export function SolutionCard({solution}) {
     </div>
   </article>;
 }
+
+export function CompactSolutionCard({ solution }) {
+  return <article className="compact-solution-card">
+    <Link to={`/solutions/${solution.slug}`} onClick={()=>trackEvent('cta_click',{sourceCta:'home_complementary_solution',solutionInterest:solution.slug})}>
+      <span className="compact-solution-icon"><BusinessIcon name={solution.icon} size={24}/></span>
+      <span className="compact-solution-category">{solution.category}</span>
+      <h3>{solution.title}</h3>
+      <p>{solution.benefit || solution.summary}</p>
+      <span className="compact-solution-link">Découvrir <ArrowRight size={18}/></span>
+    </Link>
+  </article>;
+}
 export function SectorCard({sector}) { return <Link className="sector-card" to={`/secteurs/${sector.slug}`}><img src={sector.image} alt={sector.imageAlt} loading="lazy"/><div><BusinessIcon name={sector.icon} size={30}/><h3>{sector.title}</h3><p>{sector.description}</p><ArrowRight/></div></Link>; }
 export function CaseCard({item}) {
   const image = item.cover_image_url || item.image;
