@@ -217,7 +217,7 @@ export function FloatingContactHub() {
                   {field('email', 'E-mail professionnel', { type: 'email', autoComplete: 'email', maxLength: 254 })}
                 </div>
                 <div className="contact-trap" aria-hidden="true"><input name="website" tabIndex="-1" autoComplete="off" value={values.website} onChange={(event) => setValue('website', event.target.value)} /></div>
-                <Turnstile ref={captchaRef} action="floating_lead" onTokenChange={(token) => setValue('turnstileToken', token)} />
+                <Turnstile ref={captchaRef} action="eligibility" onTokenChange={(token) => setValue('turnstileToken', token)} />
                 {errors.captcha && <small className="field-error">{errors.captcha}</small>}
                 <label className="floating-lead-privacy">
                   <input type="checkbox" checked={values.privacy} onChange={(event) => setValue('privacy', event.target.checked)} aria-invalid={Boolean(errors.privacy)} />

@@ -1,4 +1,5 @@
 import { admin, supabaseConfigured } from './_lib/supabaseAdmin.mjs';
+import { getClientIp, getExpectedTurnstileHostname, verifyTurnstile } from './_lib/turnstile.mjs';
 
 export const config = { path: '/api/lead' };
 
@@ -7,7 +8,6 @@ const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FRENCH_MOBILE = /^(?:0[67]\d{8}|\+33[67]\d{8})$/;
 const PROJECT_TYPES = new Set(['Photovoltaïque professionnel en autofinancement','Gestion technique du bâtiment (GTB) et pilotage énergétique','Chauffage, ventilation, climatisation et pompes à chaleur','Froid industriel ou commercial et régulation','Isolation thermique et calorifugeage','Récupération de chaleur et chaleur fatale','Air comprimé, moteurs, variateurs ou éclairage','Financement CEE']);
-const TURNSTILE_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 const CORS = {
   'access-control-allow-origin': '*',
@@ -28,16 +28,6 @@ const str = (v, max) => {
 };
 
 const phone = (value) => str(value, 64)?.replace(/[\s.\-()]/g, '') || null;
-async function verifyTurnstile(token, expectedAction, expectedHostname) {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret || !token) return false;
-  const body = new URLSearchParams({ secret, response: token });
-  const response = await fetch(TURNSTILE_URL, { method: 'POST', body, signal: AbortSignal.timeout(8000) });
-  const result = await response.json();
-  if (!result.success || result.action !== expectedAction) return false;
-  return !expectedHostname || result.hostname === expectedHostname;
-}
-
 export default async function handler(req) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
   if (req.method !== 'POST') return j({ ok: false, error: 'method_not_allowed' }, 405);
@@ -52,11 +42,14 @@ export default async function handler(req) {
   }
 
   const expectedAction = payload.sourceForm === 'contact' ? 'contact' : payload.sourceForm === 'eligibility' ? 'eligibility' : 'lead';
-  const origin = req.headers.get('origin');
-  let expectedHostname = null;
-  try { expectedHostname = origin ? new URL(origin).hostname : null; } catch { return j({ ok: false, type: 'validation', fields: { origin: 'INVALID_ORIGIN' } }, 400); }
+  const expectedHostname = getExpectedTurnstileHostname(req);
   try {
-    if (!await verifyTurnstile(payload.turnstileToken, expectedAction, expectedHostname)) return j({ ok: false, type: 'validation', fields: { captcha: 'INVALID_CAPTCHA' } }, 400);
+    if (!await verifyTurnstile({
+      token: payload.turnstileToken,
+      expectedAction,
+      expectedHostname,
+      remoteIp: getClientIp(req),
+    })) return j({ ok: false, type: 'validation', fields: { captcha: 'INVALID_CAPTCHA' } }, 400);
   } catch { return j({ ok: false, type: 'validation', fields: { captcha: 'INVALID_CAPTCHA' } }, 400); }
 
   const fields = {};

@@ -23,8 +23,9 @@ export const Turnstile = forwardRef(function Turnstile({ action = 'lead', onToke
   const [failed, setFailed] = useState(false);
   const reset = useCallback(() => {
     setToken('');
+    onTokenChange?.('');
     if (widgetRef.current !== null && window.turnstile) window.turnstile.reset(widgetRef.current);
-  }, []);
+  }, [onTokenChange]);
   useImperativeHandle(ref, () => ({ reset }), [reset]);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export const Turnstile = forwardRef(function Turnstile({ action = 'lead', onToke
         sitekey: siteKey, action, theme: 'light', appearance: 'always', size: 'flexible',
         callback: (value) => { if (active) { setToken(value); onTokenChange?.(value); setFailed(false); } },
         'expired-callback': () => { if (active) { setToken(''); onTokenChange?.(''); } },
-        'error-callback': () => { if (active) { setToken(''); setFailed(true); } },
+        'error-callback': () => { if (active) { setToken(''); onTokenChange?.(''); setFailed(true); } },
       });
     }).catch(() => active && setFailed(true));
     return () => { active = false; if (widgetRef.current !== null && window.turnstile) window.turnstile.remove(widgetRef.current); };
