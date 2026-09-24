@@ -1,5 +1,4 @@
 import { MidContact } from '../components/MidContact';
-import { heroImages } from '../data/heroImages';
 import { CardCarousel } from '../components/CardCarousel';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, HandHeart, Layers3, LockKeyhole, ScanSearch, Sun, Building2, ReceiptText, BadgeEuro, ChartNoAxesCombined, PhoneCall, UsersRound } from 'lucide-react';
@@ -126,19 +125,68 @@ function LargeSitesVideoShowcase() {
 
 function FundingPreview() {
   const steps = [[ClipboardCheck, 'Consommation'], [ScanSearch, 'Production'], [Landmark, 'Montage'], [Wrench, 'Installation']];
-  return <Section className="funding-preview"><Container><div><Eyebrow>Autofinancement photovoltaïque</Eyebrow><h2>Faire travailler les économies pour financer la centrale.</h2><p className="lead small">L’étude économique rapproche la production attendue, votre autoconsommation et les conditions du montage. L’autofinancement reste soumis à validation du projet.</p><Button to="/eligibilite" variant="secondary" sourceCta="home_financing">Vérifier les premiers critères</Button></div><ol className="funding-preview-flow" aria-label="Étapes d’étude de l’autofinancement">{steps.map(([Icon, label], index) => <li className={`funding-step${index === 2 ? ' funding-step-active' : ''}`} key={label}><span className="funding-step-icon"><Icon size={22} strokeWidth={1.8} aria-hidden="true"/></span><span className="funding-step-label">{label}</span></li>)}</ol></Container></Section>;
+  return <Section className="funding-preview"><Container><div className="funding-preview-main"><div><Eyebrow>Autofinancement photovoltaïque</Eyebrow><h2>Faire travailler les économies pour financer la centrale.</h2><p className="lead small">L’étude économique rapproche la production attendue, votre autoconsommation et les conditions du montage. L’autofinancement reste soumis à validation du projet.</p></div><aside className="solar-offer-card funding-eligibility-card" aria-label="Principaux critères de préqualification"><Eyebrow>Votre site est-il éligible&nbsp;?</Eyebrow><h3>Deux critères pour commencer.</h3><div className="solar-criterion"><Building2 aria-hidden="true"/><span><small>Surface disponible</small><strong>2 000 m² minimum</strong></span></div><div className="solar-criterion"><ReceiptText aria-hidden="true"/><span><small>Facture d’électricité</small><strong>1 000 € / mois minimum</strong></span></div><p>Toiture, parking, foncier ou surface d’exploitation : une étude valide ensuite le potentiel réel du site.</p><Button to="/eligibilite" sourceCta="home_financing_criteria">Tester mon projet</Button></aside></div><ol className="funding-preview-flow" aria-label="Étapes d’étude de l’autofinancement">{steps.map(([Icon, label], index) => <li className={`funding-step${index === 2 ? ' funding-step-active' : ''}`} key={label}><span className="funding-step-icon"><Icon size={22} strokeWidth={1.8} aria-hidden="true"/></span><span className="funding-step-label">{label}</span></li>)}</ol></Container></Section>;
 }
 
 function SolarJourney() {
+  const journeyRef = useRef(null);
   const steps = [
     [ScanSearch, 'Préqualifier le site', 'Nous vérifions la surface disponible, la facture d’électricité et le profil de consommation de votre entreprise.'],
     [Sun, 'Dimensionner la centrale', 'L’étude croise toiture ou foncier, contraintes techniques et potentiel de production solaire.'],
     [BadgeEuro, 'Structurer l’autofinancement', 'Le montage économique est étudié pour faire financer l’installation par les économies générées, selon la faisabilité du projet.'],
     [ChartNoAxesCombined, 'Produire et suivre', 'La centrale est mise en service puis suivie pour piloter la production et l’autoconsommation.'],
   ];
+
+  useEffect(() => {
+    const journey = journeyRef.current;
+    if (!journey) return undefined;
+    const items = [...journey.querySelectorAll('.solar-story-step')];
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      journey.style.setProperty('--journey-progress', '1');
+      items.forEach((item) => item.classList.add('is-visible'));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.28, rootMargin: '0px 0px -8% 0px' });
+    items.forEach((item) => observer.observe(item));
+
+    let frame = 0;
+    const updateProgress = () => {
+      frame = 0;
+      const rect = journey.getBoundingClientRect();
+      const start = window.innerHeight * 0.72;
+      const end = window.innerHeight * 0.28;
+      const progress = Math.min(1, Math.max(0, (start - rect.top) / (rect.height + start - end)));
+      journey.style.setProperty('--journey-progress', String(progress));
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateProgress);
+    };
+    updateProgress();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      observer.disconnect();
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
   return <Section className="solar-journey"><Container>
-    <div className="section-intro two"><div><Eyebrow>Votre projet solaire</Eyebrow><h2>De la toiture à une électricité produite sur site.</h2></div><p>Un parcours conçu pour les entreprises disposant de grandes surfaces et d’une consommation électrique régulière.</p></div>
-    <div className="solar-journey-grid">{steps.map(([Icon, title, text], index) => <article key={title}><span><small>0{index + 1}</small><Icon size={23} aria-hidden="true"/></span><h3>{title}</h3><p>{text}</p></article>)}</div>
+    <div className="solar-journey-intro"><Eyebrow>Votre projet solaire</Eyebrow><h2>De la toiture à une électricité produite sur site.</h2><p>Suivez les quatre étapes d’un projet conçu pour les entreprises disposant de grandes surfaces et d’une consommation électrique régulière.</p></div>
+    <div className="solar-story" ref={journeyRef}>
+      <div className="solar-story-line" aria-hidden="true"><i /></div>
+      {steps.map(([Icon, title, text], index) => <article className="solar-story-step" key={title}>
+        <span className="solar-story-marker" aria-hidden="true"><Icon size={24}/></span>
+        <div className="solar-story-card"><span>Étape 0{index + 1}</span><h3>{title}</h3><p>{text}</p></div>
+      </article>)}
+    </div>
   </Container></Section>;
 }
 
@@ -163,7 +211,7 @@ function DeferredBelowFoldContent() {
 export default function Home() {
   const homeFaq=[["À qui s’adresse l’offre photovoltaïque ?", "En priorité aux entreprises disposant d’au moins 2 000 m² de toiture ou de surface d’exploitation et payant au moins 1 000 € d’électricité par mois."], ["L’installation réduit-elle toujours la facture de 40 % ?", "40 % est l’objectif de réduction visé. Le résultat dépend du profil de consommation, de la surface exploitable, de l’ensoleillement et du dimensionnement confirmé par l’étude."], ["Comment fonctionne l’autofinancement ?", "Le montage est étudié pour que les économies générées contribuent au financement de l’installation. Sa faisabilité et ses conditions sont validées au cas par cas."]];
   return <><Seo title="Photovoltaïque professionnel en autofinancement" description="Centrale solaire pour professionnels : visez au moins 40 % de réduction sur votre facture d’électricité grâce à une installation étudiée en autofinancement." canonicalPath="/" schema={[organizationSchema(),websiteSchema(),webPageSchema({name:'Photovoltaïque professionnel en autofinancement',description:'Centrale solaire et autoconsommation pour entreprises.',path:'/',about:['Photovoltaïque professionnel','Autoconsommation solaire','Performance énergétique des entreprises']}),faqSchema(homeFaq)]}/>
-    <section className="home-hero immersive-hero home-hero-structured solar-hero"><img className="hero-background" src={heroImages.solarProfessional} alt="Centrale photovoltaïque installée sur la toiture d’un site professionnel" fetchPriority="high"/><Container><div className="home-hero-layout"><div className="hero-copy"><Eyebrow>Photovoltaïque pour les professionnels</Eyebrow><h1>Réduisez d’au moins 40&nbsp;% votre facture d’électricité grâce au solaire.</h1><p>Transformez votre toiture ou votre surface d’exploitation en centrale solaire, avec une installation étudiée en autofinancement et dimensionnée pour votre consommation.</p><div className="button-row"><Button to="/eligibilite" sourceCta="home_hero_solar_eligibility">Vérifier mon éligibilité</Button><Button to="/contact" variant="secondary" sourceCta="home_hero_solar_advisor">Parler à un conseiller</Button></div><div className="hero-confidence"><LockKeyhole aria-hidden="true"/><span><strong>Préqualification confidentielle en 2 minutes</strong><small>Objectif de réduction et autofinancement à confirmer par l’étude de votre site.</small></span></div></div><aside className="solar-offer-card" aria-label="Principaux critères de préqualification"><Eyebrow>Votre site est-il éligible&nbsp;?</Eyebrow><h2>Deux critères pour commencer.</h2><div className="solar-criterion"><Building2 aria-hidden="true"/><span><small>Surface disponible</small><strong>2 000 m² minimum</strong></span></div><div className="solar-criterion"><ReceiptText aria-hidden="true"/><span><small>Facture d’électricité</small><strong>1 000 € / mois minimum</strong></span></div><p>Toiture, parking, foncier ou surface d’exploitation : une étude valide ensuite le potentiel réel du site.</p><Button to="/eligibilite" sourceCta="home_criteria_eligibility">Tester mon projet</Button></aside></div><div className="hero-reassurance" aria-label="Bénéfices de l’offre photovoltaïque"><span><strong>≥ 40 % visés</strong><small>sur la facture d’électricité</small></span><span><strong>Autofinancement étudié</strong><small>à partir des économies générées</small></span><span><strong>Projet clé en main</strong><small>étude, installation et suivi</small></span></div></Container></section>
+    <section className="home-hero immersive-hero home-hero-structured solar-hero"><Container><div className="home-hero-layout"><div className="hero-copy"><Eyebrow>Photovoltaïque pour les professionnels</Eyebrow><h1>Réduisez <span className="hero-animated-underline">d’au moins 40&nbsp;% votre facture d’électricité</span> grâce au solaire.</h1><p>Transformez votre toiture ou votre surface d’exploitation en centrale solaire, avec une installation étudiée en autofinancement et dimensionnée pour votre consommation.</p><div className="button-row"><Button to="/eligibilite" sourceCta="home_hero_solar_eligibility">Vérifier mon éligibilité</Button><Button to="/contact" variant="secondary" sourceCta="home_hero_solar_advisor">Parler à un conseiller</Button></div><div className="hero-confidence"><LockKeyhole aria-hidden="true"/><span><strong>Préqualification confidentielle en 2 minutes</strong><small>Objectif de réduction et autofinancement à confirmer par l’étude de votre site.</small></span></div></div><figure className="solar-hero-visual"><div className="solar-hero-image"><img src="/centre-photovoltaique-maitrise-energie.jpg" alt="Centre professionnel équipé de panneaux photovoltaïques sur sa toiture" width="1536" height="1024" fetchPriority="high"/></div><figcaption><img src="/logo-mark-64.webp" alt="" width="32" height="32"/><span><strong>MAÎTRISE ÉNERGIE</strong><small>Photovoltaïque professionnel</small></span></figcaption></figure></div><div className="hero-reassurance" aria-label="Bénéfices de l’offre photovoltaïque"><span><strong>≥ 40 % visés</strong><small>sur la facture d’électricité</small></span><span><strong>Autofinancement étudié</strong><small>à partir des économies générées</small></span><span><strong>Projet clé en main</strong><small>étude, installation et suivi</small></span></div></Container></section>
     <SolarJourney/>
     <Section tone="dark" className="home-expertise"><Container><div className="section-intro"><Eyebrow>Solutions complémentaires</Eyebrow><h2>Les autres leviers de performance énergétique.</h2><p className="lead small">Après le photovoltaïque, nous pouvons étudier les autres postes de consommation de vos bâtiments et installations : CVC, froid, isolation, chaleur, éclairage et pilotage.</p></div><CardCarousel label="Nos solutions complémentaires">{solutions.filter((solution) => solution.slug !== 'photovoltaique-professionnel').map((solution) => <CompactSolutionCard solution={solution} key={solution.slug}/>)}</CardCarousel></Container></Section>
     <Section className="home-sectors"><Container><SectorCarousel/></Container></Section>

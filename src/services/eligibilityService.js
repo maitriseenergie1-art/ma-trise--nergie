@@ -10,7 +10,7 @@ const qualificationScore = (answers) => {
   return (surfaceOk ? 50 : 0) + (billOk ? 50 : 0);
 };
 
-export function buildEligibilityLeadPayload(answers, submissionId) {
+export function buildEligibilityLeadPayload(answers, submissionId, ctaSource) {
   const acquisition = getAcquisitionContext();
   const siteType = emptyToNull(answers.building);
 
@@ -33,14 +33,17 @@ export function buildEligibilityLeadPayload(answers, submissionId) {
       projectType: 'Photovoltaïque professionnel en autofinancement',
       solutionSlug: null,
       equipment: ['Panneaux photovoltaïques / centrale solaire'],
-      projectTimeline: null,
-      message: answers.monthlyBill ? `Facture d’électricité mensuelle : ${answers.monthlyBill}` : null,
+      projectTimeline: emptyToNull(answers.timeline),
+      message: [
+        answers.monthlyBill ? `Facture d’électricité mensuelle : ${answers.monthlyBill}` : '',
+        answers.postalCode ? `Code postal du site : ${answers.postalCode}` : '',
+      ].filter(Boolean).join(' · ') || null,
       qualificationScore: qualificationScore(answers),
     },
     acquisition: {
       landingPage: emptyToNull(acquisition.landingPage),
       referrer: emptyToNull(acquisition.referrer),
-      ctaSource: emptyToNull(acquisition.sourceCta) || 'direct_eligibility',
+      ctaSource: emptyToNull(ctaSource) || emptyToNull(acquisition.sourceCta) || 'direct_eligibility',
       utmSource: emptyToNull(acquisition.utm_source),
       utmMedium: emptyToNull(acquisition.utm_medium),
       utmCampaign: emptyToNull(acquisition.utm_campaign),
@@ -61,5 +64,5 @@ export function buildEligibilityLeadPayload(answers, submissionId) {
 }
 
 export const eligibilityService = {
-  submit: (answers, submissionId) => submitLead(buildEligibilityLeadPayload(answers, submissionId)),
+  submit: (answers, submissionId, ctaSource) => submitLead(buildEligibilityLeadPayload(answers, submissionId, ctaSource)),
 };

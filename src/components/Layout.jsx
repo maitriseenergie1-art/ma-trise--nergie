@@ -80,7 +80,6 @@ export function Header() {
         </div>
       </div>
     </header>
-    <a className={`mobile-contact-cta ${open ? 'is-hidden' : ''}`} href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`} onClick={() => trackEvent('phone_clicked', { channel: 'fixed_mobile_cta' })}>Nous contacter</a>
     {open && <button className="rail-backdrop" type="button" aria-label="Fermer le menu" onClick={() => setOpen(false)} />}
   </>;
 }

@@ -5,6 +5,7 @@ import { Header, Footer, ScrollToTop } from '../components/Layout';
 import { Seo } from '../components/Seo';
 import { captureInitialAcquisition } from '../services/acquisition';
 import { initTrafficTracking, trackPageView } from '../services/trafficTracking';
+import { FloatingContactHub } from '../features/floatingContact/FloatingContactHub';
 
 const AdminApp = lazy(() => import('../features/admin/AdminApp'));
 
@@ -52,6 +53,7 @@ export function AppShell({ RoutesComponent }) {
       <ScrollToTop />
       <a className="skip-link" href="#main-content">Aller au contenu principal</a>
       <Header />
+      <FloatingContactHub />
       <div className="public-stage">
         <PageMotion>
           <RoutesComponent />
