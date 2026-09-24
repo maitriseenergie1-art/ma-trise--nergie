@@ -1,6 +1,7 @@
 import { siteConfig } from '../config/siteConfig';
 import { getAcquisitionContext } from './acquisition';
 import { submitLead } from './leadService';
+import { getOpenAIAdsMeasurementContext } from './openaiAdsPixel';
 
 const emptyToNull = (value) => typeof value === 'string' && value.trim() ? value.trim() : null;
 
@@ -12,6 +13,7 @@ const qualificationScore = (answers) => {
 
 export function buildEligibilityLeadPayload(answers, submissionId, ctaSource) {
   const acquisition = getAcquisitionContext();
+  const adsMeasurement = getOpenAIAdsMeasurementContext();
   const siteType = emptyToNull(answers.building);
 
   return {
@@ -53,10 +55,13 @@ export function buildEligibilityLeadPayload(answers, submissionId, ctaSource) {
       gbraid: emptyToNull(acquisition.gbraid),
       wbraid: emptyToNull(acquisition.wbraid),
       fbclid: emptyToNull(acquisition.fbclid),
+      oppref: emptyToNull(acquisition.oppref),
+      openaiBrowserRef: emptyToNull(adsMeasurement.browserRef),
     },
     consent: {
       accepted: answers.privacy === true,
       policyVersion: siteConfig.privacyPolicyVersion,
+      adsMeasurement: adsMeasurement.consentGranted,
     },
     website: answers.website || '',
     turnstileToken: emptyToNull(answers.turnstileToken),

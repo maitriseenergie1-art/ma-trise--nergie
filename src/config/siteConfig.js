@@ -4,7 +4,7 @@ export const siteConfig = {
   // Renseigné via VITE_SITE_URL ; fallback sur l'origine courante au runtime.
   siteUrl: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) || '',
   defaultShareImage: '/og-social.jpg',
-  privacyPolicyVersion: 'site-demo-v1', // À versionner avec toute évolution de la politique publiée.
+  privacyPolicyVersion: '2026-09-legal-v2', // À versionner avec toute évolution de la politique publiée.
   contact: {
     phone: '+33 7 68 49 59 45',
     email: 'contact@maitrise-energie.fr',

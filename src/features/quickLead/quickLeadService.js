@@ -1,6 +1,7 @@
 import { siteConfig } from '../../config/siteConfig';
 import { getAcquisitionContext } from '../../services/acquisition';
 import { submitLead } from '../../services/leadService';
+import { getOpenAIAdsMeasurementContext } from '../../services/openaiAdsPixel';
 
 const clean = (value) => (typeof value === 'string' && value.trim() ? value.trim() : null);
 
@@ -9,6 +10,7 @@ const clean = (value) => (typeof value === 'string' && value.trim() ? value.trim
 // back office; ctaSource records which page/variant produced the lead.
 export function submitQuickLead({ submissionId, variant, context = {}, identity, message, consent, website = '', captchaToken = '' }) {
   const acq = getAcquisitionContext();
+  const adsMeasurement = getOpenAIAdsMeasurementContext();
   const key = context.key ? `_${context.key}` : '';
   return submitLead({
     submissionId,
@@ -44,8 +46,10 @@ export function submitQuickLead({ submissionId, variant, context = {}, identity,
       gbraid: clean(acq.gbraid),
       wbraid: clean(acq.wbraid),
       fbclid: clean(acq.fbclid),
+      oppref: clean(acq.oppref),
+      openaiBrowserRef: clean(adsMeasurement.browserRef),
     },
-    consent: { accepted: consent === true, policyVersion: siteConfig.privacyPolicyVersion },
+    consent: { accepted: consent === true, policyVersion: siteConfig.privacyPolicyVersion, adsMeasurement: adsMeasurement.consentGranted },
     website,
     turnstileToken: clean(captchaToken),
   });

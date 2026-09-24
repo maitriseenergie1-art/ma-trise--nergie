@@ -44,6 +44,7 @@ export function ServerRoutes() {
     <Route path="/mentions-legales" element={<Legal pageKey="mentions-legales" />} />
     <Route path="/politique-de-confidentialite" element={<Legal pageKey="politique-de-confidentialite" />} />
     <Route path="/gestion-des-cookies" element={<Legal pageKey="gestion-des-cookies" />} />
+    <Route path="/conditions-generales-utilisation" element={<Legal pageKey="conditions-generales-utilisation" />} />
     <Route path="*" element={<NotFound />} />
   </Routes>;
 }

@@ -1,3 +1,5 @@
+import { trackOpenAILeadCreated } from './openaiAdsPixel';
+
 const REQUEST_TIMEOUT_MS = 12_000;
 
 function parseResponseBody(response) {
@@ -30,6 +32,7 @@ export async function submitLead(payload) {
       && body.submissionId === payload.submissionId
       && typeof body.replayed === 'boolean'
     ) {
+      trackOpenAILeadCreated(body.submissionId);
       return { ok: true, leadId: body.leadId, trackingId: body.trackingId || payload.trackingId, submissionId: body.submissionId, replayed: body.replayed === true };
     }
     if (response.status === 204) return { ok: true, ignored: true };

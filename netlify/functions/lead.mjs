@@ -1,4 +1,5 @@
 import { admin, supabaseConfigured } from './_lib/supabaseAdmin.mjs';
+import { sendOpenAILeadCreated } from './_lib/openaiConversions.mjs';
 import { getClientIp, getExpectedTurnstileHostname, verifyTurnstile } from './_lib/turnstile.mjs';
 
 export const config = { path: '/api/lead' };
@@ -122,6 +123,25 @@ export default async function handler(req) {
 
   const row = data?.[0];
   if (!row?.lead_id) return j({ ok: false, type: 'server' }, 500);
+
+  // Best effort: the lead remains valid even if the advertising endpoint is
+  // unavailable. The submission UUID is shared with the browser Pixel so
+  // OpenAI can deduplicate both copies of the same conversion.
+  if (payload.consent?.adsMeasurement === true) {
+    const conversion = await sendOpenAILeadCreated({
+      eventId: submissionId,
+      sourceUrl: str(acq.landingPage, 2048),
+      siteUrl: process.env.SITE_URL || process.env.URL || 'https://maitrise-energie.fr',
+      oppref: str(acq.oppref, 2048),
+      browserRef: str(acq.openaiBrowserRef, 512),
+    });
+    if (!conversion.ok && !conversion.skipped) {
+      console.warn('[lead] OpenAI conversion not delivered', {
+        status: conversion.status || null,
+        error: conversion.error || null,
+      });
+    }
+  }
 
   return j(
     {

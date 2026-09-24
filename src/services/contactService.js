@@ -1,11 +1,13 @@
 import { siteConfig } from '../config/siteConfig';
 import { getAcquisitionContext } from './acquisition';
 import { submitContactLead } from './leadService';
+import { getOpenAIAdsMeasurementContext } from './openaiAdsPixel';
 
 const emptyToNull = (value) => typeof value === 'string' && value.trim() ? value.trim() : null;
 
 export function buildContactLeadPayload({ submissionId, identity, need, consent, website = '', captchaToken = '' }) {
   const acquisition = getAcquisitionContext();
+  const adsMeasurement = getOpenAIAdsMeasurementContext();
   return {
     submissionId,
     sourceForm: 'contact',
@@ -40,10 +42,13 @@ export function buildContactLeadPayload({ submissionId, identity, need, consent,
       gbraid: emptyToNull(acquisition.gbraid),
       wbraid: emptyToNull(acquisition.wbraid),
       fbclid: emptyToNull(acquisition.fbclid),
+      oppref: emptyToNull(acquisition.oppref),
+      openaiBrowserRef: emptyToNull(adsMeasurement.browserRef),
     },
     consent: {
       accepted: consent.privacy === true,
       policyVersion: siteConfig.privacyPolicyVersion,
+      adsMeasurement: adsMeasurement.consentGranted,
     },
     website,
     turnstileToken: emptyToNull(captchaToken),

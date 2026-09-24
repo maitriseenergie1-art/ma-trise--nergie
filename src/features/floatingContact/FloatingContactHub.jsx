@@ -13,6 +13,9 @@ const SITE_TYPES = ['Site industriel', 'Bâtiment tertiaire', 'Entrepôt ou plat
 const SITE_SIZES = ['Moins de 2 000 m²', '2 000 à 5 000 m²', 'Plus de 5 000 m²'];
 const MONTHLY_BILLS = ['Moins de 1 000 €', '1 000 à 2 500 €', '2 500 à 5 000 €', 'Plus de 5 000 €'];
 const TIMELINES = ['Dès que possible', 'Dans les 3 à 6 mois', 'Dans les 6 à 12 mois', 'Projet à l’étude'];
+const AUTO_OPEN_DELAY_MS = 15000;
+const AUTO_OPEN_SCROLL_RATIO = 0.35;
+const AUTO_OPEN_SESSION_KEY = 'me-floating-lead-auto-opened';
 
 const initialValues = {
   building: '', size: '', monthlyBill: '', postalCode: '', timeline: '',
@@ -32,6 +35,7 @@ export function FloatingContactHub() {
   const captchaRef = useRef(null);
   const attemptRef = useRef(null);
   const submittingRef = useRef(false);
+  const hasOpenedRef = useRef(false);
   if (!attemptRef.current) attemptRef.current = createSubmissionAttempt();
 
   const phone = siteConfig.contact.phone.replace(/\s/g, '');
@@ -39,12 +43,52 @@ export function FloatingContactHub() {
   const whatsappText = encodeURIComponent('Bonjour, je souhaite échanger au sujet d’un projet de performance énergétique pour mon site professionnel.');
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
+    try {
+      if (window.sessionStorage.getItem(AUTO_OPEN_SESSION_KEY) === '1') return undefined;
+    } catch {
+      // Session storage can be unavailable in strict privacy modes.
+    }
+
+    let delayElapsed = false;
+    let visitorEngaged = false;
+
+    const rememberAutomaticOpen = () => {
+      try {
+        window.sessionStorage.setItem(AUTO_OPEN_SESSION_KEY, '1');
+      } catch {
+        // The form remains usable when storage is unavailable.
+      }
+    };
+
+    const openWhenReady = () => {
+      if (!delayElapsed || !visitorEngaged || hasOpenedRef.current) return;
+      hasOpenedRef.current = true;
+      rememberAutomaticOpen();
       setOpen(true);
-      trackEvent('floating_lead_opened', { trigger: 'automatic_4s' });
+      trackEvent('floating_lead_opened', { trigger: 'engaged_15s_scroll_35' });
       trackFormEvent('form_view', { formType: 'floating_qualified_lead' });
-    }, 4000);
-    return () => window.clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+
+    const handleScroll = () => {
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollableHeight <= 0) return;
+      visitorEngaged = window.scrollY / scrollableHeight >= AUTO_OPEN_SCROLL_RATIO;
+      openWhenReady();
+    };
+
+    const timer = window.setTimeout(() => {
+      delayElapsed = true;
+      handleScroll();
+    }, AUTO_OPEN_DELAY_MS);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -66,6 +110,12 @@ export function FloatingContactHub() {
   };
 
   const openPanel = () => {
+    hasOpenedRef.current = true;
+    try {
+      window.sessionStorage.setItem(AUTO_OPEN_SESSION_KEY, '1');
+    } catch {
+      // The form remains usable when storage is unavailable.
+    }
     setOpen(true);
     trackEvent('floating_lead_opened', { trigger: 'icon' });
     trackFormEvent('form_view', { formType: 'floating_qualified_lead' });

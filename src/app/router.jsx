@@ -77,6 +77,7 @@ export function AppRoutes() {
       <Route path="/mentions-legales" element={<Page Component={Legal} pageKey="mentions-legales"/>} />
       <Route path="/politique-de-confidentialite" element={<Page Component={Legal} pageKey="politique-de-confidentialite"/>} />
       <Route path="/gestion-des-cookies" element={<Page Component={Legal} pageKey="gestion-des-cookies"/>} />
+      <Route path="/conditions-generales-utilisation" element={<Page Component={Legal} pageKey="conditions-generales-utilisation"/>} />
       <Route path="*" element={<Page Component={NotFound}/>} />
     </Routes>
   );

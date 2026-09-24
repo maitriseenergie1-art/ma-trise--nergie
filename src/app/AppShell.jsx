@@ -6,6 +6,7 @@ import { Seo } from '../components/Seo';
 import { captureInitialAcquisition } from '../services/acquisition';
 import { initTrafficTracking, trackPageView } from '../services/trafficTracking';
 import { FloatingContactHub } from '../features/floatingContact/FloatingContactHub';
+import { MeasurementConsentBanner } from '../components/MeasurementConsent';
 
 const AdminApp = lazy(() => import('../features/admin/AdminApp'));
 
@@ -33,6 +34,7 @@ function RouteAnalytics() {
 // (App) and StaticRouter for the build-time prerender (entry-server).
 export function AppShell({ RoutesComponent }) {
   const { pathname } = useLocation();
+  const isEligibilityPage = pathname.replace(/\/+$/, '') === '/eligibilite';
 
   // The back office is a standalone app: no public header, footer or motion.
   if (pathname.startsWith('/admin')) {
@@ -53,7 +55,8 @@ export function AppShell({ RoutesComponent }) {
       <ScrollToTop />
       <a className="skip-link" href="#main-content">Aller au contenu principal</a>
       <Header />
-      <FloatingContactHub />
+      {!isEligibilityPage && <FloatingContactHub />}
+      <MeasurementConsentBanner />
       <div className="public-stage">
         <PageMotion>
           <RoutesComponent />

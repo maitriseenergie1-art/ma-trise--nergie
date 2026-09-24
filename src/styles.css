@@ -1708,3 +1708,20 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 @media(prefers-reduced-motion:reduce){
   .floating-contact-button,.floating-lead-panel,.floating-lead-progress i{transition:none}
 }
+
+/* Consentement explicite pour la mesure des campagnes ChatGPT Ads. */
+.measurement-consent{position:fixed;z-index:1200;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;justify-content:space-between;gap:28px;width:min(calc(100% - 32px),920px);padding:20px 22px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 18px 55px #102d3133;color:var(--petrol)}
+.measurement-consent strong{font-size:14px}
+.measurement-consent p{max-width:650px;margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.55}
+.measurement-consent a{text-decoration:underline}
+.measurement-consent-actions{display:flex;align-items:center;gap:9px;flex:none}
+.measurement-consent-actions .button{white-space:nowrap}
+.measurement-consent-controls{margin:24px 0;padding:22px;border:1px solid var(--line);background:#f5f7f1}
+.measurement-consent-controls p{margin-top:0!important}
+.measurement-consent-controls .measurement-consent-actions{flex-wrap:wrap}
+
+@media(max-width:680px){
+  .measurement-consent{bottom:10px;display:block;padding:18px}
+  .measurement-consent-actions{justify-content:flex-end;margin-top:14px}
+  .measurement-consent-actions .button{padding:10px 13px;font-size:11px}
+}

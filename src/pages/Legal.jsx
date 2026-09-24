@@ -1,6 +1,8 @@
 import { Breadcrumb, Container, Eyebrow } from '../components/ui';
 import { Seo } from '../components/Seo';
 import { siteConfig } from '../config/siteConfig';
+import { Link } from 'react-router-dom';
+import { MeasurementConsentControls } from '../components/MeasurementConsent';
 
 const { contact, legal } = siteConfig;
 const editorName = legal.companyIdentity || `${siteConfig.name} [forme juridique et capital à compléter]`;
@@ -72,19 +74,21 @@ function PolitiqueConfidentialite() {
       <li>Traiter votre demande de contact ou votre demande d’étude énergétique ;</li>
       <li>Qualifier votre projet pour vous orienter vers la solution ou le dispositif pertinent ;</li>
       <li>Vous recontacter dans le cadre du suivi commercial de votre demande ;</li>
-      <li>Mesurer l’efficacité de nos canaux d’acquisition (sans finalité publicitaire tierce, voir notre <Link-placeholder/>).</li>
+      <li>Mesurer, avec votre accord, l’efficacité des campagnes ChatGPT Ads et attribuer une demande à l’annonce à l’origine de la visite (voir notre <Link to="/gestion-des-cookies">politique de gestion des cookies</Link>).</li>
     </ul>
 
     <h2>Base légale</h2>
     <p>Le traitement repose sur votre consentement exprès, recueilli au moment de la soumission de chaque formulaire, ainsi que sur l’intérêt légitime de {siteConfig.name} à répondre aux demandes qui lui sont adressées dans le cadre de démarches précontractuelles.</p>
+    <p>La mesure des campagnes ChatGPT Ads repose sur le choix distinct présenté dans le bandeau de consentement. Refuser cette mesure n’empêche ni la consultation du site ni l’envoi d’une demande.</p>
 
     <h2>Destinataires des données</h2>
     <p>Vos données sont destinées exclusivement à l’équipe interne de {siteConfig.name} en charge du traitement des demandes. Elles sont hébergées et traitées par nos sous-traitants techniques :</p>
     <ul>
       <li><strong>Supabase</strong> (base de données PostgreSQL) pour le stockage sécurisé des demandes ;</li>
       <li><strong>Netlify</strong> pour l’hébergement du site et l’exécution des fonctions de traitement des formulaires.</li>
+      <li><strong>OpenAI</strong>, uniquement lorsque vous autorisez la mesure publicitaire, pour attribuer une demande aux campagnes ChatGPT Ads.</li>
     </ul>
-    <p>Ces prestataires agissent en tant que sous-traitants au sens du RGPD et ne réutilisent vos données à aucune fin propre. Aucune donnée n’est vendue, louée ou transmise à des fins publicitaires à des tiers.</p>
+    <p>Ces prestataires interviennent pour les finalités techniques et de mesure décrites ci-dessus. Aucune donnée n’est vendue ou louée par {siteConfig.name}.</p>
 
     <h2>Durée de conservation</h2>
     <p>Les données des demandes non converties en projet sont conservées 3 ans à compter du dernier contact, conformément aux recommandations de la CNIL en matière de prospection commerciale. En cas de projet engagé, les données sont conservées pendant la durée de la relation contractuelle puis archivées conformément aux obligations légales applicables.</p>
@@ -97,48 +101,90 @@ function PolitiqueConfidentialite() {
     <p>Les échanges avec le site sont chiffrés (HTTPS) et l’accès aux données des demandes est restreint aux membres autorisés de l’équipe {siteConfig.name}, via un accès protégé par authentification. Un dispositif anti-robot (champ piège invisible) protège également les formulaires contre les soumissions automatisées.</p>
 
     <h2>Cookies et traceurs</h2>
-    <p>Le site n’utilise pas de cookies de mesure d’audience tiers ni de cookies publicitaires. Le détail des données techniques stockées dans votre navigateur est présenté dans notre <Link to="/gestion-des-cookies">politique de gestion des cookies</Link>.</p>
+    <p>Le site utilise, avec votre accord préalable, le Pixel OpenAI pour mesurer les demandes provenant de ChatGPT Ads. Vous pouvez refuser ou retirer cet accord à tout moment depuis notre <Link to="/gestion-des-cookies">politique de gestion des cookies</Link>.</p>
   </>;
 }
 
 function GestionCookies() {
   return <>
-    <h1>Gestion des cookies</h1>
-    <p className="lead">Ce site n’utilise ni cookie de mesure d’audience tiers, ni cookie publicitaire, ni traceur de réseau social. Cette page détaille précisément ce qui est réellement stocké dans votre navigateur et pourquoi.</p>
+    <h1>Politique de cookies</h1>
+    <p className="lead">Cette politique explique ce que sont les cookies et autres stockages locaux, pourquoi ils sont utilisés sur ce site et comment vous pouvez gérer vos préférences.</p>
     <LastUpdate/>
 
-    <h2>Ce que nous n’utilisons pas</h2>
+    <h2>Qu’est-ce qu’un cookie&nbsp;?</h2>
+    <p>Un cookie est un petit fichier enregistré sur votre appareil lors de la consultation d’un site. Des technologies proches, comme le stockage local du navigateur, peuvent remplir des fonctions similaires. Dans cette politique, le terme «&nbsp;cookies&nbsp;» désigne l’ensemble de ces technologies.</p>
+
+    <h2>Cookies et stockages nécessaires</h2>
+    <p>Ces éléments sont utilisés pour assurer le fonctionnement, la sécurité et la continuité de votre navigation. Ils ne sont pas destinés à établir un profil publicitaire :</p>
     <ul>
-      <li>Aucun outil de mesure d’audience tiers (type Google Analytics) ;</li>
-      <li>Aucun pixel publicitaire ou traceur cross-site ;</li>
-      <li>Aucun bouton ou widget de réseau social chargeant du contenu tiers ;</li>
-      <li>Aucune vente ni cession de données de navigation à des tiers.</li>
+      <li><strong>Continuité de la visite</strong> — un identifiant technique et les paramètres de campagne éventuellement présents dans l’adresse sont conservés pendant la session afin de relier une demande à sa page d’origine.</li>
+      <li><strong>Préférence de cookies</strong> — votre choix d’accepter ou de refuser les cookies optionnels est mémorisé dans votre navigateur.</li>
+      <li><strong>Sécurité et administration</strong> — l’espace privé réservé à l’équipe utilise un stockage de session pour maintenir une connexion sécurisée. Il n’a aucun effet sur la navigation publique.</li>
     </ul>
 
-    <h2>Ce que le site stocke réellement</h2>
-    <p>Le site utilise uniquement le stockage local de votre navigateur (<em>sessionStorage</em> et <em>localStorage</em>), et non des cookies au sens strict. Ces données restent sur votre appareil et ne sont partagées avec aucun tiers publicitaire :</p>
-    <ul>
-      <li><strong>Attribution de la demande</strong> — un identifiant technique anonyme et les paramètres de campagne (UTM) éventuels sont conservés dans <em>sessionStorage</em> pendant la durée de votre visite, afin de relier une éventuelle demande envoyée à son origine (page de destination, campagne). Ces données sont supprimées à la fermeture de l’onglet.</li>
-      <li><strong>Mesure de fréquentation interne</strong> — les pages consultées et clics sur les appels à l’action sont envoyés à notre propre serveur (fonction technique interne, hébergée par nos soins), sans identifiant permanent ni recoupement avec d’autres sites. Aucun profil publicitaire n’est constitué.</li>
-      <li><strong>Session d’administration</strong> — réservé à l’équipe {siteConfig.name} : un jeton de connexion est conservé dans <em>localStorage</em> pour maintenir la session ouverte sur l’espace d’administration protégé (<code>/admin</code>). Il n’a aucun effet sur la navigation publique du site.</li>
-    </ul>
-    <p>Ces stockages sont strictement nécessaires au fonctionnement du site et à la bonne gestion de vos demandes ; ils sont à ce titre exemptés de recueil de consentement au sens des recommandations de la CNIL, mais nous avons choisi de vous en informer intégralement par transparence.</p>
+    <h2>Cookies optionnels</h2>
+    <p>Avec votre accord, un outil de mesure fourni par OpenAI peut être activé pour comprendre si une demande de contact fait suite à une campagne publicitaire. Il peut utiliser les cookies propriétaires <code>__oppref</code> (jusqu’à 30 jours) et <code>__obref</code> (jusqu’à 365 jours). Seule une demande effectivement transmise est comptabilisée comme conversion.</p>
+    <p>Ces cookies optionnels ne sont pas déposés et aucun événement publicitaire n’est envoyé tant que vous n’avez pas donné votre accord. Leur refus n’empêche ni la consultation du site ni l’envoi d’un formulaire.</p>
 
-    <h2>Comment effacer ces données</h2>
-    <p>Vous pouvez à tout moment supprimer ces données depuis les réglages de votre navigateur (effacement des données de navigation, ou navigation privée), sans que cela n’affecte votre capacité à consulter le site. La suppression du stockage de session peut simplement réinitialiser l’attribution d’une demande en cours.</p>
+    <h2>Gérer vos préférences</h2>
+    <p>Vous pouvez accepter ou refuser les cookies optionnels ci-dessous. Votre nouveau choix s’applique aux prochaines actions réalisées sur le site.</p>
+    <MeasurementConsentControls/>
 
-    <h2>Évolution de cette politique</h2>
-    <p>Si un outil de mesure d’audience ou un service tiers venait à être ajouté au site, cette page serait mise à jour et un bandeau de consentement conforme au RGPD et aux lignes directrices de la CNIL serait mis en place avant toute activation.</p>
+    <h2>Paramètres du navigateur</h2>
+    <p>Vous pouvez également supprimer les cookies et données locales depuis les réglages de votre navigateur. Leur suppression peut réinitialiser votre préférence et certaines informations liées à la session en cours.</p>
+
+    <h2>Mise à jour de la politique</h2>
+    <p>Cette politique peut évoluer pour refléter une modification du site, des outils utilisés ou des exigences applicables. La date de mise à jour figure en haut de cette page.</p>
 
     <h2>Contact</h2>
     <p>Pour toute question relative à cette politique, contactez-nous à <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
   </>;
 }
 
+function ConditionsGeneralesUtilisation() {
+  return <>
+    <h1>Conditions générales d’utilisation</h1>
+    <p className="lead">Les présentes conditions encadrent l’accès et l’utilisation du site {siteConfig.name.toLowerCase()}.fr. La consultation du site implique leur acceptation.</p>
+    <LastUpdate/>
+
+    <h2>Objet du site</h2>
+    <p>Le site présente les activités de {siteConfig.name} dans le domaine du photovoltaïque professionnel et de la performance énergétique. Il permet également de transmettre une demande de contact ou de préqualification de projet.</p>
+
+    <h2>Accès au site</h2>
+    <p>Le site est accessible gratuitement, sous réserve de disposer d’une connexion internet et d’un équipement compatible. {siteConfig.name} peut interrompre temporairement tout ou partie du service pour des raisons de maintenance, de sécurité ou en cas d’événement indépendant de sa volonté.</p>
+
+    <h2>Utilisation des formulaires</h2>
+    <p>L’utilisateur s’engage à transmettre des informations exactes, à jour et nécessaires au traitement de sa demande. Toute utilisation frauduleuse, automatisée, abusive ou portant atteinte au fonctionnement du site est interdite.</p>
+    <p>La transmission d’un formulaire ne vaut ni acceptation d’un projet, ni devis, ni engagement contractuel. Une étude et un échange avec nos équipes restent nécessaires avant toute proposition.</p>
+
+    <h2>Informations publiées</h2>
+    <p>Les contenus sont fournis à titre informatif. Les économies, financements, aides, performances ou conditions d’éligibilité dépendent notamment des caractéristiques réelles du site, des consommations, des équipements et des règles applicables au moment de l’étude.</p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>Les textes, visuels, éléments graphiques, marques, logos, documents et composants du site sont protégés par les droits de propriété intellectuelle. Leur reproduction ou réutilisation sans autorisation préalable est interdite, sauf exception prévue par la loi.</p>
+
+    <h2>Liens et services tiers</h2>
+    <p>Certains liens peuvent diriger vers des sites tiers. {siteConfig.name} ne contrôle pas leur contenu, leur disponibilité ni leurs pratiques et ne peut en être tenue responsable.</p>
+
+    <h2>Données personnelles et cookies</h2>
+    <p>Le traitement des données personnelles est décrit dans notre <Link to="/politique-de-confidentialite">politique de confidentialité</Link>. L’utilisation des cookies et la gestion des préférences sont détaillées dans notre <Link to="/gestion-des-cookies">politique de cookies</Link>.</p>
+
+    <h2>Responsabilité</h2>
+    <p>{siteConfig.name} met en œuvre des moyens raisonnables pour maintenir le site accessible et ses informations à jour. Elle ne peut toutefois garantir une disponibilité permanente ni l’absence totale d’erreurs. L’utilisateur reste responsable de l’usage qu’il fait des informations consultées.</p>
+
+    <h2>Modification des conditions</h2>
+    <p>Ces conditions peuvent être modifiées à tout moment. La version applicable est celle publiée sur le site à la date de la consultation.</p>
+
+    <h2>Droit applicable et contact</h2>
+    <p>Les présentes conditions sont soumises au droit français. Pour toute question, vous pouvez écrire à <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
+  </>;
+}
+
 const pages = {
   'mentions-legales': { title: 'Mentions légales', description: 'Éditeur, hébergeur et informations légales du site Maîtrise Énergie.', Content: MentionsLegales },
   'politique-de-confidentialite': { title: 'Politique de confidentialité', description: 'Comment Maîtrise Énergie collecte, utilise et protège vos données personnelles, conformément au RGPD.', Content: PolitiqueConfidentialite },
-  'gestion-des-cookies': { title: 'Gestion des cookies', description: 'Détail des cookies et données de stockage utilisés par le site Maîtrise Énergie.', Content: GestionCookies },
+  'gestion-des-cookies': { title: 'Politique de cookies', description: 'Cookies, stockages locaux et gestion des préférences sur le site Maîtrise Énergie.', Content: GestionCookies },
+  'conditions-generales-utilisation': { title: 'Conditions générales d’utilisation', description: 'Conditions encadrant l’accès et l’utilisation du site Maîtrise Énergie.', Content: ConditionsGeneralesUtilisation },
 };
 
 export default function Legal({ pageKey }) {

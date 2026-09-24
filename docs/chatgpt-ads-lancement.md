@@ -1,6 +1,6 @@
 # ChatGPT Ads — lancement photovoltaïque professionnel
 
-Ce document est prêt à être repris dans Ads Manager lorsque le compte, la facturation et le domaine `maitrise-energie.fr` seront actifs. Il ne déclenche aucune publicité.
+Ce document récapitule la configuration préparée pour Ads Manager. Il ne déclenche aucune publicité.
 
 ## Objectif unique
 
@@ -25,7 +25,7 @@ Exemple d’URL :
 
 `https://maitrise-energie.fr/eligibilite?utm_source=chatgpt&utm_medium=paid&utm_campaign=pv_pro_autofinancement&utm_content=toitures_entrepots`
 
-Le site enregistre déjà cette origine dans le back-office sous **Payant > ChatGPT**, séparée des visites organiques venant de ChatGPT. La référence de clic `oppref` ajoutée par OpenAI est également conservée dans la session du visiteur en prévision de l’intégration officielle de mesure.
+Le site enregistre cette origine dans le back-office sous **Payant > ChatGPT**, séparée des visites organiques venant de ChatGPT. La référence de clic `oppref` ajoutée par OpenAI est conservée dans la session et prise en charge automatiquement par le Pixel OpenAI après consentement.
 
 ## Structure à créer
 
@@ -69,14 +69,15 @@ Commencer avec **une campagne**, puis trois groupes d’annonces seulement si le
 
 Utiliser des visuels métier cohérents avec chaque groupe : toiture d’entrepôt pour le premier, ombrières pour le second, équipe en visite technique pour les angles étude et accompagnement. Ne pas ajouter de prix, délai, certification ou économie garantie non vérifiable.
 
-## Pré-requis techniques à faire dès la création du compte
+## Mesure des conversions
 
-1. Créer une source de données dans Ads Manager et sélectionner l’événement standard de soumission de lead.
-2. Installer le Pixel OpenAI sur les pages publiques après le consentement requis.
-3. Envoyer le même succès de formulaire depuis le serveur via la Conversions API avec le même `event_id`, afin d’éviter les doublons.
-4. Transmettre `oppref` lorsque disponible et vérifier la réception d’un envoi test dans Ads Manager.
-5. Mettre à jour la politique de confidentialité et le bandeau de consentement avant d’activer le Pixel.
-6. Vérifier que `OAI-AdsBot` et `OAI-SearchBot` peuvent accéder aux pages de destination après mise en ligne du domaine.
+1. Source de données : **Maîtrise Énergie – Site web**.
+2. Pixel OpenAI : `52KLrR3qwRDL3WJyDtXN5Z`, initialisé sur les pages publiques avec consentement désactivé par défaut.
+3. Événement standard à créer dans Ads Manager : **Prospect créé** (`lead_created`).
+4. Le site envoie cet événement uniquement après confirmation serveur d’un formulaire, avec l’identifiant de soumission comme `event_id` de déduplication.
+5. Vérifier la réception d’un envoi test dans le flux d’événements, puis associer l’événement à la campagne.
+6. La Conversions API côté serveur complète le Pixel avec le même identifiant de soumission afin de dédupliquer les deux signaux. Elle s'active dès que le secret `OPENAI_CONVERSIONS_API_KEY` est configuré dans Netlify.
+7. Le serveur transmet `oppref` et la référence navigateur `obref` lorsqu'elles sont disponibles et que le visiteur a accepté la mesure publicitaire.
 
 ## Contrôle avant diffusion
 

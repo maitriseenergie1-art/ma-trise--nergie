@@ -39,6 +39,10 @@ const routes = [
   { url: '/contact', preload: {} },
   { url: '/faq', preload: {} },
   { url: '/plan-du-site', preload: {} },
+  { url: '/mentions-legales', preload: {} },
+  { url: '/politique-de-confidentialite', preload: {} },
+  { url: '/gestion-des-cookies', preload: {} },
+  { url: '/conditions-generales-utilisation', preload: {} },
   ...solutions.map((item) => ({ url: `/solutions/${item.slug}`, preload: {} })),
   ...sectors.map((item) => ({ url: `/secteurs/${item.slug}`, preload: {} })),
   {
