@@ -1,6 +1,6 @@
 import { admin, supabaseConfigured } from './_lib/supabaseAdmin.mjs';
 import { sendOpenAILeadCreated } from './_lib/openaiConversions.mjs';
-import { getClientIp, getExpectedTurnstileHostname, verifyTurnstile } from './_lib/turnstile.mjs';
+import { getAllowedTurnstileHostnames, getClientIp, verifyTurnstile } from './_lib/turnstile.mjs';
 
 export const config = { path: '/api/lead' };
 
@@ -43,7 +43,7 @@ export default async function handler(req) {
   }
 
   const expectedAction = payload.sourceForm === 'contact' ? 'contact' : payload.sourceForm === 'eligibility' ? 'eligibility' : 'lead';
-  const expectedHostname = getExpectedTurnstileHostname(req);
+  const expectedHostname = getAllowedTurnstileHostnames(req);
   try {
     if (!await verifyTurnstile({
       token: payload.turnstileToken,

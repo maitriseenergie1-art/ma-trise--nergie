@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  getAllowedTurnstileHostnames,
   getClientIp,
   getExpectedTurnstileHostname,
   verifyTurnstile,
@@ -44,4 +45,16 @@ test('préfère l’adresse IP fournie par Netlify', () => {
     'x-nf-client-connection-ip': '203.0.113.20',
     'x-forwarded-for': '198.51.100.5, 198.51.100.6',
   })), '203.0.113.20');
+});
+
+test('accepte le domaine avec et sans www, refuse les autres', async () => {
+  const hostnames = getAllowedTurnstileHostnames(request(), { SITE_URL: 'https://maitrise-energie.fr' });
+  assert.deepEqual(hostnames, ['maitrise-energie.fr', 'www.maitrise-energie.fr']);
+  const verify = (hostname) => verifyTurnstile({
+    token: 'token', secret: 'secret', expectedAction: 'lead', expectedHostname: hostnames,
+    fetchImpl: async () => new Response(JSON.stringify({ success: true, action: 'lead', hostname })),
+  });
+  assert.equal(await verify('www.maitrise-energie.fr'), true);
+  assert.equal(await verify('maitrise-energie.fr'), true);
+  assert.equal(await verify('attacker.example'), false);
 });

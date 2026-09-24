@@ -18,6 +18,15 @@ export function getExpectedTurnstileHostname(req, env = process.env) {
   return hostnameFrom(req.headers.get('origin'));
 }
 
+// Domaine configuré avec et sans « www. » : Turnstile renvoie le hostname réellement utilisé.
+export function getAllowedTurnstileHostnames(req, env = process.env) {
+  const hostname = getExpectedTurnstileHostname(req, env);
+  if (!hostname) return [];
+  if (hostname === 'localhost' || /^[\d.]+$/.test(hostname) || hostname.includes(':')) return [hostname];
+  const bare = hostname.replace(/^www\./, '');
+  return [bare, `www.${bare}`];
+}
+
 export function getClientIp(req) {
   return (
     req.headers.get('x-nf-client-connection-ip')
@@ -49,5 +58,6 @@ export async function verifyTurnstile({
 
   const result = await response.json();
   if (!result.success || result.action !== expectedAction) return false;
-  return !expectedHostname || result.hostname === expectedHostname;
+  const allowed = [expectedHostname].flat().filter(Boolean);
+  return !allowed.length || allowed.includes(result.hostname);
 }
