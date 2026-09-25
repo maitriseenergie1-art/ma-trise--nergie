@@ -58,3 +58,13 @@ test('accepte le domaine avec et sans www, refuse les autres', async () => {
   assert.equal(await verify('maitrise-energie.fr'), true);
   assert.equal(await verify('attacker.example'), false);
 });
+
+test('sur Netlify, un SITE_URL resté sur localhost est ignoré', () => {
+  const hostnames = getAllowedTurnstileHostnames(request(), {
+    NETLIFY: 'true',
+    SITE_URL: 'http://localhost:5173',
+    VITE_SITE_URL: 'http://localhost:5173',
+    URL: 'https://maitrise-energie.fr',
+  });
+  assert.deepEqual(hostnames, ['maitrise-energie.fr', 'www.maitrise-energie.fr']);
+});

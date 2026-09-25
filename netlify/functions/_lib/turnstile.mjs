@@ -10,10 +10,14 @@ function hostnameFrom(value) {
   }
 }
 
+const isLocalHostname = (hostname) => hostname === 'localhost' || hostname === '127.0.0.1';
+
 export function getExpectedTurnstileHostname(req, env = process.env) {
-  const configured = hostnameFrom(
-    env.TURNSTILE_EXPECTED_HOSTNAME || env.SITE_URL || env.VITE_SITE_URL || env.URL,
-  );
+  // Sur Netlify (NETLIFY=true), un SITE_URL resté sur localhost est ignoré au profit de URL (domaine principal).
+  const candidates = [env.TURNSTILE_EXPECTED_HOSTNAME, env.SITE_URL, env.VITE_SITE_URL, env.URL]
+    .map(hostnameFrom)
+    .filter(Boolean);
+  const configured = env.NETLIFY ? candidates.find((h) => !isLocalHostname(h)) : candidates[0];
   if (configured) return configured;
   return hostnameFrom(req.headers.get('origin'));
 }
