@@ -11,6 +11,10 @@ if (!baseUrl) {
   console.warn(message);
 }
 
+if (baseUrl && process.env.NETLIFY && /localhost|127\.0\.0\.1/.test(baseUrl)) {
+  throw new Error(`SITE_URL pointe vers ${baseUrl} : définissez l'URL de production dans Netlify.`);
+}
+
 const [caseStudies, blogPosts] = await Promise.all([
   fetchPublishedCaseStudies(),
   fetchPublishedBlogPosts(),

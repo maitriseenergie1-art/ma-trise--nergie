@@ -14,6 +14,7 @@ export const siteConfig = {
     serviceArea: 'France métropolitaine · selon la nature du projet',
     mapEmbedUrl: 'https://maps.google.com/maps?q=37+Avenue+Trudaine%2C+75009+Paris&z=15&output=embed',
     bookingUrl: '',
+    googleBusinessUrl: 'https://share.google/rIMm9qvv7fAKgz7Nk',
   },
   legal: { companyIdentity: '', address: '', registration: '', hostingProvider: '' },
 };

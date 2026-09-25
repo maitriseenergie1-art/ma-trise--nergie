@@ -20,6 +20,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Origine publique utilisée par le sitemap, robots.txt et les balises canonical.
+  # (Les variables définies dans le dashboard Netlify restent prioritaires.)
+  SITE_URL = "https://maitrise-energie.fr"
+  VITE_SITE_URL = "https://maitrise-energie.fr"
 
 [functions]
   node_bundler = "esbuild"
