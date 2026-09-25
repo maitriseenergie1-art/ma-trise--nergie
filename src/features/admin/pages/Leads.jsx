@@ -175,6 +175,12 @@ function LeadDrawer({ id, onClose, onChanged }) {
   useEffect(load, [load]);
 
   useEffect(() => {
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = previous; };
+  }, []);
+
+  useEffect(() => {
     const onKeyDown = (event) => event.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
