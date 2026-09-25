@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardCheck, MessageCircle, PhoneCall, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardCheck, Info, MessageCircle, PhoneCall, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../../config/siteConfig';
 import { Turnstile } from '../../components/Turnstile';
@@ -230,7 +230,7 @@ export function FloatingContactHub() {
         <div className="floating-lead-head">
           <div>
             <span>Étape {step + 1} sur 2</span>
-            <h2 id="floating-lead-title">{status === 'success' ? 'Demande transmise' : step === 0 ? 'Votre site est-il éligible ?' : 'Comment vous recontacter ?'}</h2>
+            <h2 id="floating-lead-title">{status === 'success' ? 'Demande transmise' : step === 0 ? 'Quel est le potentiel de votre site ?' : 'Comment vous recontacter ?'}</h2>
           </div>
           <button ref={closeButtonRef} type="button" className="floating-lead-close" onClick={closePanel} aria-label="Fermer le formulaire"><X /></button>
         </div>
@@ -246,7 +246,7 @@ export function FloatingContactHub() {
             <div className="floating-lead-progress" aria-hidden="true"><i style={{ width: step === 0 ? '50%' : '100%' }} /></div>
             {step === 0 ? (
               <div className="floating-lead-fields">
-                <p className="floating-lead-intro">Préqualification pour les sites dès <strong>2 000 m²</strong> et <strong>1 000 € d’électricité par mois</strong>.</p>
+                <p className="floating-lead-info"><Info size={16} strokeWidth={2} aria-hidden="true" /><span>Votre site peut présenter un fort potentiel d’économies. Particulièrement à partir de <strong>2 000 m²</strong> de surface ou à partir de <strong>1 000 €</strong> de facture d’électricité par mois.</span></p>
                 {select('building', 'Type de site', SITE_TYPES)}
                 {select('size', 'Surface disponible', SITE_SIZES)}
                 {select('monthlyBill', 'Facture d’électricité mensuelle', MONTHLY_BILLS)}

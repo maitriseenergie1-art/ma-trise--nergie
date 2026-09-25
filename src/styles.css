@@ -1671,7 +1671,8 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .floating-lead-progress{height:3px;margin:20px 0;background:#e2e9e6;overflow:hidden}
 .floating-lead-progress i{display:block;height:100%;background:#16816b;transition:width 260ms ease}
 .floating-lead-fields{display:grid;gap:13px}
-.floating-lead-intro{margin:0 0 2px;padding:11px 13px;border-left:3px solid #16816b;background:#edf6f3;color:#405c56;font-size:12px;line-height:1.5}
+.floating-lead-info{display:flex;align-items:flex-start;gap:8px;margin:0 0 2px;padding:10px 12px;border-radius:7px;background:#edf6f3;color:#405c56;font-size:12px;line-height:1.5}
+.floating-lead-info>svg{flex:0 0 auto;margin-top:1px;color:#16816b}
 .floating-lead-fields>label,.floating-lead-row>label{display:grid;gap:5px;color:#294641;font-size:11px;font-weight:750}
 .floating-lead-fields input:not([type="checkbox"]),.floating-lead-fields select{width:100%;min-width:0;height:42px;padding:9px 11px;border:1px solid #c9d8d3;border-radius:7px;background:#fff;color:#182b2c;outline:0}
 .floating-lead-fields input:focus,.floating-lead-fields select:focus{border-color:#16816b;box-shadow:0 0 0 3px rgba(22,129,107,.14)}

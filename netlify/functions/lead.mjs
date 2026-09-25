@@ -1,5 +1,6 @@
 import { admin, supabaseConfigured } from './_lib/supabaseAdmin.mjs';
 import { sendOpenAILeadCreated } from './_lib/openaiConversions.mjs';
+import { sendLeadEmails } from './_lib/leadEmails.mjs';
 import { getAllowedTurnstileHostnames, getClientIp, verifyTurnstile } from './_lib/turnstile.mjs';
 
 export const config = { path: '/api/lead' };
@@ -123,6 +124,44 @@ export default async function handler(req) {
 
   const row = data?.[0];
   if (!row?.lead_id) return j({ ok: false, type: 'server' }, 500);
+
+  // Best effort: internal notification + acknowledgement to the visitor. Skipped
+  // on idempotent replays so nobody receives a duplicate. A Resend failure never
+  // affects the lead already stored.
+  if (row.replayed !== true) {
+    const emails = await sendLeadEmails({
+      leadId: row.lead_id,
+      sourceForm,
+      contact: {
+        firstName: str(contact.firstName, 100),
+        lastName: str(contact.lastName, 100),
+        email,
+        phone: phone(contact.phone),
+        companyName: str(contact.companyName, 180),
+      },
+      need: {
+        sector: str(need.sector, 100),
+        buildingType: str(need.buildingType, 120),
+        siteSize: str(need.siteSize, 100),
+        projectType: str(need.projectType, 160),
+        equipment: equipment.filter((item) => typeof item === 'string').slice(0, 30),
+        projectTimeline: str(need.projectTimeline, 120),
+        message: str(need.message, 4000),
+        qualificationScore: need.qualificationScore,
+      },
+      acquisition: {
+        landingPage: str(acq.landingPage, 2048),
+        ctaSource: str(acq.ctaSource, 160),
+        utmSource: str(acq.utmSource, 255),
+        utmMedium: str(acq.utmMedium, 255),
+        utmCampaign: str(acq.utmCampaign, 255),
+      },
+    }).catch((error) => ({ error: String(error?.message || error) }));
+    if (emails.skipped) console.warn('[lead] e-mails not sent, missing config', emails.missing);
+    else if (emails.error || !emails.notification?.ok || !emails.acknowledgement?.ok) {
+      console.warn('[lead] e-mail delivery issue', JSON.stringify(emails));
+    }
+  }
 
   // Best effort: the lead remains valid even if the advertising endpoint is
   // unavailable. The submission UUID is shared with the browser Pixel so
