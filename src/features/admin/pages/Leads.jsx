@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { fetchLead, fetchLeads, setLeadStatus } from '../adminService';
 import { ErrorBox, Loading } from '../ui';
 
@@ -209,7 +210,9 @@ function LeadDrawer({ id, onClose, onChanged }) {
   const need = state.data?.needs?.[0];
   const acq = state.data?.acquisitions?.[0];
 
-  return (
+  // Portail vers <body> : sinon le position:fixed se cale sur .admin-main (animé) et non sur l'écran.
+  return createPortal(
+    <div className="admin admin-portal">
     <div
       className="admin-drawer-backdrop"
       role="presentation"
@@ -342,6 +345,8 @@ function LeadDrawer({ id, onClose, onChanged }) {
         )}
       </div>
     </div>
+    </div>,
+    document.body,
   );
 }
 

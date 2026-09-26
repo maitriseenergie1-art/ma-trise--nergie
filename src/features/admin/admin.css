@@ -74,3 +74,4 @@
   .admin-drawer .admin-lead-detail-grid{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){.admin-drawer,.admin-drawer-backdrop{animation:none}}
+.admin.admin-portal{display:contents;min-height:0;background:none}
