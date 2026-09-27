@@ -73,7 +73,8 @@ export default function BlogPost() {
         ]}
       />
       <PageHero
-        breadcrumb="Ressources"
+        breadcrumb={post.title}
+        breadcrumbTrail={[{ name: 'Ressources', path: '/ressources' }]}
         eyebrow={post.category?.name || 'Article'}
         title={post.title}
         text={post.excerpt}

@@ -76,7 +76,8 @@ export default function CaseStudyDetail() {
         ]}
       />
       <PageHero
-        breadcrumb="Réalisation"
+        breadcrumb={item.title}
+        breadcrumbTrail={[{ name: 'Réalisations', path: '/realisations' }]}
         eyebrow={item.sector}
         title={item.title}
         text={item.summary}

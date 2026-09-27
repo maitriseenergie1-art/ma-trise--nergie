@@ -77,7 +77,7 @@ function headMarkup(head) {
   if (head.title) tags.push(`<title>${esc(head.title)}</title>`);
   if (head.description) tags.push(`<meta name="description" content="${esc(head.description)}" />`);
   if (head.canonical) tags.push(`<link rel="canonical" href="${esc(head.canonical)}" />`);
-  tags.push(`<meta name="robots" content="${head.noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}" />`);
+  tags.push(`<meta name="robots" content="${head.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}" />`);
   tags.push(`<meta name="author" content="${esc(head.siteName)}" />`);
   tags.push(`<meta property="og:title" content="${esc(head.title)}" />`);
   if (head.description) tags.push(`<meta property="og:description" content="${esc(head.description)}" />`);

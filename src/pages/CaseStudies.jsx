@@ -31,8 +31,8 @@ export default function CaseStudies() {
   return (
     <>
       <Seo
-        title="Réalisations"
-        description="Exemples de projets de performance énergétique : pilotage GTB, froid industriel, CVC et récupération de chaleur, présentés comme des systèmes."
+        title="Projets de performance énergétique | Maîtrise Énergie"
+        description="Découvrez des exemples de projets intégrant GTB, CVC, froid industriel, éclairage, pilotage et récupération de chaleur."
         canonicalPath="/realisations"
         noindex
         schema={schema}

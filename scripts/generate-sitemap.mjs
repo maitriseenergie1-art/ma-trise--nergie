@@ -20,9 +20,11 @@ const [caseStudies, blogPosts] = await Promise.all([
   fetchPublishedBlogPosts(),
 ]);
 
+// /plan-du-site et /realisations (index + fiches) sont en noindex,follow :
+// ils sont exclus du sitemap mais restent crawlables (voir robots.txt).
 const staticPaths = [
-  '/', '/solutions', '/secteurs', '/financement-cee',
-  '/ressources', '/a-propos', '/contact', '/faq', '/plan-du-site',
+  '/', '/solutions', '/secteurs', '/financement-cee', '/eligibilite',
+  '/ressources', '/a-propos', '/contact', '/faq',
 ];
 
 const contentPaths = [
@@ -31,9 +33,6 @@ const contentPaths = [
   ...blogPosts
     .filter((item) => item.indexable !== false)
     .map((item) => ({ path: `/ressources/${item.slug}`, lastmod: item.updated_at || item.published_at })),
-  ...caseStudies
-    .filter((item) => item.indexable !== false)
-    .map((item) => ({ path: `/realisations/${item.slug}`, lastmod: item.updated_at || item.published_at })),
 ];
 
 const entries = [

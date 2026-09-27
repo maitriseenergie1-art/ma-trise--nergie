@@ -5,8 +5,6 @@ import { collectHead } from '../lib/headCollector';
 
 const isBrowser = typeof document !== 'undefined';
 
-const limit = (value = '', max) => value.length <= max ? value : `${value.slice(0, max - 1).replace(/\s+\S*$/, '').trim()}…`;
-
 function absoluteUrl(path) {
   const base = (siteConfig.siteUrl || (isBrowser ? window.location.origin : '')).replace(/\/$/, '');
   if (!path) return base || undefined;
@@ -55,11 +53,9 @@ export function Seo({
 }) {
   const location = useLocation();
   const path = canonicalPath || location.pathname;
-  const pageTitle = title
-    ? limit(title.length <= 38 ? `${title} — ${siteConfig.name}` : title, 60)
-    : siteConfig.name;
-  const metaDescription = limit(description, 160);
-  const shouldNoindex = noindex || path === '/eligibilite';
+  const pageTitle = title || siteConfig.name;
+  const metaDescription = description || '';
+  const shouldNoindex = noindex;
   const canonical = absoluteUrl(path);
   const ogImage = absoluteUrl(image || siteConfig.defaultShareImage || '/og-social.jpg');
 
@@ -124,7 +120,7 @@ export function Seo({
         robots.name = 'robots';
         document.head.appendChild(robots);
       }
-      robots.content = 'noindex, nofollow';
+      robots.content = 'noindex, follow';
     } else {
       if (!robots) {
         robots = document.createElement('meta');

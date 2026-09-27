@@ -3,6 +3,7 @@ import { Seo } from '../components/Seo';
 import { siteConfig } from '../config/siteConfig';
 import { Link } from 'react-router-dom';
 import { MeasurementConsentControls } from '../components/MeasurementConsent';
+import { breadcrumbSchema } from '../lib/structuredData';
 
 const { contact, legal } = siteConfig;
 const editorName = legal.companyIdentity || `${siteConfig.name} [forme juridique et capital à compléter]`;
@@ -181,18 +182,19 @@ function ConditionsGeneralesUtilisation() {
 }
 
 const pages = {
-  'mentions-legales': { title: 'Mentions légales', description: 'Éditeur, hébergeur et informations légales du site Maîtrise Énergie.', Content: MentionsLegales },
-  'politique-de-confidentialite': { title: 'Politique de confidentialité', description: 'Comment Maîtrise Énergie collecte, utilise et protège vos données personnelles, conformément au RGPD.', Content: PolitiqueConfidentialite },
-  'gestion-des-cookies': { title: 'Politique de cookies', description: 'Cookies, stockages locaux et gestion des préférences sur le site Maîtrise Énergie.', Content: GestionCookies },
-  'conditions-generales-utilisation': { title: 'Conditions générales d’utilisation', description: 'Conditions encadrant l’accès et l’utilisation du site Maîtrise Énergie.', Content: ConditionsGeneralesUtilisation },
+  'mentions-legales': { title: 'Mentions légales | Maîtrise Énergie', description: 'Consultez les informations relatives à l’éditeur, à l’hébergement et au fonctionnement du site Maîtrise Énergie.', Content: MentionsLegales },
+  'politique-de-confidentialite': { title: 'Politique de confidentialité | Maîtrise Énergie', description: 'Découvrez comment Maîtrise Énergie collecte, utilise, conserve et protège vos données personnelles conformément au RGPD.', Content: PolitiqueConfidentialite },
+  'gestion-des-cookies': { title: 'Politique de cookies | Maîtrise Énergie', description: 'Consultez les informations sur les cookies, les outils de mesure et la gestion de vos préférences sur le site Maîtrise Énergie.', Content: GestionCookies },
+  'conditions-generales-utilisation': { title: 'Conditions générales d’utilisation | Maîtrise Énergie', description: 'Consultez les conditions encadrant l’accès, la navigation et l’utilisation du site internet de Maîtrise Énergie.', Content: ConditionsGeneralesUtilisation },
 };
 
 export default function Legal({ pageKey }) {
   const page = pages[pageKey];
+  const path = `/${pageKey}`;
   return <main className="legal-page">
-    <Seo title={page.title} description={page.description} noindex/>
+    <Seo title={page.title} description={page.description} canonicalPath={path} noindex schema={breadcrumbSchema([{name:'Accueil',path:'/'},{name:page.title.split(' | ')[0],path}])}/>
     <Container>
-      <Breadcrumb current={page.title}/>
+      <Breadcrumb current={page.title.split(' | ')[0]}/>
       <article className="prose">
         <page.Content/>
       </article>
