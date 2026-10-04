@@ -1756,7 +1756,14 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .also-trusted img{max-height:22px;max-width:100px;object-fit:contain}
 @media(max-width:780px){.case-study-grid{grid-template-columns:1fr}}
 
-.reference-grid{margin-top:8px}
+.reference-carousel{position:relative;margin-top:8px}
+.reference-carousel .reference-grid{display:flex;grid-template-columns:none;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:12px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.reference-carousel .reference-grid .case-study-placeholder{flex:0 0 280px;scroll-snap-align:start}
+.reference-carousel .reference-grid::-webkit-scrollbar{height:8px}
+.reference-carousel .reference-grid::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.reference-logo{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;object-fit:contain;flex:0 0 auto}
+.case-study-header .reference-logo + strong{margin-left:2px}
+@media(max-width:780px){.reference-carousel .reference-grid .case-study-placeholder{flex-basis:240px}}
 
 
 .hero-precision{font-size:13px;color:var(--muted)}

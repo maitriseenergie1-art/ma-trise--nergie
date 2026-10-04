@@ -119,12 +119,17 @@ export function SocialProof() {
 // Jordan à titre d'exemples sectoriels, sources publiques (exploitants, presse spécialisée,
 // données ADEME). Ne jamais laisser entendre que ce sont des réalisations de Maîtrise
 // Énergie — d'où l'intro et la note de bas de section, même sans tag par valeur.
+// Icônes officielles récupérées via le service favicon de Google (par nom de domaine) :
+// fiables, hébergées de façon stable, et volontairement de petite taille — simple repère
+// visuel d'identification de l'acteur cité, pas un logo mis en avant comme partenariat.
+const favicon = (domain) => `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+
 const publicReferences = [
-  { name: 'Thales Alenia Space, Toulouse', year: '2023', production: '1 200 MWh', power: '≈ 920 kWc', autoconso: '100 % (4 % de la consommation du site)', economy: '≈ 180 000 €/an', investment: '1,2 à 1,8 M€', roi: '7 à 10 ans', gain25: '2,7 à 3,3 M€' },
-  { name: 'Aéroport de Toulouse-Blagnac, P2', year: '2018', production: '1 096 MWh', power: '≈ 840 kWc', autoconso: '100 %', economy: '≈ 164 000 €/an', investment: '1,4 M€', roi: '8,5 ans', gain25: '2,7 M€' },
-  { name: 'E.Leclerc Grand Pineuilh', year: '2016', production: '580 MWh', power: '500 kWc', autoconso: '100 %', economy: '75 000 €/an ; ≈ 87 000 € au prix actuel', investment: '1,0 M€', roi: '≈ 10 ans après subventions ; 11,5 ans sans', gain25: '≈ 1,2 M€ (hors aides)' },
-  { name: 'IKEA Paris-Sud, toiture', year: '2016', production: '100 MWh', power: '114 kWc', autoconso: '100 %', economy: '≈ 15 000 €/an', investment: '145 000 à 228 000 €', roi: '10 à 15 ans', gain25: '150 000 à 230 000 €' },
-  { name: 'Carrefour Market Marly', year: '2026', production: '357 MWh', power: '376 kWc', autoconso: '≈ 100 % (un tiers des besoins au maximum)', economy: '≈ 54 000 €/an', investment: '477 000 à 752 000 €', roi: '9 à 14 ans', gain25: null },
+  { name: 'Thales Alenia Space, Toulouse', domain: 'thalesaleniaspace.com', year: '2023', production: '1 200 MWh', power: '≈ 920 kWc', autoconso: '100 % (4 % de la consommation du site)', economy: '≈ 180 000 €/an', investment: '1,2 à 1,8 M€', roi: '7 à 10 ans', gain25: '2,7 à 3,3 M€' },
+  { name: 'Aéroport de Toulouse-Blagnac, P2', domain: 'toulouse.aeroport.fr', year: '2018', production: '1 096 MWh', power: '≈ 840 kWc', autoconso: '100 %', economy: '≈ 164 000 €/an', investment: '1,4 M€', roi: '8,5 ans', gain25: '2,7 M€' },
+  { name: 'E.Leclerc Grand Pineuilh', domain: 'leclerc.fr', year: '2016', production: '580 MWh', power: '500 kWc', autoconso: '100 %', economy: '75 000 €/an ; ≈ 87 000 € au prix actuel', investment: '1,0 M€', roi: '≈ 10 ans après subventions ; 11,5 ans sans', gain25: '≈ 1,2 M€ (hors aides)' },
+  { name: 'IKEA Paris-Sud, toiture', domain: 'ikea.fr', year: '2016', production: '100 MWh', power: '114 kWc', autoconso: '100 %', economy: '≈ 15 000 €/an', investment: '145 000 à 228 000 €', roi: '10 à 15 ans', gain25: '150 000 à 230 000 €' },
+  { name: 'Carrefour Market Marly', domain: 'carrefour.fr', year: '2026', production: '357 MWh', power: '376 kWc', autoconso: '≈ 100 % (un tiers des besoins au maximum)', economy: '≈ 54 000 €/an', investment: '477 000 à 752 000 €', roi: '9 à 14 ans', gain25: null },
 ];
 
 export function PublicReferences() {
@@ -136,10 +141,20 @@ export function PublicReferences() {
           <h2>Le photovoltaïque professionnel, déjà une réalité chez de grands acteurs.</h2>
           <p className="lead small">Installations réalisées par d’autres acteurs du marché — il ne s’agit pas de réalisations de Maîtrise Énergie, données à titre d’exemple sectoriel.</p>
         </div>
-        <div className="case-study-grid reference-grid">
+        <div className="reference-carousel">
+          <div className="case-study-grid reference-grid">
           {publicReferences.map((ref) => (
             <article key={ref.name} className="case-study-placeholder">
-              <div className="case-study-header"><strong>{ref.name}</strong></div>
+              <div className="case-study-header">
+                <img
+                  className="reference-logo"
+                  src={favicon(ref.domain)}
+                  alt=""
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+                <strong>{ref.name}</strong>
+              </div>
               <span className="config-placeholder">{ref.year}</span>
               <dl>
                 <div><dt>Production annuelle</dt><dd>{ref.production}</dd></div>
@@ -152,8 +167,9 @@ export function PublicReferences() {
               </dl>
             </article>
           ))}
+          </div>
         </div>
-        <p className="case-study-footnote">Sources publiques (exploitants, presse spécialisée, données ADEME) — exemples sectoriels, hors clientèle Maîtrise Énergie.</p>
+        <p className="case-study-footnote">Faites défiler horizontalement pour voir les 5 exemples · sources publiques (exploitants, presse spécialisée, données ADEME) — hors clientèle Maîtrise Énergie.</p>
       </Container>
     </Section>
   );
