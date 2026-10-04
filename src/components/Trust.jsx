@@ -2,13 +2,13 @@ import { Star } from 'lucide-react';
 import { Container, Eyebrow, Section } from './ui';
 import { siteConfig } from '../config/siteConfig';
 
-// Chiffres réels à fournir — voir la liste « Données à me fournir » de la PR.
-// Tant qu'une valeur n'est pas confirmée, le placeholder reste visible plutôt que d'afficher un chiffre inventé.
+// Chiffres communiqués par Jordan le 2026-10-04. La puissance installée (kWc) n'a pas
+// de valeur réelle confirmée : elle reste en placeholder plutôt que d'être approximée.
 const stats = [
-  { value: '[À REMPLIR : kWc installés]', label: 'de puissance installée' },
-  { value: '[À REMPLIR : nb. de sites équipés]', label: 'sites professionnels équipés' },
-  { value: '[À REMPLIR : nb. années]', label: 'années d’expérience' },
-  { value: '[À REMPLIR : note /5]', label: 'note moyenne Google' },
+  { value: '+500', label: 'sites professionnels équipés' },
+  { value: '8 ans', label: 'd’expérience' },
+  { value: '+10 M€', label: 'd’économies réalisées pour nos clients' },
+  { value: '5/5', label: 'note moyenne Google' },
 ];
 
 export function StatsBar() {
@@ -42,7 +42,7 @@ export function GoogleReviewBadge({ className = '' }) {
         {Array.from({ length: 5 }).map((_, index) => <Star key={index} size={15} fill="currentColor"/>)}
       </span>
       <span>
-        <strong>[À REMPLIR : note /5]</strong>
+        <strong>5/5</strong>
         <small>Avis Google · voir la fiche</small>
       </span>
     </a>
