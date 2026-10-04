@@ -10,7 +10,7 @@ import { Seo } from '../components/Seo';
 import { CompactSolutionCard, SectorCard } from '../components/cards';
 import { faqSchema, organizationSchema, websiteSchema, webPageSchema } from '../lib/structuredData';
 import { Faq } from '../components/sections';
-import { StatsBar, SocialProof, Guarantees, PublicReferences } from '../components/Trust';
+import { StatsBar, SocialProof, PublicReferences } from '../components/Trust';
 import { trackEvent } from '../services/analyticsService';
 
 function SectorCarousel() {
@@ -236,7 +236,6 @@ export default function Home() {
     </Container></Section>
     <SocialProof/>
     <PublicReferences/>
-    <Guarantees/>
     <Section tone="dark" className="home-expertise"><Container><div className="section-intro with-link"><div><Eyebrow>Solutions complémentaires</Eyebrow><h2>Les autres leviers de performance énergétique.</h2><p className="lead small">Après le photovoltaïque, nous pouvons étudier les autres postes de consommation de vos bâtiments et installations : CVC, froid, isolation, chaleur, éclairage et pilotage.</p></div><Button to="/solutions" variant="outline-light" sourceCta="home_all_solutions">Voir toutes les solutions</Button></div><div className="solutions-preview-grid">{solutions.filter((solution) => solution.slug !== 'photovoltaique-professionnel').slice(0, 4).map((solution) => <CompactSolutionCard solution={solution} key={solution.slug}/>)}</div></Container></Section>
     <Section className="home-sectors"><Container><SectorCarousel/></Container></Section>
     <HumanTrust/>

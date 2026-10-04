@@ -1,4 +1,4 @@
-import { Award, Building2, MapPin, ShieldCheck, Star, Sun, Wallet } from 'lucide-react';
+import { Award, Star, Sun, Wallet } from 'lucide-react';
 import { Container, Eyebrow, Section } from './ui';
 import { siteConfig } from '../config/siteConfig';
 
@@ -159,30 +159,3 @@ export function PublicReferences() {
   );
 }
 
-export function Guarantees() {
-  const items = [
-    [ShieldCheck, 'Certifications', '[À REMPLIR : QualiPV / RGE / Qualifelec — à confirmer]'],
-    [Award, 'Assurance décennale', '[À REMPLIR : assureur et numéro de police]'],
-    [Building2, 'Identité de la société', '[À REMPLIR : raison sociale, SIRET]'],
-    [MapPin, 'Zone d’intervention', 'Partout en France, selon la nature du projet'],
-  ];
-  return (
-    <Section className="guarantees">
-      <Container>
-        <div className="section-intro">
-          <Eyebrow>Garanties</Eyebrow>
-          <h2>Un interlocuteur identifiable, avant tout engagement.</h2>
-        </div>
-        <dl className="guarantees-grid">
-          {items.map(([Icon, label, value]) => (
-            <div key={label}>
-              <Icon size={20} aria-hidden="true"/>
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </Container>
-    </Section>
-  );
-}
