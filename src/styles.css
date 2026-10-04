@@ -1739,12 +1739,13 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .google-review-badge small{color:var(--muted);font-size:13px}
 @media(max-width:480px){.google-review-badge{padding:14px 18px;gap:12px}.google-review-rating strong{font-size:19px}}
 
-.case-study-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:8px}
-.case-study-placeholder{border:1px solid var(--line);border-radius:10px;padding:20px;background:#fff}
-.case-study-header{display:flex;align-items:center;min-height:32px;margin-bottom:4px}
-.case-study-header img{max-height:32px;max-width:140px;object-fit:contain}
+.case-study-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:8px;align-items:stretch}
+.case-study-placeholder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;padding:20px;background:#fff;height:100%}
+.case-study-header{display:flex;align-items:center;min-height:48px;margin-bottom:8px}
+.case-study-header img{max-height:48px;max-width:180px;object-fit:contain}
 .case-study-header strong{display:block;font-size:16px}
-.case-study-placeholder dl{margin:14px 0 0;display:grid;gap:10px}
+.case-study-placeholder .config-placeholder{display:block;min-height:2.6em;font-size:13px;line-height:1.3;color:var(--muted)}
+.case-study-placeholder dl{margin:auto 0 0;display:grid;gap:10px;padding-top:14px}
 .case-study-placeholder dl>div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;padding-bottom:8px;border-bottom:1px solid var(--line)}
 .case-study-placeholder dl>div:last-child{border-bottom:0;padding-bottom:0}
 .case-study-placeholder dt{color:var(--muted)}
