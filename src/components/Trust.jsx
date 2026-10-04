@@ -115,6 +115,51 @@ export function SocialProof() {
   );
 }
 
+// Installations publiques réelles, non réalisées par Maîtrise Énergie — communiquées par
+// Jordan à titre d'exemples sectoriels (sources publiques citées par Jordan pour chaque
+// donnée : "publié" = chiffre officiel communiqué par l'exploitant/la presse, "estimé" =
+// calcul indicatif à partir de données publiques). Ne jamais laisser entendre que ce sont
+// des réalisations de Maîtrise Énergie.
+const publicReferences = [
+  { name: 'Thales Alenia Space, Toulouse', year: '2023', production: '1 200 MWh', power: '≈ 920 kWc (estimée)', autoconso: '100 % (4 % de la consommation du site)', economy: '≈ 180 000 €/an', investment: '1,2 à 1,8 M€ (estimé)', roi: '7 à 10 ans', gain25: '2,7 à 3,3 M€' },
+  { name: 'Aéroport de Toulouse-Blagnac, P2', year: '2018', production: '1 096 MWh', power: '≈ 840 kWc (estimée)', autoconso: '100 %', economy: '≈ 164 000 €/an', investment: '1,4 M€ (publié)', roi: '8,5 ans', gain25: '2,7 M€' },
+  { name: 'E.Leclerc Grand Pineuilh', year: '2016', production: '580 MWh', power: '500 kWc (publié)', autoconso: '100 %', economy: '75 000 €/an (publié) ; ≈ 87 000 € au prix actuel', investment: '1,0 M€ (publié)', roi: '≈ 10 ans après subventions (publié) ; 11,5 ans sans', gain25: '≈ 1,2 M€ (hors aides)' },
+  { name: 'IKEA Paris-Sud, toiture', year: '2016', production: '100 MWh', power: '114 kWc (publié)', autoconso: '100 % (publié)', economy: '≈ 15 000 €/an', investment: '145 000 à 228 000 € (estimé)', roi: '10 à 15 ans', gain25: '150 000 à 230 000 €' },
+  { name: 'Carrefour Market Marly', year: '2026', production: '357 MWh', power: '376 kWc (publié)', autoconso: '≈ 100 % (un tiers des besoins au maximum)', economy: '≈ 54 000 €/an', investment: '477 000 à 752 000 € (estimé)', roi: '9 à 14 ans', gain25: null },
+];
+
+export function PublicReferences() {
+  return (
+    <Section className="public-references" tone="muted">
+      <Container>
+        <div className="section-intro">
+          <Eyebrow>Exemples inspirants en France</Eyebrow>
+          <h2>Le photovoltaïque professionnel, déjà une réalité chez de grands acteurs.</h2>
+          <p className="lead small">Installations publiques, réalisées par d’autres acteurs du marché — données issues de sources publiques, à titre d’exemple sectoriel. Il ne s’agit pas de réalisations de Maîtrise Énergie.</p>
+        </div>
+        <div className="reference-grid">
+          {publicReferences.map((ref) => (
+            <article key={ref.name} className="reference-card">
+              <strong>{ref.name}</strong>
+              <span className="config-placeholder">{ref.year}</span>
+              <dl>
+                <div><dt>Production annuelle</dt><dd>{ref.production}</dd></div>
+                <div><dt>Puissance installée</dt><dd>{ref.power}</dd></div>
+                <div><dt>Autoconsommation</dt><dd>{ref.autoconso}</dd></div>
+                <div><dt>Économie annuelle</dt><dd className="gain">{ref.economy}</dd></div>
+                <div><dt>Investissement</dt><dd>{ref.investment}</dd></div>
+                <div><dt>Retour sur investissement</dt><dd>{ref.roi}</dd></div>
+                {ref.gain25 && <div><dt>Gain cumulé sur 25 ans</dt><dd className="gain">{ref.gain25}</dd></div>}
+              </dl>
+            </article>
+          ))}
+        </div>
+        <p className="case-study-footnote">Sources publiques (exploitants, presse spécialisée, données ADEME). Les montants marqués « estimé » sont des calculs indicatifs à partir de ces données publiques ; les autres sont des chiffres publiés par l’exploitant ou relayés dans la presse.</p>
+      </Container>
+    </Section>
+  );
+}
+
 export function Guarantees() {
   const items = [
     [ShieldCheck, 'Certifications', '[À REMPLIR : QualiPV / RGE / Qualifelec — à confirmer]'],
