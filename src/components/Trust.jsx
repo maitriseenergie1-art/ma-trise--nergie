@@ -65,18 +65,16 @@ export function GoogleReviewBadge({ className = '' }) {
   );
 }
 
-// Références réelles communiquées par Jordan (clients effectifs). Les logos ne sont pas
-// affichés tant que l'accord de chaque client sur leur utilisation n'est pas confirmé —
-// voir la liste « Données à me fournir ». Les chiffres de dimensionnement (kWc, économie,
-// retour) sont des estimations à partir d'hypothèses (surface, nombre de places) ou de
-// données publiques de production — non audités par le client. Présenter ces estimations
-// comme des résultats certifiés sur des entreprises réelles et identifiables exposerait
-// Jordan si un client contestait un jour le chiffre : la mention "estimation" reste donc
-// visible, discrète.
+// Références réelles communiquées par Jordan (clients effectifs), logos fournis par Jordan.
+// Les chiffres de dimensionnement (kWc, économie, retour) sont des estimations à partir
+// d'hypothèses (surface, nombre de places) ou de données publiques de production — non
+// audités par le client. Présenter ces estimations comme des résultats certifiés sur des
+// entreprises réelles et identifiables exposerait Jordan si un client contestait un jour
+// le chiffre : la mention "estimation" reste donc visible, discrète.
 const logoBase = 'https://pspqvjiqemsphdvoslqe.supabase.co/storage/v1/object/public/Images%20du%20site/logo%20entreprise';
 
 const clientReferences = [
-  { name: 'Toulouse INP-ENSIACET', logo: null, detail: 'Ombrières photovoltaïques — parking de l’INPT, Labège', power: '≈ 1 220 kWc', economy: '≈ 190 000 €/an', roi: 'dès 8 ans' },
+  { name: 'Toulouse INP-ENSIACET', logo: `${logoBase}/Toulouse-INP-ENSIACET.webp`, detail: 'Ombrières photovoltaïques — parking de l’INPT, Labège', power: '≈ 1 220 kWc', economy: '≈ 190 000 €/an', roi: 'dès 8 ans' },
   { name: 'CHU Purpan', logo: `${logoBase}/logo-chu-toulouse-purpan.webp`, detail: 'Parking des Peupliers — Toulouse', power: '≈ 1 380 kWc', economy: '≈ 256 000 €/an', roi: 'dès 7 ans' },
   { name: 'MAIF', logo: `${logoBase}/logo-maif.webp`, detail: 'Parking de Labège, Toulouse', power: '≈ 720 kWc', economy: '≈ 113 000 €/an', roi: 'dès 8 ans' },
 ];
