@@ -49,28 +49,39 @@ export function GoogleReviewBadge({ className = '' }) {
   );
 }
 
+// Références réelles communiquées par Jordan (clients effectifs). Les logos ne sont pas
+// affichés tant que l'accord de chaque client sur leur utilisation n'est pas confirmé —
+// voir la liste « Données à me fournir ». Les métriques précises (kWc, économie, retour)
+// n'ont pas été communiquées par ces clients : elles restent en placeholder plutôt que d'être inventées.
+const clientReferences = [
+  { name: 'MAIF', detail: 'Centre de gestion sinistres — Labège, Toulouse' },
+  { name: 'Carrefour', detail: 'Parking des Peupliers — Toulouse Purpan' },
+  { name: 'Toulouse INP-ENSIACET', detail: 'Ombrières photovoltaïques sur parking — campus de Toulouse' },
+];
+
 export function SocialProof() {
-  const clientLogos = [1, 2, 3, 4, 5, 6];
   return (
     <Section className="social-proof" tone="muted">
       <Container>
         <div className="section-intro">
           <Eyebrow>Ils nous ont fait confiance</Eyebrow>
           <h2>Des entreprises déjà engagées dans leur projet solaire.</h2>
-          <p className="lead small">Logos et études de cas à remplacer par vos références réelles avant la mise en ligne définitive.</p>
+          <p className="lead small">Logos en attente de l’accord de chaque client. Les résultats chiffrés (kWc, économie, retour) ne nous ont pas été communiqués : ils restent en attente plutôt que d’être estimés.</p>
         </div>
-        <ul className="client-logo-row" aria-label="Logos clients à renseigner">
-          {clientLogos.map((index) => (
-            <li key={index} className="client-logo-placeholder" aria-hidden="true">[À REMPLIR : logo client]</li>
+        <ul className="client-logo-row" aria-label="Références clients">
+          {clientReferences.map((client) => (
+            <li key={client.name} className="client-logo-placeholder">
+              <strong>{client.name}</strong>
+              <small>[À REMPLIR : logo — accord client requis]</small>
+            </li>
           ))}
         </ul>
         <div className="case-study-grid">
-          {[1, 2, 3].map((index) => (
-            <article key={index} className="case-study-placeholder">
-              <span className="config-placeholder">[À REMPLIR : étude de cas {index}]</span>
+          {clientReferences.map((client) => (
+            <article key={client.name} className="case-study-placeholder">
+              <strong>{client.name}</strong>
+              <span className="config-placeholder">{client.detail}</span>
               <dl>
-                <div><dt>Secteur</dt><dd>[À REMPLIR]</dd></div>
-                <div><dt>Surface</dt><dd>[À REMPLIR] m²</dd></div>
                 <div><dt>Puissance installée</dt><dd>[À REMPLIR] kWc</dd></div>
                 <div><dt>Économie annuelle</dt><dd>[À REMPLIR] €/an</dd></div>
                 <div><dt>Retour sur investissement</dt><dd>[À REMPLIR] ans</dd></div>
