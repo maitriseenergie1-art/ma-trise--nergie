@@ -93,7 +93,7 @@ export function SocialProof() {
             </article>
           ))}
         </div>
-        <p className="case-study-footnote">* Estimation Maîtrise Énergie, basée sur données publiques et hypothèses de dimensionnement.</p>
+        <p className="case-study-footnote">* Données estimées compte tenu du cours actuel de l’énergie, susceptibles de variation — réévaluées en octobre 2026.</p>
         <GoogleReviewBadge/>
       </Container>
     </Section>
