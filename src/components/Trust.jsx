@@ -93,7 +93,7 @@ export function SocialProof() {
             </article>
           ))}
         </div>
-        <p className="case-study-footnote">* Estimation à partir de données publiques et d’hypothèses de dimensionnement, non auditée par le client.</p>
+        <p className="case-study-footnote">* Estimation Maîtrise Énergie, basée sur données publiques et hypothèses de dimensionnement.</p>
         <GoogleReviewBadge/>
       </Container>
     </Section>
