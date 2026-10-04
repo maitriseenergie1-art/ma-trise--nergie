@@ -13,6 +13,7 @@ import { faqSchema, organizationSchema, websiteSchema, webPageSchema } from '../
 import { Faq } from '../components/sections';
 import { StatsBar, SocialProof, Guarantees } from '../components/Trust';
 import { trackEvent } from '../services/analyticsService';
+import { TrustBar, SocialProofSection, GuaranteesSection, AutofinancingExplainer } from '../components/TrustSections';
 
 function SectorCarousel() {
   const [start, setStart] = useState(0);
@@ -243,6 +244,7 @@ export default function Home() {
     <LargeSitesVideoShowcase/>
     <WhyUs/>
     <ExpertiseMethod/>
+    <GuaranteesSection/>
     <MidContact title="Votre site dispose-t-il du potentiel pour une centrale solaire&nbsp;?" text="Les premiers critères se vérifient à partir de votre surface disponible et de votre facture d’électricité." label="Tester mon éligibilité" to="/eligibilite" sourceCta="home_mid_eligibility"/>
     <FundingPreview/>
     <DeferredBelowFoldContent/>

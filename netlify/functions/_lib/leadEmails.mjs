@@ -7,7 +7,7 @@
 //   RESEND_FROM           Sender on a domain verified in Resend,
 //                         e.g. "Maîtrise Énergie <notifications@maitrise-energie.fr>"
 // Optional:
-//   LEAD_NOTIFICATION_TO  Comma-separated internal recipients (default: contact@maitrise-energie.fr)
+//   LEAD_NOTIFICATION_TO  Comma-separated internal recipients (default: maitriseenergie1@gmail.com)
 //   SITE_URL              Public origin shown in the acknowledgement footer
 
 import { LOGO_PNG_BASE64 } from './emailLogo.mjs';
@@ -277,7 +277,7 @@ export async function sendLeadEmails(lead, { env = process.env, fetchImpl = fetc
   const from = env.RESEND_FROM?.trim();
   if (!apiKey || !from) return { skipped: true, missing: [!apiKey && 'RESEND_API_KEY', !from && 'RESEND_FROM'].filter(Boolean) };
 
-  const recipients = (env.LEAD_NOTIFICATION_TO || BRAND.email).split(',').map((r) => r.trim()).filter(Boolean);
+  const recipients = (env.LEAD_NOTIFICATION_TO || 'maitriseenergie1@gmail.com').split(',').map((r) => r.trim()).filter(Boolean);
   const notification = buildNotification(lead);
   const acknowledgement = buildAcknowledgement(lead);
 
