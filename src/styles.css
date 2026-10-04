@@ -1756,6 +1756,7 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .case-study-placeholder dl>div{display:flex;justify-content:space-between;gap:10px;font-size:13px}
 .case-study-placeholder dt{color:var(--muted)}
 .case-study-placeholder dd{margin:0;font-weight:700}
+.case-study-footnote{margin:10px 0 0;font-size:11px;color:var(--muted)}
 @media(max-width:780px){.case-study-grid{grid-template-columns:1fr}}
 
 .guarantees-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;list-style:none;margin:0;padding:0}

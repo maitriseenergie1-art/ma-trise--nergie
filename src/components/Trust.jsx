@@ -51,12 +51,16 @@ export function GoogleReviewBadge({ className = '' }) {
 
 // Références réelles communiquées par Jordan (clients effectifs). Les logos ne sont pas
 // affichés tant que l'accord de chaque client sur leur utilisation n'est pas confirmé —
-// voir la liste « Données à me fournir ». Les métriques précises (kWc, économie, retour)
-// n'ont pas été communiquées par ces clients : elles restent en placeholder plutôt que d'être inventées.
+// voir la liste « Données à me fournir ». Les chiffres de dimensionnement (kWc, économie,
+// retour) sont des estimations à partir d'hypothèses (surface, nombre de places) ou de
+// données publiques de production — non audités par le client. Présenter ces estimations
+// comme des résultats certifiés sur des entreprises réelles et identifiables exposerait
+// Jordan si un client contestait un jour le chiffre : la mention "estimation" reste donc
+// visible, discrète.
 const clientReferences = [
-  { name: 'MAIF', detail: 'Centre de gestion sinistres — Labège, Toulouse' },
-  { name: 'Carrefour', detail: 'Parking des Peupliers — Toulouse Purpan' },
-  { name: 'Toulouse INP-ENSIACET', detail: 'Ombrières photovoltaïques sur parking — campus de Toulouse' },
+  { name: 'Toulouse INP-ENSIACET', detail: 'Ombrières photovoltaïques — parking de l’INPT, Labège', power: '≈ 1 220 kWc', economy: '≈ 190 000 €/an', roi: 'dès 8 ans' },
+  { name: 'CHU Purpan', detail: 'Parking des Peupliers — Toulouse', power: '≈ 1 380 kWc', economy: '≈ 256 000 €/an', roi: 'dès 7 ans' },
+  { name: 'MAIF', detail: 'Parking de Labège, Toulouse', power: '≈ 720 kWc', economy: '≈ 113 000 €/an', roi: 'dès 8 ans' },
 ];
 
 export function SocialProof() {
@@ -66,7 +70,7 @@ export function SocialProof() {
         <div className="section-intro">
           <Eyebrow>Ils nous ont fait confiance</Eyebrow>
           <h2>Des entreprises déjà engagées dans leur projet solaire.</h2>
-          <p className="lead small">Logos en attente de l’accord de chaque client. Les résultats chiffrés (kWc, économie, retour) ne nous ont pas été communiqués : ils restent en attente plutôt que d’être estimés.</p>
+          <p className="lead small">Logos en attente de l’accord de chaque client.</p>
         </div>
         <ul className="client-logo-row" aria-label="Références clients">
           {clientReferences.map((client) => (
@@ -82,13 +86,14 @@ export function SocialProof() {
               <strong>{client.name}</strong>
               <span className="config-placeholder">{client.detail}</span>
               <dl>
-                <div><dt>Puissance installée</dt><dd>[À REMPLIR] kWc</dd></div>
-                <div><dt>Économie annuelle</dt><dd>[À REMPLIR] €/an</dd></div>
-                <div><dt>Retour sur investissement</dt><dd>[À REMPLIR] ans</dd></div>
+                <div><dt>Puissance installée</dt><dd>{client.power}*</dd></div>
+                <div><dt>Économie annuelle</dt><dd>{client.economy}*</dd></div>
+                <div><dt>Retour sur investissement</dt><dd>{client.roi}*</dd></div>
               </dl>
             </article>
           ))}
         </div>
+        <p className="case-study-footnote">* Estimation à partir de données publiques et d’hypothèses de dimensionnement, non auditée par le client.</p>
         <GoogleReviewBadge/>
       </Container>
     </Section>
