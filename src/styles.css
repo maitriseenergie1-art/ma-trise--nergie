@@ -1711,6 +1711,63 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .measurement-consent-controls p{margin-top:0!important}
 .measurement-consent-controls .measurement-consent-actions{flex-wrap:wrap}
 
+/* ==========================================================================
+   Accent chaud réservé aux CTA — contraste sur fond vert/pétrole existant.
+   Conserve la base verte (#102d31) pour le reste du design.
+   ========================================================================== */
+:root{--sun-accent:#e08a1e;--sun-accent-dark:#b86f13}
+.button,.rail-action .button,body .home-hero-structured .button,.final-cta .button,.mid-contact .button,.quick-lead .button,.floating-lead-actions .button,.floating-lead-success .button{background:var(--sun-accent);border-color:var(--sun-accent);color:#19120a}
+.button:hover,.rail-action .button:hover,body .home-hero-structured .button:hover,.final-cta .button:hover,.mid-contact .button:hover,.quick-lead .button:hover{background:var(--sun-accent-dark);border-color:var(--sun-accent-dark)}
+.button.secondary{background:transparent;color:inherit}
+.solar-offer-card .button{background:#fff!important;border-color:#fff!important;color:#123d3a!important}
+
+/* Bandeau de chiffres clés — données réelles à renseigner (voir Trust.jsx). */
+.stats-bar{background:var(--petrol,#123d3a);color:#fff;padding:22px 0}
+.stats-bar ul{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;list-style:none;margin:0;padding:0;text-align:center}
+.stats-bar li{display:flex;flex-direction:column;align-items:center;gap:4px}
+.stats-bar li>svg{color:var(--sun-accent);margin-bottom:2px}
+.stats-bar strong{font-size:clamp(22px,2.6vw,32px);font-weight:800;letter-spacing:-.02em;color:var(--sun-accent);line-height:1.1}
+.stats-bar span{font-size:12px;color:#d8e4e1}
+@media(max-width:780px){.stats-bar ul{grid-template-columns:repeat(2,1fr)}}
+
+.google-review-badge{display:inline-flex;align-items:center;gap:16px;margin-top:28px;padding:18px 26px;border:1px solid var(--line);border-radius:14px;text-decoration:none;color:inherit;background:#fff;box-shadow:0 8px 24px rgba(16,45,49,.08);transition:.2s transform,.2s box-shadow}
+.google-review-badge:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,45,49,.12)}
+.google-review-body{display:flex;flex-direction:column;gap:3px}
+.google-review-rating{display:flex;align-items:center;gap:8px}
+.google-review-rating strong{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.google-review-stars{display:flex;gap:2px;color:#fbbc04}
+.google-review-badge small{color:var(--muted);font-size:13px}
+@media(max-width:480px){.google-review-badge{padding:14px 18px;gap:12px}.google-review-rating strong{font-size:19px}}
+
+.case-study-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:8px;align-items:stretch}
+.case-study-placeholder{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;padding:20px;background:#fff;height:100%}
+.case-study-header{display:flex;align-items:center;min-height:48px;margin-bottom:8px}
+.case-study-header img{max-height:48px;max-width:180px;object-fit:contain}
+.case-study-header strong{display:block;font-size:16px}
+.case-study-placeholder .config-placeholder{display:block;min-height:2.6em;font-size:13px;line-height:1.3;color:var(--muted)}
+.case-study-placeholder dl{margin:auto 0 0;display:grid;gap:10px;padding-top:14px}
+.case-study-placeholder dl>div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.case-study-placeholder dl>div:last-child{border-bottom:0;padding-bottom:0}
+.case-study-placeholder dt{color:var(--muted)}
+.case-study-placeholder dd{margin:0;font-size:17px;font-weight:800;color:var(--sun-accent-dark);letter-spacing:-.01em}
+.case-study-placeholder dd.gain{color:#1d8a4a;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.case-study-footnote{margin:10px 0 0;font-size:11px;color:var(--muted)}
+.also-trusted{display:flex;align-items:center;gap:10px;margin:14px 0 0;font-size:12px;color:var(--muted)}
+.also-trusted img{max-height:22px;max-width:100px;object-fit:contain}
+@media(max-width:780px){.case-study-grid{grid-template-columns:1fr}}
+
+.reference-grid{margin-top:8px}
+
+
+.hero-precision{font-size:13px;color:var(--muted)}
+.hero-cta-subtext{margin:8px 0 0;font-size:12px;color:var(--muted)}
+.autofinancement-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;list-style:none;margin:0;padding:0}
+.autofinancement-steps li{border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.autofinancement-steps li>svg{color:var(--sun-accent)}
+.autofinancement-steps strong{color:var(--petrol,#123d3a)}
+.autofinancement-steps span{font-size:13px;color:var(--muted)}
+@media(max-width:780px){.autofinancement-steps{grid-template-columns:1fr}}
+
 @media(max-width:680px){
   .measurement-consent{bottom:10px;display:block;padding:18px}
   .measurement-consent-actions{justify-content:flex-end;margin-top:14px}
@@ -1722,43 +1779,6 @@ body .sector-card>div>svg:last-child{margin-top:auto}
    -------------------------------------------------------------------------- */
 .hero-precision{font-size:14px;color:var(--muted);max-width:520px;margin:-14px 0 20px}
 .hero-cta-subtext{font-size:11px;color:var(--muted);margin:10px 0 0}
-.trust-bar{background:var(--petrol);color:#fff;padding:22px 0}
-.trust-bar-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;text-align:center}
-.trust-bar-item{display:flex;flex-direction:column;gap:4px}
-.trust-bar-item strong{font-size:clamp(18px,2.4vw,26px);letter-spacing:-.02em}
-.trust-bar-item span{font-size:11px;color:#c7d6cf;text-transform:uppercase;letter-spacing:.06em}
 .solutions-preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
 .footer-service-area{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#a9d7ca;margin-bottom:2px}
 .social-proof .section-intro{margin-bottom:30px}
-.trust-placeholder-note{font-size:13px;color:#a12d2d;background:#fbe9e7;border:1px dashed #e0a9a0;border-radius:8px;padding:10px 14px;margin-bottom:30px;display:inline-block}
-.client-logos{display:flex;flex-wrap:wrap;align-items:center;gap:28px;margin-bottom:40px}
-.client-logos img{height:40px;width:auto;filter:grayscale(1);opacity:.75}
-.case-study-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:28px}
-.case-study-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.case-study-media{height:150px;display:flex;align-items:center;justify-content:center;background:#edf0e9}
-.case-study-media img{width:100%;height:100%}
-.case-study-placeholder{font-size:11px;color:#a12d2d;text-align:center;padding:0 20px}
-.case-study-body{padding:20px}
-.case-study-body>span{font:10px Inter;letter-spacing:.08em;text-transform:uppercase;color:#758233;display:block;margin-bottom:10px}
-.case-study-body dl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
-.case-study-body dl>div{display:flex;flex-direction:column;gap:2px}
-.case-study-body dt{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.case-study-body dd{margin:0;font-size:12px;font-weight:700;color:var(--ink)}
-.google-review-card{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px}
-.google-review-stars{display:flex;gap:2px;color:var(--sun)}
-.google-review-card strong{display:block;font-size:16px}
-.google-review-card small{color:var(--muted);font-size:12px}
-.guarantees-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.guarantees-grid article{padding:22px;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
-.guarantees-grid svg{color:var(--petrol);margin-bottom:10px}
-.guarantees-grid p{font-size:13px;color:var(--muted);margin:0}
-.autofinancing-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;list-style:none;margin:0 0 36px;padding:0}
-.autofinancing-step-icon{display:inline-flex;align-items:center;gap:8px;color:var(--petrol);margin-bottom:12px}
-.autofinancing-step-icon small{color:var(--muted);font-size:11px}
-.sample-simulation{background:#edf0e9;border-radius:var(--radius);padding:24px 28px}
-.sample-simulation p{margin:0 0 8px;font-size:15px}
-.sample-simulation small{color:var(--muted)}
-@media(max-width:680px){
-  .case-study-body dl{grid-template-columns:1fr}
-  .google-review-card{flex-direction:column;align-items:flex-start;text-align:left}
-}

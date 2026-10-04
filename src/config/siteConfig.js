@@ -11,7 +11,7 @@ export const siteConfig = {
     address: '37 Avenue Trudaine, 75009 Paris',
     geo: { latitude: 48.8809441, longitude: 2.3423369 },
     hours: 'Lundi au vendredi · 9h00–18h00',
-    serviceArea: 'France métropolitaine · selon la nature du projet',
+    serviceArea: 'partout en France',
     mapEmbedUrl: 'https://maps.google.com/maps?q=37+Avenue+Trudaine%2C+75009+Paris&z=15&output=embed',
     bookingUrl: '',
     googleBusinessUrl: 'https://share.google/jyFj5djDW0ieubClO',
