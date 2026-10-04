@@ -1721,6 +1721,55 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .measurement-consent-controls p{margin-top:0!important}
 .measurement-consent-controls .measurement-consent-actions{flex-wrap:wrap}
 
+/* ==========================================================================
+   Accent chaud réservé aux CTA — contraste sur fond vert/pétrole existant.
+   Conserve la base verte (#102d31) pour le reste du design.
+   ========================================================================== */
+:root{--sun-accent:#e08a1e;--sun-accent-dark:#b86f13}
+.button,.rail-action .button,body .home-hero-structured .button,.final-cta .button,.mid-contact .button,.quick-lead .button,.floating-lead-actions .button,.floating-lead-success .button{background:var(--sun-accent);border-color:var(--sun-accent);color:#19120a}
+.button:hover,.rail-action .button:hover,body .home-hero-structured .button:hover,.final-cta .button:hover,.mid-contact .button:hover,.quick-lead .button:hover{background:var(--sun-accent-dark);border-color:var(--sun-accent-dark)}
+.button.secondary{background:transparent;color:inherit}
+.solar-offer-card .button{background:#fff!important;border-color:#fff!important;color:#123d3a!important}
+
+/* Bandeau de chiffres clés — données réelles à renseigner (voir Trust.jsx). */
+.stats-bar{background:var(--petrol,#123d3a);color:#fff;padding:22px 0}
+.stats-bar ul{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;list-style:none;margin:0;padding:0;text-align:center}
+.stats-bar li{display:flex;flex-direction:column;gap:4px}
+.stats-bar strong{font-size:clamp(14px,1.6vw,20px);color:var(--sun-accent)}
+.stats-bar span{font-size:12px;color:#d8e4e1}
+@media(max-width:780px){.stats-bar ul{grid-template-columns:repeat(2,1fr)}}
+
+.google-review-badge{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:10px 16px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:inherit;background:#fff}
+.google-review-stars{display:flex;gap:2px;color:var(--sun-accent)}
+.google-review-badge strong{display:block;font-size:14px}
+.google-review-badge small{color:var(--muted)}
+
+.client-logo-row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;list-style:none;margin:28px 0;padding:0}
+.client-logo-placeholder{display:flex;align-items:center;justify-content:center;min-height:64px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:11px;text-align:center;padding:8px}
+@media(max-width:780px){.client-logo-row{grid-template-columns:repeat(3,1fr)}}
+
+.case-study-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:8px}
+.case-study-placeholder{border:1px dashed var(--line);border-radius:10px;padding:18px;background:#fff}
+.case-study-placeholder dl{margin:12px 0 0;display:grid;gap:6px}
+.case-study-placeholder dl>div{display:flex;justify-content:space-between;gap:10px;font-size:13px}
+.case-study-placeholder dt{color:var(--muted)}
+.case-study-placeholder dd{margin:0;font-weight:700}
+@media(max-width:780px){.case-study-grid{grid-template-columns:1fr}}
+
+.guarantees-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;list-style:none;margin:0;padding:0}
+.guarantees-grid>div{border:1px solid var(--line);border-radius:10px;padding:16px}
+.guarantees-grid dt{font-size:12px;color:var(--muted);margin-bottom:6px}
+.guarantees-grid dd{margin:0;font-weight:700}
+@media(max-width:780px){.guarantees-grid{grid-template-columns:1fr 1fr}}
+
+.hero-precision{font-size:13px;color:var(--muted)}
+.hero-cta-subtext{margin:8px 0 0;font-size:12px;color:var(--muted)}
+.autofinancement-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;list-style:none;margin:0;padding:0}
+.autofinancement-steps li{border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.autofinancement-steps strong{color:var(--petrol,#123d3a)}
+.autofinancement-steps span{font-size:13px;color:var(--muted)}
+@media(max-width:780px){.autofinancement-steps{grid-template-columns:1fr}}
+
 @media(max-width:680px){
   .measurement-consent{bottom:10px;display:block;padding:18px}
   .measurement-consent-actions{justify-content:flex-end;margin-top:14px}
