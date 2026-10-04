@@ -1,7 +1,7 @@
 import { MidContact } from '../components/MidContact';
 import { CardCarousel } from '../components/CardCarousel';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, HandHeart, Layers3, LockKeyhole, ScanSearch, Sun, Building2, ReceiptText, BadgeEuro, ChartNoAxesCombined, PhoneCall, UsersRound } from 'lucide-react';
+import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, HandHeart, Key, Layers3, LockKeyhole, ScanSearch, Sun, Building2, ReceiptText, BadgeEuro, ChartNoAxesCombined, PhoneCall, UsersRound } from 'lucide-react';
 import { images } from '../data/images';
 import { solutions } from '../data/solutions';
 import { sectors } from '../data/sectors';
@@ -229,10 +229,10 @@ export default function Home() {
     <Section className="autofinancement-explique"><Container>
       <div className="section-intro"><Eyebrow>Comment ça marche</Eyebrow><h2>Comment fonctionne l’autofinancement ?</h2><p className="lead small">[À REMPLIR : mécanisme exact à valider — tiers-financement, PPA ou crédit-bail]. Principe général étudié au cas par cas :</p></div>
       <ol className="autofinancement-steps">
-        <li><strong>1. Étude</strong><span>Production estimée et économies attendues sur votre facture actuelle.</span></li>
-        <li><strong>2. Installation</strong><span>La centrale est posée sans apport initial, selon le montage retenu.</span></li>
-        <li><strong>3. Remboursement</strong><span>Les économies générées contribuent au remboursement de l’installation.</span></li>
-        <li><strong>4. Propriété</strong><span>À l’issue du contrat, selon le montage : propriété de la centrale ou fin de contrat.</span></li>
+        <li><ScanSearch size={22} aria-hidden="true"/><strong>1. Étude</strong><span>Production estimée et économies attendues sur votre facture actuelle.</span></li>
+        <li><Wrench size={22} aria-hidden="true"/><strong>2. Installation</strong><span>La centrale est posée sans apport initial, selon le montage retenu.</span></li>
+        <li><BadgeEuro size={22} aria-hidden="true"/><strong>3. Remboursement</strong><span>Les économies générées contribuent au remboursement de l’installation.</span></li>
+        <li><Key size={22} aria-hidden="true"/><strong>4. Propriété</strong><span>À l’issue du contrat, selon le montage : propriété de la centrale ou fin de contrat.</span></li>
       </ol>
     </Container></Section>
     <SocialProof/>

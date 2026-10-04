@@ -1,14 +1,14 @@
-import { Star } from 'lucide-react';
+import { Award, Building2, MapPin, ShieldCheck, Star, Sun, Wallet } from 'lucide-react';
 import { Container, Eyebrow, Section } from './ui';
 import { siteConfig } from '../config/siteConfig';
 
 // Chiffres communiqués par Jordan le 2026-10-04. La puissance installée (kWc) n'a pas
 // de valeur réelle confirmée : elle reste en placeholder plutôt que d'être approximée.
 const stats = [
-  { value: '+500', label: 'sites professionnels équipés' },
-  { value: '8 ans', label: 'd’expérience' },
-  { value: '+10 M€', label: 'd’économies réalisées pour nos clients' },
-  { value: '5/5', label: 'note moyenne Google' },
+  { icon: Sun, value: '+500', label: 'sites professionnels équipés' },
+  { icon: Award, value: '8 ans', label: 'd’expérience' },
+  { icon: Wallet, value: '+10 M€', label: 'd’économies réalisées pour nos clients' },
+  { icon: Star, value: '5/5', label: 'note moyenne Google' },
 ];
 
 export function StatsBar() {
@@ -16,10 +16,11 @@ export function StatsBar() {
     <div className="stats-bar" aria-label="Chiffres clés Maîtrise Énergie">
       <Container>
         <ul>
-          {stats.map((stat) => (
-            <li key={stat.label}>
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
+          {stats.map(({ icon: Icon, value, label }) => (
+            <li key={label}>
+              <Icon size={20} aria-hidden="true"/>
+              <strong>{value}</strong>
+              <span>{label}</span>
             </li>
           ))}
         </ul>
@@ -57,11 +58,16 @@ export function GoogleReviewBadge({ className = '' }) {
 // comme des résultats certifiés sur des entreprises réelles et identifiables exposerait
 // Jordan si un client contestait un jour le chiffre : la mention "estimation" reste donc
 // visible, discrète.
+const logoBase = 'https://pspqvjiqemsphdvoslqe.supabase.co/storage/v1/object/public/Images%20du%20site/logo%20entreprise';
+
 const clientReferences = [
-  { name: 'Toulouse INP-ENSIACET', detail: 'Ombrières photovoltaïques — parking de l’INPT, Labège', power: '≈ 1 220 kWc', economy: '≈ 190 000 €/an', roi: 'dès 8 ans' },
-  { name: 'CHU Purpan', detail: 'Parking des Peupliers — Toulouse', power: '≈ 1 380 kWc', economy: '≈ 256 000 €/an', roi: 'dès 7 ans' },
-  { name: 'MAIF', detail: 'Parking de Labège, Toulouse', power: '≈ 720 kWc', economy: '≈ 113 000 €/an', roi: 'dès 8 ans' },
+  { name: 'Toulouse INP-ENSIACET', logo: null, detail: 'Ombrières photovoltaïques — parking de l’INPT, Labège', power: '≈ 1 220 kWc', economy: '≈ 190 000 €/an', roi: 'dès 8 ans' },
+  { name: 'CHU Purpan', logo: `${logoBase}/logo-chu-toulouse-purpan.webp`, detail: 'Parking des Peupliers — Toulouse', power: '≈ 1 380 kWc', economy: '≈ 256 000 €/an', roi: 'dès 7 ans' },
+  { name: 'MAIF', logo: `${logoBase}/logo-maif.webp`, detail: 'Parking de Labège, Toulouse', power: '≈ 720 kWc', economy: '≈ 113 000 €/an', roi: 'dès 8 ans' },
 ];
+// Carrefour n'apparaît pas dans les études de cas chiffrées (données non communiquées par Jordan),
+// mais le logo fourni est affiché dans la rangée de confiance au même titre que les autres.
+const extraLogo = { name: 'Carrefour', logo: `${logoBase}/logo-carrefour.webp` };
 
 export function SocialProof() {
   return (
@@ -70,13 +76,13 @@ export function SocialProof() {
         <div className="section-intro">
           <Eyebrow>Ils nous ont fait confiance</Eyebrow>
           <h2>Des entreprises déjà engagées dans leur projet solaire.</h2>
-          <p className="lead small">Logos en attente de l’accord de chaque client.</p>
         </div>
         <ul className="client-logo-row" aria-label="Références clients">
-          {clientReferences.map((client) => (
-            <li key={client.name} className="client-logo-placeholder">
-              <strong>{client.name}</strong>
-              <small>[À REMPLIR : logo — accord client requis]</small>
+          {[extraLogo, ...clientReferences].map((client) => (
+            <li key={client.name} className="client-logo-item">
+              {client.logo
+                ? <img src={client.logo} alt={client.name} loading="lazy"/>
+                : <strong>{client.name}</strong>}
             </li>
           ))}
         </ul>
@@ -102,10 +108,10 @@ export function SocialProof() {
 
 export function Guarantees() {
   const items = [
-    ['Certifications', '[À REMPLIR : QualiPV / RGE / Qualifelec — à confirmer]'],
-    ['Assurance décennale', '[À REMPLIR : assureur et numéro de police]'],
-    ['Identité de la société', '[À REMPLIR : raison sociale, SIRET]'],
-    ['Zone d’intervention', 'Partout en France, selon la nature du projet'],
+    [ShieldCheck, 'Certifications', '[À REMPLIR : QualiPV / RGE / Qualifelec — à confirmer]'],
+    [Award, 'Assurance décennale', '[À REMPLIR : assureur et numéro de police]'],
+    [Building2, 'Identité de la société', '[À REMPLIR : raison sociale, SIRET]'],
+    [MapPin, 'Zone d’intervention', 'Partout en France, selon la nature du projet'],
   ];
   return (
     <Section className="guarantees">
@@ -115,8 +121,9 @@ export function Guarantees() {
           <h2>Un interlocuteur identifiable, avant tout engagement.</h2>
         </div>
         <dl className="guarantees-grid">
-          {items.map(([label, value]) => (
+          {items.map(([Icon, label, value]) => (
             <div key={label}>
+              <Icon size={20} aria-hidden="true"/>
               <dt>{label}</dt>
               <dd>{value}</dd>
             </div>
