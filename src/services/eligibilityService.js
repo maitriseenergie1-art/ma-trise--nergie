@@ -64,7 +64,6 @@ export function buildEligibilityLeadPayload(answers, submissionId, ctaSource) {
       adsMeasurement: adsMeasurement.consentGranted,
     },
     website: answers.website || '',
-    turnstileToken: emptyToNull(answers.turnstileToken),
   };
 }
 

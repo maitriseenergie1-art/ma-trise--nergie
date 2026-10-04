@@ -1,7 +1,6 @@
 import { admin, supabaseConfigured } from './_lib/supabaseAdmin.mjs';
 import { sendOpenAILeadCreated } from './_lib/openaiConversions.mjs';
 import { sendLeadEmails } from './_lib/leadEmails.mjs';
-import { getAllowedTurnstileHostnames, getClientIp, verifyTurnstile } from './_lib/turnstile.mjs';
 
 export const config = { path: '/api/lead' };
 
@@ -42,17 +41,6 @@ export default async function handler(req) {
   if (typeof payload.website === 'string' && payload.website.trim()) {
     return new Response(null, { status: 204, headers: CORS });
   }
-
-  const expectedAction = payload.sourceForm === 'contact' ? 'contact' : payload.sourceForm === 'eligibility' ? 'eligibility' : 'lead';
-  const expectedHostname = getAllowedTurnstileHostnames(req);
-  try {
-    if (!await verifyTurnstile({
-      token: payload.turnstileToken,
-      expectedAction,
-      expectedHostname,
-      remoteIp: getClientIp(req),
-    })) return j({ ok: false, type: 'validation', fields: { captcha: 'INVALID_CAPTCHA' } }, 400);
-  } catch { return j({ ok: false, type: 'validation', fields: { captcha: 'INVALID_CAPTCHA' } }, 400); }
 
   const fields = {};
   const submissionId = typeof payload.submissionId === 'string' ? payload.submissionId.toLowerCase() : '';

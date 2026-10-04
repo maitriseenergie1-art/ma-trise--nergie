@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardCheck, Info, MessageCircle, PhoneCall, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../../config/siteConfig';
-import { Turnstile } from '../../components/Turnstile';
 import { createSubmissionAttempt } from '../../services/submissionAttempt';
 import { trackEvent } from '../../services/analyticsService';
 import { trackFormEvent } from '../../services/trafficTracking';
@@ -20,7 +19,7 @@ const AUTO_OPEN_SESSION_KEY = 'me-floating-lead-auto-opened';
 const initialValues = {
   building: '', size: '', monthlyBill: '', postalCode: '', timeline: '',
   firstName: '', lastName: '', company: '', phone: '', email: '', privacy: false,
-  turnstileToken: '', website: '',
+  website: '',
 };
 
 export function FloatingContactHub() {
@@ -32,7 +31,6 @@ export function FloatingContactHub() {
   const [status, setStatus] = useState('idle');
   const formButtonRef = useRef(null);
   const closeButtonRef = useRef(null);
-  const captchaRef = useRef(null);
   const attemptRef = useRef(null);
   const submittingRef = useRef(false);
   const hasOpenedRef = useRef(false);
@@ -144,7 +142,6 @@ export function FloatingContactHub() {
     if (!values.company.trim()) next.company = 'Renseignez votre entreprise.';
     if (!isValidPhone(values.phone.trim())) next.phone = 'Indiquez un mobile français valide.';
     if (!isValidEmail(values.email.trim())) next.email = 'Renseignez une adresse e-mail valide.';
-    if (!values.turnstileToken) next.captcha = 'Validez la vérification anti-robot.';
     if (!values.privacy) next.privacy = 'Votre accord est nécessaire.';
     return next;
   };
@@ -179,7 +176,6 @@ export function FloatingContactHub() {
     setError('');
     const result = await eligibilityService.submit(values, attemptRef.current.getId(), 'floating_qualified_lead');
     submittingRef.current = false;
-    captchaRef.current?.reset();
 
     if (result.ok) {
       attemptRef.current.confirm();
@@ -267,8 +263,6 @@ export function FloatingContactHub() {
                   {field('email', 'E-mail professionnel', { type: 'email', autoComplete: 'email', maxLength: 254 })}
                 </div>
                 <div className="contact-trap" aria-hidden="true"><input name="website" tabIndex="-1" autoComplete="off" value={values.website} onChange={(event) => setValue('website', event.target.value)} /></div>
-                <Turnstile ref={captchaRef} action="eligibility" onTokenChange={(token) => setValue('turnstileToken', token)} />
-                {errors.captcha && <small className="field-error">{errors.captcha}</small>}
                 <label className="floating-lead-privacy">
                   <input type="checkbox" checked={values.privacy} onChange={(event) => setValue('privacy', event.target.checked)} aria-invalid={Boolean(errors.privacy)} />
                   <span>J’accepte d’être recontacté au sujet de mon projet. <Link to="/politique-de-confidentialite">Confidentialité</Link></span>

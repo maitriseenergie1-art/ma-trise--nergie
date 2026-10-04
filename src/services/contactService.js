@@ -5,7 +5,7 @@ import { getOpenAIAdsMeasurementContext } from './openaiAdsPixel';
 
 const emptyToNull = (value) => typeof value === 'string' && value.trim() ? value.trim() : null;
 
-export function buildContactLeadPayload({ submissionId, identity, need, consent, website = '', captchaToken = '' }) {
+export function buildContactLeadPayload({ submissionId, identity, need, consent, website = '' }) {
   const acquisition = getAcquisitionContext();
   const adsMeasurement = getOpenAIAdsMeasurementContext();
   return {
@@ -51,7 +51,6 @@ export function buildContactLeadPayload({ submissionId, identity, need, consent,
       adsMeasurement: adsMeasurement.consentGranted,
     },
     website,
-    turnstileToken: emptyToNull(captchaToken),
   };
 }
 

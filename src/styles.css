@@ -1618,8 +1618,6 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 }
 
 /* Le contrôle anti-robot reste visible et séparé du reste du formulaire. */
-.turnstile-captcha{margin:28px 0 20px;padding-top:20px;border-top:1px solid var(--line)}
-.turnstile-captcha>p{margin:0 0 10px;color:var(--muted);font-size:12px;font-weight:700}
 
 /* Présentation vidéo : l'espace est réservé pour éviter tout décalage de
    mise en page. Les vidéos ne sont montées qu'à l'approche de la section. */
@@ -1668,8 +1666,6 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .floating-lead-fields input:focus,.floating-lead-fields select:focus{border-color:#16816b;box-shadow:0 0 0 3px rgba(22,129,107,.14)}
 .floating-lead-fields input[aria-invalid="true"],.floating-lead-fields select[aria-invalid="true"]{border-color:#a64037}
 .floating-lead-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.floating-lead-panel .turnstile-captcha{margin:3px 0 0;padding-top:12px}
-.floating-lead-panel .turnstile-captcha>p{margin-bottom:7px;font-size:10px}
 .floating-lead-privacy{display:flex;align-items:flex-start;gap:8px;color:#4f6660;font-size:10.5px;line-height:1.45}
 .floating-lead-privacy input{flex:none;margin:2px 0 0}
 .floating-lead-privacy a{text-decoration:underline}
