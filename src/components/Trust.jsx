@@ -78,11 +78,9 @@ export function SocialProof() {
           <h2>Des entreprises déjà engagées dans leur projet solaire.</h2>
         </div>
         <ul className="client-logo-row" aria-label="Références clients">
-          {[extraLogo, ...clientReferences].map((client) => (
+          {[extraLogo, ...clientReferences].filter((client) => client.logo).map((client) => (
             <li key={client.name} className="client-logo-item">
-              {client.logo
-                ? <img src={client.logo} alt={client.name} loading="lazy"/>
-                : <strong>{client.name}</strong>}
+              <img src={client.logo} alt={client.name} loading="lazy"/>
             </li>
           ))}
         </ul>
