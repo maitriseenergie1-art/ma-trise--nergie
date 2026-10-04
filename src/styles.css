@@ -1735,21 +1735,20 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .google-review-badge strong{display:block;font-size:14px}
 .google-review-badge small{color:var(--muted)}
 
-.client-logo-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;list-style:none;margin:28px 0;padding:0;max-width:620px}
-.client-logo-item{display:flex;align-items:center;justify-content:center;min-height:72px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:12px}
-.client-logo-item img{max-width:100%;max-height:40px;object-fit:contain}
-.client-logo-item strong{font-size:13px;color:var(--ink);text-align:center}
-@media(max-width:780px){.client-logo-row{grid-template-columns:repeat(2,1fr)}}
-
 .case-study-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:8px}
 .case-study-placeholder{border:1px solid var(--line);border-radius:10px;padding:20px;background:#fff}
-.case-study-placeholder>strong{display:block;font-size:16px;margin-bottom:4px}
+.case-study-header{display:flex;align-items:center;min-height:32px;margin-bottom:4px}
+.case-study-header img{max-height:32px;max-width:140px;object-fit:contain}
+.case-study-header strong{display:block;font-size:16px}
 .case-study-placeholder dl{margin:14px 0 0;display:grid;gap:10px}
 .case-study-placeholder dl>div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;padding-bottom:8px;border-bottom:1px solid var(--line)}
 .case-study-placeholder dl>div:last-child{border-bottom:0;padding-bottom:0}
 .case-study-placeholder dt{color:var(--muted)}
 .case-study-placeholder dd{margin:0;font-size:17px;font-weight:800;color:var(--sun-accent-dark);letter-spacing:-.01em}
+.case-study-placeholder dd.gain{color:#1d8a4a;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
 .case-study-footnote{margin:10px 0 0;font-size:11px;color:var(--muted)}
+.also-trusted{display:flex;align-items:center;gap:10px;margin:14px 0 0;font-size:12px;color:var(--muted)}
+.also-trusted img{max-height:22px;max-width:100px;object-fit:contain}
 @media(max-width:780px){.case-study-grid{grid-template-columns:1fr}}
 
 .guarantees-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;list-style:none;margin:0;padding:0}

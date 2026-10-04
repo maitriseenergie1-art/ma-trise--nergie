@@ -77,27 +77,25 @@ export function SocialProof() {
           <Eyebrow>Ils nous ont fait confiance</Eyebrow>
           <h2>Des entreprises déjà engagées dans leur projet solaire.</h2>
         </div>
-        <ul className="client-logo-row" aria-label="Références clients">
-          {[extraLogo, ...clientReferences].filter((client) => client.logo).map((client) => (
-            <li key={client.name} className="client-logo-item">
-              <img src={client.logo} alt={client.name} loading="lazy"/>
-            </li>
-          ))}
-        </ul>
         <div className="case-study-grid">
           {clientReferences.map((client) => (
             <article key={client.name} className="case-study-placeholder">
-              <strong>{client.name}</strong>
+              <div className="case-study-header">
+                {client.logo
+                  ? <img src={client.logo} alt={client.name} loading="lazy"/>
+                  : <strong>{client.name}</strong>}
+              </div>
               <span className="config-placeholder">{client.detail}</span>
               <dl>
                 <div><dt>Puissance installée</dt><dd>{client.power}*</dd></div>
-                <div><dt>Économie annuelle</dt><dd>{client.economy}*</dd></div>
+                <div><dt>Économie annuelle</dt><dd className="gain">{client.economy}*</dd></div>
                 <div><dt>Retour sur investissement</dt><dd>{client.roi}*</dd></div>
               </dl>
             </article>
           ))}
         </div>
         <p className="case-study-footnote">* Données estimées compte tenu du cours actuel de l’énergie, susceptibles de variation — réévaluées en octobre 2026.</p>
+        <p className="also-trusted">Également sollicités par <img src={extraLogo.logo} alt={extraLogo.name} loading="lazy"/></p>
         <GoogleReviewBadge/>
       </Container>
     </Section>
