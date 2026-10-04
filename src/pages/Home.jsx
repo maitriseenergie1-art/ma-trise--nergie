@@ -1,5 +1,4 @@
 import { MidContact } from '../components/MidContact';
-import { CardCarousel } from '../components/CardCarousel';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ClipboardCheck, Landmark, Wrench, MonitorCog, ArrowLeft, ArrowRight, HandHeart, Key, Layers3, LockKeyhole, ScanSearch, Sun, Building2, ReceiptText, BadgeEuro, ChartNoAxesCombined, PhoneCall, UsersRound } from 'lucide-react';
 import { images } from '../data/images';
@@ -13,7 +12,6 @@ import { faqSchema, organizationSchema, websiteSchema, webPageSchema } from '../
 import { Faq } from '../components/sections';
 import { StatsBar, SocialProof, Guarantees } from '../components/Trust';
 import { trackEvent } from '../services/analyticsService';
-import { TrustBar, SocialProofSection, GuaranteesSection, AutofinancingExplainer } from '../components/TrustSections';
 
 function SectorCarousel() {
   const [start, setStart] = useState(0);
@@ -238,13 +236,12 @@ export default function Home() {
     </Container></Section>
     <SocialProof/>
     <Guarantees/>
-    <Section tone="dark" className="home-expertise"><Container><div className="section-intro"><Eyebrow>Solutions complémentaires</Eyebrow><h2>Les autres leviers de performance énergétique.</h2><p className="lead small">Après le photovoltaïque, nous pouvons étudier les autres postes de consommation de vos bâtiments et installations : CVC, froid, isolation, chaleur, éclairage et pilotage.</p></div><CardCarousel label="Nos solutions complémentaires">{solutions.filter((solution) => solution.slug !== 'photovoltaique-professionnel').map((solution) => <CompactSolutionCard solution={solution} key={solution.slug}/>)}</CardCarousel></Container></Section>
+    <Section tone="dark" className="home-expertise"><Container><div className="section-intro with-link"><div><Eyebrow>Solutions complémentaires</Eyebrow><h2>Les autres leviers de performance énergétique.</h2><p className="lead small">Après le photovoltaïque, nous pouvons étudier les autres postes de consommation de vos bâtiments et installations : CVC, froid, isolation, chaleur, éclairage et pilotage.</p></div><Button to="/solutions" variant="outline-light" sourceCta="home_all_solutions">Voir toutes les solutions</Button></div><div className="solutions-preview-grid">{solutions.filter((solution) => solution.slug !== 'photovoltaique-professionnel').slice(0, 4).map((solution) => <CompactSolutionCard solution={solution} key={solution.slug}/>)}</div></Container></Section>
     <Section className="home-sectors"><Container><SectorCarousel/></Container></Section>
     <HumanTrust/>
     <LargeSitesVideoShowcase/>
     <WhyUs/>
     <ExpertiseMethod/>
-    <GuaranteesSection/>
     <MidContact title="Votre site dispose-t-il du potentiel pour une centrale solaire&nbsp;?" text="Les premiers critères se vérifient à partir de votre surface disponible et de votre facture d’électricité." label="Tester mon éligibilité" to="/eligibilite" sourceCta="home_mid_eligibility"/>
     <FundingPreview/>
     <DeferredBelowFoldContent/>
