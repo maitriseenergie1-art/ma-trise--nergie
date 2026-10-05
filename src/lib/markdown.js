@@ -10,7 +10,9 @@ const ON_ATTR = /\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi;
 
 export function renderMarkdown(source) {
   if (!source) return '';
-  const html = marked.parse(source, { async: false });
+  // Un « # Titre » en tête de contenu double le titre déjà affiché dans le hero de la page.
+  const body = source.replace(/^\s*#[ \t]+[^\n]*\n?/, '');
+  const html = marked.parse(body, { async: false });
   // Le <h1> de la page est le titre de l'article (PageHero) : un seul H1 par page.
   // Les articles mélangent « # » et « ## » pour leurs titres de section : les deux deviennent des <h2>.
   return String(html)
