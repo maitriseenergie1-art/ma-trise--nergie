@@ -1,4 +1,5 @@
 import { siteConfig } from '../config/siteConfig';
+import { withTrailingSlash } from './url';
 
 function base() {
   const configured = siteConfig.siteUrl;
@@ -9,7 +10,7 @@ function base() {
 
 export function absoluteUrl(path = '') {
   if (/^https?:\/\//.test(path)) return path;
-  return `${base()}${path.startsWith('/') ? '' : '/'}${path}`;
+  return `${base()}${withTrailingSlash(path.startsWith('/') ? path : `/${path}`)}`;
 }
 
 export function organizationSchema() {
@@ -19,14 +20,13 @@ export function organizationSchema() {
     '@type': ['Organization', 'ProfessionalService'],
     '@id': `${base() || absoluteUrl('/') }/#organization`,
     name: siteConfig.name,
-    url: base() || undefined,
+    url: base() ? `${base()}/` : undefined,
     description: siteConfig.description,
     image: absoluteUrl(siteConfig.defaultShareImage),
     logo: absoluteUrl('/brand-mark.webp'),
     email: contact?.email,
     telephone: contact?.phone,
     areaServed: { '@type': 'Country', name: 'France' },
-    availableLanguage: ['fr-FR'],
     knowsAbout: [
       'Photovoltaïque professionnel',
       'Autoconsommation solaire',
@@ -145,7 +145,7 @@ export function websiteSchema() {
     '@type': 'WebSite',
     '@id': `${base() || absoluteUrl('/')}/#website`,
     name: siteConfig.name,
-    url: base() || undefined,
+    url: base() ? `${base()}/` : undefined,
     inLanguage: 'fr-FR',
     description: siteConfig.description,
     publisher: { '@id': `${base() || absoluteUrl('/')}/#organization` },

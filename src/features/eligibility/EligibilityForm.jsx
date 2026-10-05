@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Check, ChevronLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '../../components/RouterLink';
 import { Button, Container, Eyebrow } from '../../components/ui';
 import { Seo } from '../../components/Seo';
 import { useEligibility } from './useEligibility';

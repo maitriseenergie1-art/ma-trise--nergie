@@ -1,7 +1,8 @@
 import { BusinessIcon } from './BusinessIcon';
 import { heroImages } from '../data/heroImages';
 import { ArrowRight, ChevronRight } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Link } from './RouterLink';
 import { updateAcquisitionContext } from '../services/acquisition';
 import { trackEvent } from '../services/analyticsService';
 

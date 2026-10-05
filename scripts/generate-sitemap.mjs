@@ -1,6 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { solutions } from '../src/data/solutions.js';
 import { sectors } from '../src/data/sectors.js';
+import { withTrailingSlash } from '../src/lib/url.js';
 import { fetchPublishedBlogPosts, fetchPublishedCaseStudies } from './lib/supabaseContent.mjs';
 
 const baseUrl = (process.env.SITE_URL || process.env.VITE_SITE_URL)?.replace(/\/$/, '');
@@ -44,7 +45,7 @@ const urls = baseUrl
   ? entries
       .map(({ path, lastmod }) => {
         const tag = lastmod ? `<lastmod>${new Date(lastmod).toISOString().slice(0, 10)}</lastmod>` : '';
-        return `  <url><loc>${baseUrl}${path}</loc>${tag}</url>`;
+        return `  <url><loc>${baseUrl}${withTrailingSlash(path)}</loc>${tag}</url>`;
       })
       .join('\n')
   : '';

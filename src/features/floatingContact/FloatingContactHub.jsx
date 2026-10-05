@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardCheck, Info, MessageCircle, PhoneCall, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '../../components/RouterLink';
 import { siteConfig } from '../../config/siteConfig';
 import { createSubmissionAttempt } from '../../services/submissionAttempt';
 import { trackEvent } from '../../services/analyticsService';

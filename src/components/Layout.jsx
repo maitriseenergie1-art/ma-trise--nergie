@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ChevronRight, Menu, X } from 'lucide-react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Link, NavLink } from './RouterLink';
 import { primaryNavigation } from '../data/navigation';
 import { sectors } from '../data/sectors';
 import { siteConfig } from '../config/siteConfig';

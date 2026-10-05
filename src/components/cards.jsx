@@ -1,6 +1,6 @@
 import { BusinessIcon } from './BusinessIcon';
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from './RouterLink';
 import { trackEvent } from '../services/analyticsService';
 
 export function SolutionCard({solution}) {

@@ -5,7 +5,7 @@ import { solutionIcons } from '../data/businessIcons';
 import { StepIcon } from '../components/StepIcon';
 import { heroImages } from '../data/heroImages';
 import { ArrowDownRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '../components/RouterLink';
 import { Button, Container, Eyebrow, PageHero, Section } from '../components/ui';
 import { Seo } from '../components/Seo';
 import { Faq, OfficialSources } from '../components/sections';

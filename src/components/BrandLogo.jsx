@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from './RouterLink';
 import { siteConfig } from '../config/siteConfig';
 
 export function BrandLogo({ light = false, className = '' }) {

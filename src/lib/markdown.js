@@ -11,7 +11,12 @@ const ON_ATTR = /\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi;
 export function renderMarkdown(source) {
   if (!source) return '';
   const html = marked.parse(source, { async: false });
-  return String(html).replace(DANGEROUS, '').replace(ON_ATTR, '');
+  // Le <h1> de la page est le titre de l'article (PageHero) : un seul H1 par page.
+  // Les articles mélangent « # » et « ## » pour leurs titres de section : les deux deviennent des <h2>.
+  return String(html)
+    .replace(DANGEROUS, '')
+    .replace(ON_ATTR, '')
+    .replace(/<(\/?)h1(?=[\s>])/gi, '<$1h2');
 }
 
 export function estimateReadingMinutes(source) {

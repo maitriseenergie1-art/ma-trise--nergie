@@ -2,14 +2,15 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { siteConfig } from '../config/siteConfig';
 import { collectHead } from '../lib/headCollector';
+import { withTrailingSlash } from '../lib/url';
 
 const isBrowser = typeof document !== 'undefined';
 
 function absoluteUrl(path) {
   const base = (siteConfig.siteUrl || (isBrowser ? window.location.origin : '')).replace(/\/$/, '');
-  if (!path) return base || undefined;
+  if (!path) return base ? `${base}/` : undefined;
   if (/^https?:\/\//.test(path)) return path;
-  return `${base}${path.startsWith('/') ? '' : '/'}${path}`;
+  return `${base}${withTrailingSlash(path.startsWith('/') ? path : `/${path}`)}`;
 }
 
 function upsertMeta(kind, key, value) {

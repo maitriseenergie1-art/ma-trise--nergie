@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { Link } from '../components/RouterLink';
 import { heroImages } from '../data/heroImages';
 import { trackEvent } from '../services/analyticsService';
 import { Container, PageHero, Section } from '../components/ui';

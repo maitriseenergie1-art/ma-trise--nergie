@@ -1,7 +1,7 @@
 import { Breadcrumb, Container, Eyebrow } from '../components/ui';
 import { Seo } from '../components/Seo';
 import { siteConfig } from '../config/siteConfig';
-import { Link } from 'react-router-dom';
+import { Link } from '../components/RouterLink';
 import { MeasurementConsentControls } from '../components/MeasurementConsent';
 import { breadcrumbSchema } from '../lib/structuredData';
 

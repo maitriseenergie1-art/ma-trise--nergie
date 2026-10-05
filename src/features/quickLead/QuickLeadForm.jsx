@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '../../components/RouterLink';
 import { Button } from '../../components/ui';
 import { renovationTypeFromSolution, renovationTypeLabels, renovationTypes } from '../forms/renovationTypes';
 import { createSubmissionAttempt } from '../../services/submissionAttempt';

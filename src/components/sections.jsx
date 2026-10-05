@@ -1,7 +1,7 @@
 import { BusinessIcon } from './BusinessIcon';
 import { useState } from 'react';
 import { ArrowRight, ClipboardCheck, ExternalLink, Landmark, ListChecks, MoveRight, Plus, Wrench } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from './RouterLink';
 import { solutions } from '../data/solutions';
 import { sectors } from '../data/sectors';
 import { Button, Container, Eyebrow, Section } from './ui';
