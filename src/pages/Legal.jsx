@@ -88,6 +88,7 @@ function PolitiqueConfidentialite() {
       <li><strong>Supabase</strong> (base de données PostgreSQL) pour le stockage sécurisé des demandes ;</li>
       <li><strong>Netlify</strong> pour l’hébergement du site et l’exécution des fonctions de traitement des formulaires.</li>
       <li><strong>OpenAI</strong>, uniquement lorsque vous autorisez la mesure publicitaire, pour attribuer une demande aux campagnes ChatGPT Ads.</li>
+      <li><strong>Google</strong> (Google Analytics), uniquement lorsque vous acceptez les cookies optionnels, pour mesurer la fréquentation du site.</li>
     </ul>
     <p>Ces prestataires interviennent pour les finalités techniques et de mesure décrites ci-dessus. Aucune donnée n’est vendue ou louée par {siteConfig.name}.</p>
 
@@ -102,7 +103,7 @@ function PolitiqueConfidentialite() {
     <p>Les échanges avec le site sont chiffrés (HTTPS) et l’accès aux données des demandes est restreint aux membres autorisés de l’équipe {siteConfig.name}, via un accès protégé par authentification. Un dispositif anti-robot (champ piège invisible) protège également les formulaires contre les soumissions automatisées.</p>
 
     <h2>Cookies et traceurs</h2>
-    <p>Le site utilise, avec votre accord préalable, le Pixel OpenAI pour mesurer les demandes provenant de ChatGPT Ads. Vous pouvez refuser ou retirer cet accord à tout moment depuis notre <Link to="/gestion-des-cookies">politique de gestion des cookies</Link>.</p>
+    <p>Le site utilise, avec votre accord préalable, le Pixel OpenAI pour mesurer les demandes provenant de ChatGPT Ads, ainsi que Google Analytics pour mesurer la fréquentation. Vous pouvez refuser ou retirer cet accord à tout moment depuis notre <Link to="/gestion-des-cookies">politique de gestion des cookies</Link>.</p>
   </>;
 }
 
@@ -125,7 +126,8 @@ function GestionCookies() {
 
     <h2>Cookies optionnels</h2>
     <p>Avec votre accord, un outil de mesure fourni par OpenAI peut être activé pour comprendre si une demande de contact fait suite à une campagne publicitaire. Il peut utiliser les cookies propriétaires <code>__oppref</code> (jusqu’à 30 jours) et <code>__obref</code> (jusqu’à 365 jours). Seule une demande effectivement transmise est comptabilisée comme conversion.</p>
-    <p>Ces cookies optionnels ne sont pas déposés et aucun événement publicitaire n’est envoyé tant que vous n’avez pas donné votre accord. Leur refus n’empêche ni la consultation du site ni l’envoi d’un formulaire.</p>
+    <p>Avec votre accord également, Google Analytics (Google Ireland Limited) mesure la fréquentation du site : pages consultées, provenance des visites, type d’appareil. Il peut déposer les cookies <code>_ga</code> et <code>_ga_*</code> (jusqu’à 13 mois). Aucune donnée n’est transmise à Google avant votre accord, et elle cesse après un refus ou un retrait de votre choix.</p>
+    <p>Ces cookies optionnels ne sont pas déposés et aucun événement de mesure n’est envoyé tant que vous n’avez pas donné votre accord. Leur refus n’empêche ni la consultation du site ni l’envoi d’un formulaire.</p>
 
     <h2>Gérer vos préférences</h2>
     <p>Vous pouvez accepter ou refuser les cookies optionnels ci-dessous. Votre nouveau choix s’applique aux prochaines actions réalisées sur le site.</p>

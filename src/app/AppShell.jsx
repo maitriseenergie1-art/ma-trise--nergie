@@ -5,6 +5,7 @@ import { Header, Footer, ScrollToTop } from '../components/Layout';
 import { Seo } from '../components/Seo';
 import { captureInitialAcquisition } from '../services/acquisition';
 import { initTrafficTracking, trackPageView } from '../services/trafficTracking';
+import { initGoogleAnalyticsConsent, trackGaPageView } from '../services/googleAnalytics';
 import { FloatingContactHub } from '../features/floatingContact/FloatingContactHub';
 import { MeasurementConsentBanner } from '../components/MeasurementConsent';
 
@@ -14,6 +15,7 @@ function AcquisitionCapture() {
   useEffect(() => {
     captureInitialAcquisition();
     initTrafficTracking();
+    return initGoogleAnalyticsConsent();
   }, []);
   return null;
 }
@@ -23,7 +25,7 @@ function RouteAnalytics() {
   const first = useRef(true);
   useEffect(() => {
     if (pathname.startsWith('/admin')) return;
-    const id = setTimeout(() => trackPageView(pathname), first.current ? 300 : 120);
+    const id = setTimeout(() => { trackPageView(pathname); trackGaPageView(pathname); }, first.current ? 300 : 120);
     first.current = false;
     return () => clearTimeout(id);
   }, [pathname]);
