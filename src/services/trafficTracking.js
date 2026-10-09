@@ -1,5 +1,6 @@
 import { getAcquisitionContext } from './acquisition';
 import { readSession, writeSession } from '../utils/storage';
+import { initFormTracking, trackFormStep } from './formTracking';
 
 // First-party, cookieless traffic tracking. Sends compact events to the
 // /api/track Netlify Function, which classifies the source (incl. AI engines)
@@ -68,11 +69,14 @@ let started = false;
 export function initTrafficTracking() {
   if (started || typeof window === 'undefined') return;
   started = true;
+  initFormTracking();
 
   window.addEventListener('maitrise-energie:analytics', (event) => {
     const { name, properties = {} } = event.detail || {};
     if (name === 'cta_click') {
       trackClick({ target: properties.sourceCta || properties.destination || 'cta', targetKind: 'cta' });
+    } else if (name === 'eligibility_step_completed') {
+      trackFormStep('eligibility', properties.step);
     } else if (name === 'phone_clicked') {
       trackClick({ target: 'phone', targetKind: 'contact' });
     } else if (name === 'email_clicked') {

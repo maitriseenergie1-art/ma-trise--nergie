@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { fetchStats } from '../adminService';
+import ConversionReport from './ConversionReport';
 import { BarList, DonutChart, ErrorBox, InfoTip, Loading, StatCard, TrendChart } from '../ui';
 
 const GROUP_LABELS = { ai: 'Assistants IA (ChatGPT…)', search: 'Moteurs de recherche', social: 'Réseaux sociaux', referral: 'Autres sites web', direct: 'Accès direct', paid: 'Publicités payantes', other: 'Autres' };
 const DEVICE_LABELS = { mobile: 'Téléphone', desktop: 'Ordinateur', tablet: 'Tablette' };
 const TARGET_LABELS = { phone: 'Appel téléphonique', email: 'E-mail', booking: 'Prise de rendez-vous', eligibility: 'Formulaire d’éligibilité', contact: 'Formulaire de contact' };
 const TABS = [
-  ['overview', 'Vue d’ensemble'], ['acquisition', 'D’où viennent les visiteurs'], ['pages', 'Pages consultées'], ['clicks', 'Clics'],
+  ['overview', 'Vue d’ensemble'], ['conversion', 'Conversion'], ['acquisition', 'D’où viennent les visiteurs'], ['pages', 'Pages consultées'], ['clicks', 'Clics'],
 ];
 const toItems = (object, labels) => Object.entries(object || {}).map(([key, count]) => ({ key: labels?.[key] || key, count }));
 const relabel = (items = [], labels = {}) => items.map((item) => ({ ...item, key: labels[item.key] || item.key || 'Inconnu' }));
@@ -39,7 +40,7 @@ function AnalyticsBody({ traffic, leads, tab }) {
   const overview = <>
     <Summary traffic={traffic} leads={leads}/>
     <div className="admin-stat-strip">
-      <StatCard label="Visites" value={traffic.totalViews} hint={`${traffic.uniqueSessions} visiteurs différents`} info="Nombre de pages ouvertes par vos visiteurs. Si une personne consulte 3 pages, cela fait 3 visites. Les passages de robots (moteurs de recherche, outils d’analyse) peuvent s’y glisser, le chiffre est donc légèrement optimiste."/>
+      <StatCard label="Visites" value={traffic.totalViews} hint={`${traffic.uniqueSessions} visiteurs différents`} info="Nombre de pages ouvertes par vos visiteurs. Si une personne consulte 3 pages, cela fait 3 visites. Les robots détectés (moteurs de recherche, outils d’analyse) sont exclus."/>
       <StatCard label="Clics" value={traffic.totalClicks} hint="Boutons, liens et téléphone" info="Nombre de fois où un visiteur a cliqué sur un bouton important (demander un devis, vérifier l’éligibilité), un lien de contact ou le numéro de téléphone. Plus il est élevé, plus les visiteurs s’intéressent à vos offres."/>
       <StatCard label="Formulaires envoyés" value={traffic.formSubmits} hint={`${traffic.formConversionRate} % de ceux qui l’ont vu l’ont envoyé`} info="Nombre de personnes qui ont rempli et envoyé un formulaire (contact ou éligibilité) : ce sont vos demandes de clients potentiels. Le pourcentage est le « taux de conversion » : parmi les personnes qui ont vu un formulaire, la part qui l’a envoyé."/>
       <StatCard label="Appels" value={traffic.phoneClicks} hint="Clics sur le numéro" info="Nombre de clics sur le numéro de téléphone. Attention : c’est un clic, pas forcément un appel abouti (le visiteur a pu raccrocher ou annuler)."/>
@@ -69,5 +70,5 @@ function AnalyticsBody({ traffic, leads, tab }) {
     <div className="admin-howto"><strong>À quoi sert cet onglet ?</strong><p>Il montre sur quoi les visiteurs cliquent : c’est le signe qu’une personne passe de « je regarde » à « je m’intéresse vraiment ».</p></div>
     <div className="admin-analytics-panel"><DonutChart title="Sur quoi cliquent-ils ?" unit="clics" items={relabel(traffic.clicksByTarget, TARGET_LABELS)} info="Les boutons, liens et moyens de contact les plus utilisés (téléphone, e-mail, formulaires, boutons d’appel à l’action)."/><BarList title="Boutons et liens les plus cliqués" items={relabel(traffic.clicksByTarget, TARGET_LABELS)} info="Le détail du camembert, du plus au moins cliqué."/><BarList title="Pages où les visiteurs cliquent" items={traffic.clicksByPath} info="Les pages qui poussent le plus à l’action. Une page très vue mais peu cliquée peut être améliorée."/></div>
   </>;
-  return <div className="admin-analytics-clean">{tab === 'overview' && overview}{tab === 'acquisition' && acquisition}{tab === 'pages' && pages}{tab === 'clicks' && clicks}</div>;
+  return <div className="admin-analytics-clean">{tab === 'overview' && overview}{tab === 'conversion' && <ConversionReport traffic={traffic} leads={leads}/>}{tab === 'acquisition' && acquisition}{tab === 'pages' && pages}{tab === 'clicks' && clicks}</div>;
 }

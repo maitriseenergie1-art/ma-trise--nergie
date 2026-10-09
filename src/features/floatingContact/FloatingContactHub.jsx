@@ -64,7 +64,6 @@ export function FloatingContactHub() {
       rememberAutomaticOpen();
       setOpen(true);
       trackEvent('floating_lead_opened', { trigger: 'engaged_15s_scroll_35' });
-      trackFormEvent('form_view', { formType: 'floating_qualified_lead' });
       window.removeEventListener('scroll', handleScroll);
     };
 
@@ -116,7 +115,6 @@ export function FloatingContactHub() {
     }
     setOpen(true);
     trackEvent('floating_lead_opened', { trigger: 'icon' });
-    trackFormEvent('form_view', { formType: 'floating_qualified_lead' });
     window.setTimeout(() => closeButtonRef.current?.focus(), 180);
   };
 
@@ -238,7 +236,7 @@ export function FloatingContactHub() {
             <button type="button" className="button" onClick={closePanel}>Fermer</button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} noValidate>
+          <form data-form-type="floating_qualified_lead" onSubmit={handleSubmit} noValidate>
             <div className="floating-lead-progress" aria-hidden="true"><i style={{ width: step === 0 ? '50%' : '100%' }} /></div>
             {step === 0 ? (
               <div className="floating-lead-fields">

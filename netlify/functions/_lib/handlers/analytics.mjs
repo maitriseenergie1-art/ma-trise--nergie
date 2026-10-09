@@ -21,6 +21,101 @@ const toSorted = (obj, limit) =>
     .sort((a, b) => b.count - a.count)
     .slice(0, limit ?? 1000);
 
+// Événements d'engagement stockés comme « click » avec un target_kind dédié (voir formTracking.js) :
+// ils ne comptent pas dans les clics « boutons et liens ».
+const ENGAGEMENT_KINDS = new Set(['form_start', 'form_step', 'form_error', 'scroll']);
+
+// Parcours par visiteur (session) : d'où il arrive, ce qu'il lit, s'il voit / commence / envoie un formulaire.
+function conversionReport(T) {
+  const sessions = new Map();
+  for (const e of T) {
+    if (!e.session_id) continue;
+    let s = sessions.get(e.session_id);
+    if (!s) {
+      s = { pages: new Set(), first: null, firstAt: '', group: null, device: null, clicks: 0, cta: 0, scroll: {}, viewed: new Set(), started: new Set(), submitted: new Set(), steps: {} };
+      sessions.set(e.session_id, s);
+    }
+    const kind = e.target_kind;
+    if (e.event_type === 'page_view') {
+      s.pages.add(e.path);
+      if (!s.firstAt || e.created_at < s.firstAt) { s.firstAt = e.created_at; s.first = e.path; s.group = e.source_group || 'other'; s.device = e.device || 'inconnu'; }
+    } else if (e.event_type === 'form_view') s.viewed.add(e.target);
+    else if (e.event_type === 'form_submit') s.submitted.add(e.target);
+    else if (e.event_type === 'click') {
+      if (kind === 'form_start') s.started.add(e.target);
+      else if (kind === 'form_step') { const [type, step] = String(e.target).split(':'); (s.steps[type] ||= new Set()).add(Number(step)); }
+      else if (kind === 'scroll') { (s.scroll[e.path] ||= new Set()).add(Number(e.target)); }
+      else if (!ENGAGEMENT_KINDS.has(kind)) { s.clicks += 1; if (kind === 'cta' || kind === 'contact') s.cta += 1; }
+    }
+  }
+  const all = [...sessions.values()].filter((s) => s.pages.size > 0);
+  const any = (set) => set.size > 0;
+  const engaged = (s) => s.pages.size > 1 || s.clicks > 0;
+  const funnel = [
+    { key: 'visitors', count: all.length },
+    { key: 'formSeen', count: all.filter((s) => any(s.viewed)).length },
+    { key: 'formStarted', count: all.filter((s) => any(s.started)).length },
+    { key: 'formSubmitted', count: all.filter((s) => any(s.submitted)).length },
+  ];
+
+  const forms = {};
+  const formRow = (type) => (forms[type] ||= { form: type, views: 0, starts: 0, submits: 0, errors: 0 });
+  for (const s of all) {
+    s.viewed.forEach((t) => { formRow(t).views += 1; });
+    s.started.forEach((t) => { formRow(t).starts += 1; });
+    s.submitted.forEach((t) => { formRow(t).submits += 1; });
+  }
+  const errorsByField = {};
+  for (const e of T) {
+    if (e.event_type === 'click' && e.target_kind === 'form_error') {
+      errorsByField[e.target] = (errorsByField[e.target] ?? 0) + 1;
+      formRow(String(e.target).split(':')[0]).errors += 1;
+    }
+  }
+  const eligibilitySteps = {};
+  for (const s of all) (s.steps.eligibility || new Set()).forEach((n) => { eligibilitySteps[n] = (eligibilitySteps[n] ?? 0) + 1; });
+
+  const segment = (keyFn) => {
+    const groups = {};
+    for (const s of all) {
+      const k = keyFn(s);
+      const g = (groups[k] ||= { key: k, sessions: 0, engaged: 0, submitted: 0 });
+      g.sessions += 1;
+      if (engaged(s)) g.engaged += 1;
+      if (any(s.submitted)) g.submitted += 1;
+    }
+    return Object.values(groups).sort((a, b) => b.sessions - a.sessions);
+  };
+
+  const landing = {};
+  for (const s of all) {
+    const g = (landing[s.first] ||= { path: s.first, sessions: 0, engaged: 0, cta: 0, scroll50: 0, scroll100: 0, formSeen: 0, submitted: 0 });
+    g.sessions += 1;
+    if (engaged(s)) g.engaged += 1;
+    if (s.cta > 0) g.cta += 1;
+    const sc = s.scroll[s.first];
+    if (sc && (sc.has(50) || sc.has(75) || sc.has(100))) g.scroll50 += 1;
+    if (sc?.has(100)) g.scroll100 += 1;
+    if (any(s.viewed)) g.formSeen += 1;
+    if (any(s.submitted)) g.submitted += 1;
+  }
+
+  return {
+    // Faux tant que le suivi détaillé (début de remplissage, scroll, erreurs) n'a rien enregistré.
+    engagementTracked: T.some((e) => e.event_type === 'click' && ENGAGEMENT_KINDS.has(e.target_kind)),
+    sessions: all.length,
+    singlePage: all.filter((s) => !engaged(s)).length,
+    pagesPerSession: all.length ? Math.round((all.reduce((n, s) => n + s.pages.size, 0) / all.length) * 10) / 10 : 0,
+    funnel,
+    forms: Object.values(forms).sort((a, b) => b.views - a.views),
+    errorsByField: toSorted(errorsByField, 12),
+    eligibilitySteps: Object.entries(eligibilitySteps).map(([step, count]) => ({ step: Number(step), count })).sort((a, b) => a.step - b.step),
+    bySource: segment((s) => s.group),
+    byDevice: segment((s) => s.device),
+    landingPages: Object.values(landing).sort((a, b) => b.sessions - a.sessions).slice(0, 15),
+  };
+}
+
 async function safeSelect(table, columns, sinceIso) {
   try {
     let q = admin.from(table).select(columns).limit(50000);
@@ -111,7 +206,7 @@ export async function stats(url) {
     safeSelect('lead_needs', 'lead_id,sector,project_type,qualification_score'),
     safeSelect('acquisitions', 'lead_id,utm_source,utm_medium,utm_campaign,referrer,landing_page'),
     safeSelect('lead_events', 'lead_id,event_type,metadata,created_at'),
-    safeSelect('traffic_events', 'event_type,path,target,target_kind,session_id,source,source_label,source_group,referrer_host,device,created_at', sinceIso),
+    safeSelect('traffic_events', 'event_type,path,target,target_kind,session_id,source,source_label,source_group,referrer_host,device,is_bot,created_at', sinceIso),
   ]);
 
   const L = leads.rows;
@@ -120,9 +215,9 @@ export async function stats(url) {
   const A = acquisitions.rows.filter((acquisition) => leadIds.has(acquisition.lead_id));
   const funnelOrder = ['new', 'to_contact', 'contacted', 'qualified', 'appointment', 'proposal', 'won', 'lost'];
 
-  const T = traffic.rows;
+  const T = traffic.rows.filter((e) => !e.is_bot);
   const views = T.filter((e) => e.event_type === 'page_view');
-  const clicks = T.filter((e) => e.event_type === 'click');
+  const clicks = T.filter((e) => e.event_type === 'click' && !ENGAGEMENT_KINDS.has(e.target_kind));
   const formViews = T.filter((e) => e.event_type === 'form_view');
   const formSubmits = T.filter((e) => e.event_type === 'form_submit');
   const daysByKey = new Map();
@@ -131,7 +226,7 @@ export async function stats(url) {
     if (!daysByKey.has(key)) daysByKey.set(key, { key, views: 0, clicks: 0, formViews: 0, formSubmits: 0, leads: 0 });
     const row = daysByKey.get(key);
     if (event.event_type === 'page_view') row.views += 1;
-    if (event.event_type === 'click') row.clicks += 1;
+    if (event.event_type === 'click' && !ENGAGEMENT_KINDS.has(event.target_kind)) row.clicks += 1;
     if (event.event_type === 'form_view') row.formViews += 1;
     if (event.event_type === 'form_submit') row.formSubmits += 1;
   }
@@ -163,6 +258,7 @@ export async function stats(url) {
       formSubmits: formSubmits.length,
       formConversionRate: formViews.length ? Math.round((formSubmits.length / formViews.length) * 1000) / 10 : 0,
       phoneClicks: clicks.filter((event) => event.target === 'phone').length,
+      conversion: conversionReport(T),
       timeline: [...daysByKey.values()].sort((a, b) => a.key.localeCompare(b.key)),
       byDay: toSorted(tally(views, (e) => dayKey(e.created_at))).sort((a, b) => a.key.localeCompare(b.key)),
       viewsByPath: toSorted(tally(views, (e) => e.path), 25),
