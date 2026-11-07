@@ -1635,7 +1635,7 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 @media(max-width:680px){.project-video-grid{grid-template-columns:1fr;gap:16px}.project-video-copy{padding:21px}.project-video-copy h3{font-size:20px}}
 
 /* Contact rapide — trois actions fixes et formulaire qualifiant en deux étapes. */
-.floating-contact{position:fixed;right:22px;bottom:22px;z-index:90;display:flex;align-items:flex-end;gap:12px;pointer-events:none}
+.floating-contact{position:fixed;left:22px;bottom:22px;z-index:90;display:flex;flex-direction:row-reverse;align-items:flex-end;gap:12px;pointer-events:none}
 .floating-contact-actions{display:flex;flex-direction:row;gap:10px;pointer-events:auto}
 .floating-contact-button{position:relative;display:grid;width:48px;height:48px;place-items:center;padding:0;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:#102d48;color:#fff;box-shadow:0 10px 26px rgba(10,35,49,.22);transition:transform 180ms ease,background-color 180ms ease,box-shadow 180ms ease}
 .floating-contact-button svg{width:20px;height:20px;stroke-width:1.9}
@@ -1649,7 +1649,7 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 .floating-contact-button.is-phone:hover{background:#095ab5;box-shadow:0 14px 32px rgba(11,107,211,.42)}
 .floating-contact-button::before{position:absolute;bottom:58px;left:50%;padding:6px 9px;border-radius:5px;background:#102d48;color:#fff;content:attr(data-label);font-size:11px;font-weight:700;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,5px);transition:opacity 150ms ease,transform 150ms ease}
 .floating-contact-button:hover::before,.floating-contact-button:focus-visible::before{opacity:1;transform:translate(-50%,0)}
-.floating-lead-panel{width:min(440px,calc(100vw - 100px));max-height:calc(100dvh - 44px);overflow:auto;padding:25px;border:1px solid #d3e2dd;border-radius:14px;background:#fff;color:#162a2c;box-shadow:0 24px 70px rgba(7,35,43,.25);opacity:0;pointer-events:none;transform:translate(28px,22px) scale(.88);transform-origin:100% 100%;visibility:hidden;transition:opacity 220ms ease,transform 300ms cubic-bezier(.2,.8,.2,1),visibility 0s linear 300ms}
+.floating-lead-panel{width:min(440px,calc(100vw - 100px));max-height:calc(100dvh - 44px);overflow:auto;padding:25px;border:1px solid #d3e2dd;border-radius:14px;background:#fff;color:#162a2c;box-shadow:0 24px 70px rgba(7,35,43,.25);opacity:0;pointer-events:none;transform:translate(-28px,22px) scale(.88);transform-origin:0 100%;visibility:hidden;transition:opacity 220ms ease,transform 300ms cubic-bezier(.2,.8,.2,1),visibility 0s linear 300ms}
 .floating-contact.is-open .floating-lead-panel{opacity:1;pointer-events:auto;transform:translate(0,0) scale(1);visibility:visible;transition:opacity 220ms ease,transform 300ms cubic-bezier(.2,.8,.2,1),visibility 0s}
 .floating-lead-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
 .floating-lead-head span{display:block;margin-bottom:5px;color:#54736b;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
@@ -1682,10 +1682,10 @@ body .sector-card>div>svg:last-child{margin-top:auto}
 @media(max-width:680px){
   .mobile-contact-cta{display:none}
   .floating-contact{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));left:12px;display:block}
-  .floating-contact-actions{flex-direction:row;justify-content:flex-end}
+  .floating-contact-actions{flex-direction:row;justify-content:flex-start}
   .floating-contact-button{width:46px;height:46px}
   .floating-contact-button::before{display:none}
-  .floating-lead-panel{position:absolute;right:0;bottom:58px;width:100%;max-height:calc(100dvh - 86px - env(safe-area-inset-bottom));padding:20px 17px;border-radius:12px;transform:translate(18px,18px) scale(.9)}
+  .floating-lead-panel{position:absolute;left:0;bottom:58px;width:100%;max-height:calc(100dvh - 86px - env(safe-area-inset-bottom));padding:20px 17px;border-radius:12px;transform:translate(-18px,18px) scale(.9)}
   .floating-lead-head h2{font-size:22px}
   .floating-lead-row{grid-template-columns:1fr}
   .floating-lead-fields{gap:11px}
